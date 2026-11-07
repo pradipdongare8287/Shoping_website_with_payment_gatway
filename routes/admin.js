@@ -34,6 +34,7 @@ admin.use((req, res, next) => {
     res.locals.user_name = req.session.user_name;
     res.locals.user_Photo =req.session.user_Photo
     res.locals.admin_id = req.session.admin_id;
+    res.locals.Owner = req.session.Owner
 
     next();
 });
@@ -94,19 +95,54 @@ admin.get('/login',(req,res)=>{
 
 admin.post('/admin_login_check',async(req,res)=>{
     var {admin_email,admin_password} = req.body
-    var check_admin = 'SELECT * FROM admin_users WHERE Admin_email = ?  and Admin_password = ?'
+    var check_admin = 'SELECT * FROM admin_users WHERE Admin_email = ?  and Admin_password = ? AND Admin_role = "Admin"'
     var admin = await query(check_admin,[admin_email,admin_password])
-    
+
+    var Owner_login = 'select * from admin_users where Admin_email = ? and Admin_password = ? AND Admin_role = "Owner"'
+    var Owner = await query(Owner_login,[admin_email,admin_password])
+
     if(admin[0]){
         req.session.user_email = admin[0].Admin_email
         req.session.user_name = admin[0].Admin_name
         req.session.user_Photo = admin[0].Admin_photo
         req.session.admin_id = admin[0].Aid
+        req.session.Owner = ''
+        res.redirect('/admin/')
+    }
+    else if(Owner[0]){
+        req.session.user_email = Owner[0].Admin_email
+        req.session.user_name = Owner[0].Admin_name
+        req.session.user_Photo = Owner[0].Admin_photo
+        req.session.admin_id = Owner[0].Aid
+        req.session.Owner = 'Owner'
         res.redirect('/admin/')
     }
     else{
         res.redirect('/admin/login')
     }
+})
+
+admin.get('/check_admin_user',async(req,res)=>{
+    var select_admin = 'SELECT * FROM admin_users where  Admin_role = "Admin"'
+    var admin = await query(select_admin)
+    res.render('admin/manage_admins.ejs',{all_admin:admin})
+})
+
+admin.get('/create_owner/:id',async(req,res)=>{
+    var id = req.params.id
+    var create_owner = 'update admin_users set Admin_role="Owner" where  Aid=?'
+    var owner = await query(create_owner,[id])
+    res.redirect('/admin/check_admin_user')
+})
+
+admin.get('/delete_admin/:id/:img',async(req,res)=>{
+    var id = req.params.id
+    var img = req.params.img
+    var delete_img = path.join(__dirname,'../public/images/'+img)
+    fs.unlink(delete_img,(err)=>{})
+    var delete_admin = 'delete from admin_users where Aid=? '
+    var deleted_adin = await query(delete_admin,[id])
+    res.redirect('/admin/check_admin_user')
 })
 
 admin.get('/add_product',Login_check,(req,res)=>{
@@ -287,7 +323,6 @@ admin.post('/add_new_home_living_product',async(req,res)=>{
 admin.get('/manage_home_leaving_product',Login_check,async(req,res)=>{
     var home_products = 'select * from home_products'
     var products = await query(home_products)
-    console.log(products)
     res.render('admin/manage_home_leaving_product.ejs',{products:products})
 })
 
@@ -463,7 +498,6 @@ admin.get('/profile',async(req,res)=>{
     var id = req.session.admin_id
     var select_admin = 'select * from admin_users where Aid = ?'
     var update_admin = await query(select_admin,[id])
-    console.log('user Id',id)
     res.render('admin/update_admin.ejs',{admin:update_admin[0]})
 })
 
@@ -493,8 +527,18 @@ admin.post('/update_admin_user/:id',async(req,res)=>{
     // res.send(old_admin_img)
 })
 
+admin.get('/check_Owner',async(req,res)=>{
+    var select = 'select * from  admin_users as admin where Admin_role="Owner"'
+    var owners = await query(select)
+    res.render('admin/owners.ejs',{all_admin:owners})
+})
 
-
+admin.get('/create_admin/:id',async(req,res)=>{
+    var id = req.params.id
+    var create_admin = 'update admin_users set Admin_role="Admin" where Aid =?'
+    var admin = await query(create_admin,[id])
+    res.redirect(req.get('Referrer') || '/admin');
+})
 
 
 

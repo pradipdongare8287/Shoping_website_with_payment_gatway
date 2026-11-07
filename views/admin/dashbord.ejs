@@ -185,10 +185,15 @@
                 <i class="fa-solid fa-plus"></i>
                 Add Product
             </a>
-            <a href="/admin/add_new_admin_user_product">
+            
+            <% if(Owner=='Owner'){ %>
+               <a href="/admin/add_new_admin_user_product">
                 <i class="fa-solid fa-plus"></i>
                 Add New User
             </a>
+            <% } else { %>
+
+            <% } %>
             <a href="/admin/add_category">
                 <i class="fa-solid fa-list"></i>
                 Add Category
@@ -199,10 +204,18 @@
                 Manage Orders
             </a>
 
-            <a href="/admin/all_messages">
+            
+            <% if(Owner=='Owner'){ %>
+               <a href="/admin/all_messages">
                 <i class="fa-solid fa-envelope"></i>
                 View Messages
-            </a>
+                </a>
+            <% } else { %>
+
+            <% } %>
+
+
+            
 
         </div>
 

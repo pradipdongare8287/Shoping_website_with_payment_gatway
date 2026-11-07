@@ -4343,3 +4343,85 @@ tr:nth-child(even) {
         flex-direction: column;
     }
 }
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    font-family: Arial, sans-serif;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+}
+
+.admin-table th {
+    background: #202b46;
+    color: white;
+    padding: 15px 12px;
+    text-align: left;
+    font-size: 14px;
+}
+
+.admin-table td {
+    padding: 13px 12px;
+    border-bottom: 1px solid #eee;
+    font-size: 13px;
+    color: #444;
+}
+
+.admin-table tr:hover {
+    background: #f5f7fc;
+}
+
+.admin-img {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.role-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.owner {
+    background: #e9e3ff;
+    color: #6842c2;
+}
+
+.admin {
+    background: #e0f5e9;
+    color: #168348;
+}
+
+.edit-btn,
+.delete-btn {
+    display: inline-block;
+    padding: 7px 11px;
+    text-decoration: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 12px;
+    margin: 2px;
+}
+
+.edit-btn {
+    background: #2878e8;
+}
+
+.delete-btn {
+    background: #e44343;
+}
+
+@media(max-width: 768px) {
+    .admin-table {
+        min-width: 950px;
+    }
+
+    .table-container {
+        overflow-x: auto;
+        width: 100%;
+    }
+}

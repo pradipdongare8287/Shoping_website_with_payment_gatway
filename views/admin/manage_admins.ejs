@@ -1,0 +1,48 @@
+<%-include('header.ejs')%>
+<table class="admin-table">
+    <thead>
+        <tr>
+            <th>Sr.No</th>
+            <th>Admin Photo</th>
+            <th>Admin Name</th>
+            <th>Admin Email</th>
+            <th>Admin Mobile</th>
+            <th>Added Date</th>
+            <th>Password</th>
+            <th>Admin Role</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <% all_admin.forEach((admin, index) => { %>
+            <tr>
+                <td><%= index + 1 %></td>
+
+                <td>
+                    <img style="height:55px;width:55px;" src="/images/<%= admin.Admin_photo %>" class="admin-img">
+                </td>
+
+                <td><%= admin.Admin_name %></td>
+                <td><%= admin.Admin_email %></td>
+                <td><%= admin.Admin_mobile %></td>
+                <td><%= admin.Admin_added_date %></td>
+                <td><%= admin.Admin_password %></td>
+                <td>
+                    <span class="role-badge <%= admin.Admin_role === 'Owner' ? 'owner' : 'admin' %>">
+                        <%= admin.Admin_role %>
+                    </span>
+                </td>
+
+                <td>
+                    <a href="/admin/create_owner/<%= admin.Aid %>" style="background-color:green;" class="edit-btn">
+                        Owner
+                    </a>
+                    <a href="/admin/delete_admin/<%= admin.Aid %>/<%= admin.Admin_photo %>" class="delete-btn">Delete</a>
+                </td>
+            </tr>
+        <% }) %>
+    </tbody>
+</table>
+<%-include('footer.ejs')%>
+

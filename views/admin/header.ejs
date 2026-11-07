@@ -83,7 +83,9 @@
     <!-- ORDERS DROPDOWN -->
     <div class="menu-dropdown">
 
-        <button class="dropdown-btn" onclick="toggleDropdown('orderMenu')">
+        
+        <% if(Owner=='Owner'){ %>
+            <button class="dropdown-btn" onclick="toggleDropdown('orderMenu')">
             <span>
                 <i class="fa-solid fa-cart-shopping"></i>
                 Orders
@@ -97,6 +99,10 @@
             <a href="#">Confirmed Orders</a>
             <a href="#">Accepted Orders</a>
         </div>
+            <% } else { %>
+
+            <% } %>
+            
 
     </div>
 
@@ -104,7 +110,9 @@
     <!-- MESSAGES DROPDOWN -->
     <div class="menu-dropdown">
 
-        <button class="dropdown-btn" onclick="toggleDropdown('messageMenu')">
+        
+         <% if(Owner=='Owner'){ %>
+            <button class="dropdown-btn" onclick="toggleDropdown('messageMenu')">
             <span>
                 <i class="fa-solid fa-envelope"></i>
                 Messages
@@ -118,6 +126,9 @@
             <a href="/admin/confirmed_messages">Confirmed Messages</a>
             <a href="/admin/accepted_messages">Accepted Messages</a>
         </div>
+            <% } else { %>
+
+            <% } %>
 
     </div>
 
@@ -125,7 +136,9 @@
     <!-- CUSTOMERS DROPDOWN -->
     <div class="menu-dropdown">
 
-        <button class="dropdown-btn" onclick="toggleDropdown('customerMenu')">
+        
+        <% if(Owner=='Owner'){ %>
+            <button class="dropdown-btn" onclick="toggleDropdown('customerMenu')">
             <span>
                 <i class="fa-solid fa-users"></i>
                 Customers
@@ -136,6 +149,9 @@
         <div class="dropdown-content" id="customerMenu">
             <a href="/admin/all_customers">All Customers</a>
         </div>
+            <% } else { %>
+
+            <% } %>
 
     </div>
 
@@ -144,7 +160,9 @@
 
       <div class="menu-dropdown">
 
-        <button class="dropdown-btn" onclick="toggleDropdown('contact')">
+        
+         <% if(Owner=='Owner'){ %>
+                <button class="dropdown-btn" onclick="toggleDropdown('contact')">
             <span>
                 <i class="fa-solid fa-users"></i>
                 Contact
@@ -155,8 +173,11 @@
         <div class="dropdown-content" id="contact">
             <a href="/admin/add_contact">Add Contact</a>
             <a href="/admin/View_all_contact">View All Contact</a>
+            
         </div>
-         
+            <% } else { %>
+
+            <% } %>
 
     </div>
 
@@ -173,6 +194,13 @@
 
         <div class="dropdown-content" id="settingsMenu">
             <a href="/admin/profile">My Profile</a>
+            <% if(Owner=='Owner'){ %>
+            <a href="/admin/check_admin_user">Check All Admin users</a>
+            <a href="/admin/check_Owner">Check All Owner </a>
+
+            <% } else { %>
+
+            <% } %>
         </div>
 
     </div>
