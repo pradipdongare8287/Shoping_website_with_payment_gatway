@@ -1,0 +1,102 @@
+<%-include('header.ejs')%>
+<div class="message-container">
+
+    <div class="message-header">
+        <div>
+            <h2>All Customer Messages</h2>
+            <p>View and manage customer contact messages</p>
+        </div>
+
+        <div class="message-count">
+            <i class="fa-solid fa-envelope"></i>
+            All Messages
+        </div>
+    </div>
+
+    <div class="message-table-wrapper">
+
+        <table class="message-table">
+
+            <thead>
+                <tr>
+                    <th>Sr.No</th>
+                    <th>Customer Name</th>
+                    <th>Email</th>
+                    <th>Subject</th>
+                    <th>Message</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <% for(var i = 0; i <pending.length;i++) { %>
+
+                <tr>
+                    <td><%= i + 1 %></td>
+
+                    <td class="customer-name">
+                        <%= pending[i].Customer_name %>
+                    </td>
+
+                    <td>
+                        <%= pending[i].Customer_email %>
+                    </td>
+
+                    <td>
+                        <%= pending[i].Customer_subject %>
+                    </td>
+
+                    <td class="customer-message">
+                        <%= pending[i].Customer_message %>
+                    </td>
+
+                    <td>
+                        <span class="message-status">
+                                <span style="color:red;">
+                                    <%= pending[i].Message_status %>
+                                </span>
+                         
+
+                        </span>
+                    </td>
+
+                    <td>
+                        <div class="message-actions">
+
+                            <a href="/admin/accept_customer_message/<%= pending[i].Mid %>"
+                               class="message-view-btn"
+                               title="Accept Message">
+                               <button style="padding:5px;border-radius:10px;background-color:rgba(255, 181, 22,0.4);border:2px solid rgb(231, 159, 24);box-sizing:border-box;cursor:pointer;">Accept</button>
+                                
+                            </a>
+
+                            <a href="/admin/reject_customer_message/<%= pending[i].Mid %>"
+                               class="message-delete-btn"
+                               title="Reject Message"
+                               onclick="return confirm('Are you sure you want to Reject  <%= pending[i].Customer_name %> message?')">
+                               <button style="padding:5px;border-radius:10px;background-color:rgba(247, 26, 26, 0.4);border:2px solid red;box-sizing:border-box;cursor:pointer;">Reject</button>
+                            </a>
+
+                            <a href="/admin/confirm_customer_message/<%= pending[i].Mid %>"
+                               class="message-delete-btn"
+                               title="Confirm Message"
+                               onclick="return confirm('Are you sure you want to Confirm  <%= pending[i].Customer_name %> message?')">
+                               <button style="padding:5px;border-radius:10px;background-color:rgba(20, 252, 31, 0.4);border:2px solid rgb(41, 231, 24);box-sizing:border-box;cursor:pointer;">Confirm</button>
+                            </a>
+
+                        </div>
+                    </td>
+                </tr>
+
+                <% } %>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+<%-include('footer.ejs')%>

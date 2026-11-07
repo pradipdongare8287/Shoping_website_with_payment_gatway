@@ -1,0 +1,135 @@
+<%-include('header.ejs')%>
+<div class="add-product-container">
+
+    <div class="add-product-header">
+        <h2>Add New Product</h2>
+        <p>Add product details to your online store</p>
+    </div>
+
+    <form action="/admin/add_new_product" method="POST"
+          enctype="multipart/form-data">
+
+        <div class="add-product-form">
+
+            <!-- PRODUCT STATUS -->
+            <div class="form-group">
+                <label for="product_status">Product Status</label>
+
+                <select name="product_status" id="product_status" required>
+                    <option value="">Select Status</option>
+                    <option value="Sale">Sale</option>
+                    <option value="New">New</option>
+                    <option value="Discount">Discount</option>
+                    <option value="Hot">Hot</option>
+                </select>
+            </div>
+
+            <!-- PRODUCT IMAGE -->
+            <div class="form-group">
+                <label for="product_img">Product Image</label>
+
+                <input type="file"
+                       name="product_img"
+                       id="product_img"
+                       accept="image/*"
+                       required>
+            </div>
+
+            <!-- PRODUCT CATEGORY -->
+            <div class="form-group">
+                <label for="product_category">Product Category</label>
+
+                <select name="product_category"
+                        id="product_category"
+                        required>
+
+                    <option value="">Select Category</option>
+                    <option value="Fashion">Fashion</option>
+                    <option value="Electronics">Electronics</option>
+                    <option value="Beauty">Beauty</option>
+                    <option value="Home & Living">Home & Living</option>
+                    <option value="Trending">Trending</option>
+                </select>
+            </div>
+
+            <!-- PRODUCT NAME -->
+            <div class="form-group">
+                <label for="product_name">Product Name</label>
+
+                <input type="text"
+                       name="product_name"
+                       id="product_name"
+                       placeholder="Enter product name"
+                       required>
+            </div>
+
+            <!-- PRODUCT RATING -->
+            <div class="form-group">
+                <label for="product_rating">Product Rating</label>
+
+                <input type="number"
+                       name="product_rating"
+                       id="product_rating"
+                       min="0"
+                       max="5"
+                       step="0.1"
+                       placeholder="Example: 4.5"
+                       required>
+            </div>
+
+            <!-- PRODUCT REVIEWS -->
+            <div class="form-group">
+                <label for="product_reviews">Product Reviews</label>
+
+                <input type="number"
+                       name="product_reviews"
+                       id="product_reviews"
+                       min="0"
+                       placeholder="Number of reviews"
+                       required>
+            </div>
+
+            <!-- NEW PRICE -->
+            <div class="form-group">
+                <label for="new_price">New Price (₹)</label>
+
+                <input type="number"
+                       name="new_price"
+                       id="new_price"
+                       min="0"
+                       step="0.01"
+                       placeholder="Enter new price"
+                       required>
+            </div>
+
+            <!-- OLD PRICE -->
+            <div class="form-group">
+                <label for="old_price">Old Price (₹)</label>
+
+                <input type="number"
+                       name="old_price"
+                       id="old_price"
+                       min="0"
+                       step="0.01"
+                       placeholder="Enter old price"
+                       required>
+            </div>
+
+        </div>
+
+        <!-- FORM BUTTONS -->
+        <div class="add-product-buttons">
+            <button type="submit" class="save-product-btn">
+                <i class="fa-solid fa-plus"></i>
+                Add Product
+            </button>
+
+            <button type="reset" class="reset-product-btn">
+                Reset Form
+            </button>
+        </div>
+
+    </form>
+
+</div>
+<%-include('footer.ejs')%>

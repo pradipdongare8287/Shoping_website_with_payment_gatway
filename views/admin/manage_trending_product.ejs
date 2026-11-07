@@ -1,0 +1,110 @@
+
+<%- include('header.ejs') %>
+
+<div class="product-table-container">
+
+    <!-- HEADER -->
+    <div class="product-table-header">
+        <div>
+            <h2>All Trending Products</h2>
+            
+        </div>
+
+        <a href="/admin/add_trending_product" class="add-product-btn">
+            <i class="fa-solid fa-plus"></i>
+            Add Product
+        </a>
+    </div>
+
+    <!-- TABLE -->
+    <div class="product-table-wrapper">
+
+        <table class="product-table">
+
+            <thead>
+                <tr>
+                    <th>Sr.No</th>
+                    <th>Discount</th>
+                    <th>Image</th>
+                    <th>Category</th>
+                    <th>Product Name</th>
+                    <th>Rating</th>
+                    <th>Reviews</th>
+                    <th>New Price</th>
+                    <th>Old Price</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <!-- SAMPLE PRODUCT 1 -->
+                 <% for(var i=0;i<tproducts.length;i++){ %>
+                    <tr>
+                    <td><%=i+1%></td>
+
+                    <td>
+                        <span class="product-status sale"><%=tproducts[i].TProduct_discount%> %</span>
+                    </td>
+
+                    <td>
+                        <img src="/images/<%=tproducts[i].TProduct_image%>"
+                             class="product-table-img"
+                             alt="Product">
+                    </td>
+
+                    <td><%=tproducts[i].TProduct_category%></td>
+
+                    <td class="product-name">
+                       <%=tproducts[i].TProduct_name%>
+                    </td>
+
+                    <td>
+                        <span class="product-rating">
+                           <% for(var a=0; a<tproducts[i].TProduct_rating; a++){ %>
+                                <i class="fa-solid fa-star"></i>
+                            <% } %>
+                            <%=tproducts[i].TProduct_rating %>
+                        </span>
+                    </td>
+
+                    <td><%=tproducts[i].TProduct_review %></td>
+
+                    <td class="new-price"><%=tproducts[i].TProduct_new_price %></td>
+
+                    <td class="old-price"><%=tproducts[i].TProduct_old_price %></td>
+
+                    <td>
+                        <div class="product-action-buttons">
+                            <a href="/admin/edit_product/1"
+                               class="edit-product-btn"
+                               title="Edit">
+                                <i class="fa-solid fa-pen"></i>
+                            </a>
+
+                            <a href="/admin/delete_trending_product/<%=tproducts[i].tpid %>"
+                               class="delete-product-btn"
+                               title="Delete">
+                                <i class="fa-solid fa-trash"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                    <% } %>
+                
+
+                <!-- SAMPLE PRODUCT 2 -->
+           
+
+             
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<%- include('footer.ejs') %>
+

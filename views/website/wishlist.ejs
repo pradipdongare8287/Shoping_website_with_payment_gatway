@@ -1,0 +1,117 @@
+<%- include('header.ejs') %>
+
+<link rel="stylesheet" href="/website/wishlist.css">
+
+<section class="wishlist-page">
+
+    <div class="wishlist-hero">
+        <div>
+            <span>YOUR FAVORITES</span>
+            <h1>My Wishlist <i class="fa-solid fa-heart"></i></h1>
+            <p>All your favorite products in one place.</p>
+        </div>
+    </div>
+
+    <div class="wishlist-container">
+
+        <div class="wishlist-heading">
+            <h2>Saved Products</h2>
+            <p>3 items in your wishlist</p>
+        </div>
+
+        <div class="wishlist-grid">
+
+            <!-- Product 1 -->
+            <div class="wishlist-card">
+
+                <div class="wishlist-image">
+                    <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500"
+                         alt="Watch">
+
+                    <button class="remove-wishlist">
+                        <i class="fa-solid fa-heart"></i>
+                    </button>
+                </div>
+
+                <div class="wishlist-info">
+                    <span class="product-category">Accessories</span>
+                    <h3>Premium Wrist Watch</h3>
+
+                    <div class="wishlist-price">
+                        <strong>₹1,499</strong>
+                        <del>₹1,999</del>
+                    </div>
+
+                    <button class="add-cart-btn">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        Add to Cart
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- Product 2 -->
+            <div class="wishlist-card">
+
+                <div class="wishlist-image">
+                    <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500"
+                         alt="Shoes">
+
+                    <button class="remove-wishlist">
+                        <i class="fa-solid fa-heart"></i>
+                    </button>
+                </div>
+
+                <div class="wishlist-info">
+                    <span class="product-category">Fashion</span>
+                    <h3>Stylish Sneakers</h3>
+
+                    <div class="wishlist-price">
+                        <strong>₹2,299</strong>
+                        <del>₹2,999</del>
+                    </div>
+
+                    <button class="add-cart-btn">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        Add to Cart
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- Product 3 -->
+            <div class="wishlist-card">
+
+                <div class="wishlist-image">
+                    <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500"
+                         alt="Headphones">
+
+                    <button class="remove-wishlist">
+                        <i class="fa-solid fa-heart"></i>
+                    </button>
+                </div>
+
+                <div class="wishlist-info">
+                    <span class="product-category">Electronics</span>
+                    <h3>Wireless Headphones</h3>
+
+                    <div class="wishlist-price">
+                        <strong>₹1,899</strong>
+                        <del>₹2,499</del>
+                    </div>
+
+                    <button class="add-cart-btn">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        Add to Cart
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<%- include('footer.ejs') %>

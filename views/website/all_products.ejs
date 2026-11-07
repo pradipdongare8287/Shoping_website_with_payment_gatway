@@ -1,0 +1,118 @@
+
+<%-include('header.ejs')%>
+
+<!-- All Products Section -->
+
+<section class="all-products">
+
+    <!-- Page Heading -->
+    <div class="products-heading">
+
+        <div>
+            <span class="products-subtitle">OUR COLLECTION</span>
+            <h1>All Products</h1>
+            <p>Discover amazing products at unbeatable prices.</p>
+        </div>
+
+        <div class="products-count">
+            <i class="fa-solid fa-bag-shopping"></i>
+            <span>Explore Our Collection</span>
+        </div>
+
+    </div>
+
+
+    <!-- Product Filters -->
+    <div class="products-filter">
+
+        <div class="filter-categories">
+
+            <button class="filter-btn active">All Products</button>
+            <button class="filter-btn">Fashion</button>
+            <button class="filter-btn">Electronics</button>
+            <button class="filter-btn">Beauty</button>
+            <button class="filter-btn">Home & Living</button>
+
+        </div>
+
+        <div class="sort-box">
+
+            <select>
+                <option>Sort By: Featured</option>
+                <option>Price: Low to High</option>
+                <option>Price: High to Low</option>
+                <option>Newest Products</option>
+            </select>
+
+        </div>
+
+    </div>
+
+
+    <!-- Products Grid -->
+    <div class="all-products-grid">
+
+
+        
+        <!-- Product 1 -->
+        <%for (var i=0;i<product.length;i++){ %>
+            <div class="all-product-card">
+
+            <div class="all-product-image">
+
+                <span class="product-label"><%=product[i].Product_status%></span>
+                
+                <button class="product-wishlist">
+                    <i class="fa-regular fa-heart"></i>
+                </button>
+
+                <img
+                    src="/images/<%=product[i].Product_img%>"
+                    alt="Sport Shoes">
+
+                <div class="product-overlay">
+                    <a href="/images/<%=product[i].Product_img%>" target="_self">
+                        <button>
+                        <i class="fa-solid fa-eye"></i>
+                        Quick View
+                    </button>
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="all-product-details">
+
+                <span class="product-category"><%=product[i].Product_category%></span>
+
+                <h3><%=product[i].Product_name%></h3>
+
+                <div class="product-rating">
+                    <% for(var a=0;a<product[i].Product_rating;a++){ %>
+                    <span>★</span>
+                    <% } %>
+                    <small><%=product[i].Product_rating%></small>
+                </div>
+
+                <div class="product-price">
+                    <strong>₹<%=product[i].Product_New_price%></strong>
+                    <del>₹<%=product[i].Product_Old_price%></del>
+                </div>
+
+                <a href="/all_product_payment/<%=product[i].Pid%>">
+                    <button class="product-cart-btn">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    Buy Now
+                </button>
+                </a>
+
+            </div>
+
+        </div>
+            <% } %>
+
+    </div>
+
+</section>
+
+<%-include('footer.ejs')%>

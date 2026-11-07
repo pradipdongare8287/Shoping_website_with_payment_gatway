@@ -1,0 +1,111 @@
+
+<%- include('header.ejs') %>
+
+<div class="product-table-container">
+
+    <!-- HEADER -->
+    <div class="product-table-header">
+        <div>
+            <h2>All Fashion Products</h2>
+            
+        </div>
+
+        <a href="/admin/add_product" class="add-product-btn">
+            <i class="fa-solid fa-plus"></i>
+            Add Product
+        </a>
+    </div>
+
+    <!-- TABLE -->
+    <div class="product-table-wrapper">
+
+        <table class="product-table">
+
+            <thead>
+                <tr>
+                    <th>Sr.No</th>
+                    <th>Status</th>
+                    <th>Image</th>
+                    <th>Category</th>
+                    <th>Product Name</th>
+                    <th>Rating</th>
+                    <th>Reviews</th>
+                    <th>New Price</th>
+                    <th>Old Price</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <!-- SAMPLE PRODUCT 1 -->
+                <% for(var i=0;i<fashion_product.length;i++){ %>
+                <tr>
+                    <td><%=i+1%></td>
+
+                    <td>
+                        <span class="product-status sale"><%=fashion_product[i].fashion_product_status%></span>
+                    </td>
+
+                    <td>
+                        <img src="/images/<%=fashion_product[i].fashion_product_img%>"
+                             class="product-table-img"
+                             alt="Product">
+                    </td>
+
+                    <td>
+                        <%=fashion_product[i].fashion_product_category%>
+                    </td>
+
+                    <td class="product-name">
+                        <%=fashion_product[i].fashion_product_name%>
+                       
+                    </td>
+
+                    <td>
+                        <span class="product-rating">
+                            <% for(var a=0;a<fashion_product[i].fashion_product_rating;a++){ %>
+                            <i class="fa-solid fa-star"></i>
+                            <% } %>
+                             <%=fashion_product[i].fashion_product_rating%>
+                        </span>
+                    </td>
+
+                    <td>
+                        <%=fashion_product[i].fashion_product_reviews%>
+                    </td>
+
+                    <td class="new-price">₹<%=fashion_product[i].fashion_product_new_price%></td>
+
+                    <td class="old-price">₹<%=fashion_product[i].fashion_product_old_price%></td>
+
+                    <td>
+                        <div class="product-action-buttons">
+                            <a href="/admin/edit_product/1"
+                               class="edit-product-btn"
+                               title="Edit">
+                                <i class="fa-solid fa-pen"></i>
+                            </a>
+
+                            <a href="/admin/delete_fashion_product/<%=fashion_product[i].fid%>"
+                               class="delete-product-btn"
+                               title="Delete">
+                                <i class="fa-solid fa-trash"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+
+                <% } %>
+              
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<%- include('footer.ejs') %>
+

@@ -1,0 +1,110 @@
+<%-include('header.ejs')%>
+
+<div class="admin-form-container">
+
+    <h2>Update <%=admin.Admin_name%> Admin User</h2>
+    <p class="form-subtitle">Chage Given Below Details For Update Admin Details</p>
+
+    <form action="/admin/update_admin_user/<%=admin.Aid%>" method="POST" enctype="multipart/form-data">
+
+        <div class="admin-images-container">
+
+                <div class="admin-image-box">
+                    <img src="/images/default-user.png" id="adminPreview" alt="Admin Preview">
+
+                    <label for="admin_img1">Upload Admin New Photo</label>
+                    <input type="file" name="admin_img" id="admin_img" accept="image/*" >
+                </div>
+
+                <div class="admin-image-box">
+                    <img src="/images/<%=admin.Admin_photo%>" id="adminPreview2" alt="<%=admin.Admin_name%>">
+
+                    <label for="admin_img2">Admin Old  Photo</label>
+                    <input type="hidden" name="admin_old_img" value="<%=admin.Admin_photo%>" id="admin_img" >
+
+
+
+
+                </div>
+
+        </div>
+        <div class="admin-form-grid">
+
+            <div class="admin-input-group">
+                <label>Admin Name</label>
+                <input type="text" value="<%=admin.Admin_name%>" name="admin_name" placeholder="Enter admin name" required>
+            </div>
+
+            <div class="admin-input-group">
+                <label>Admin Email</label>
+                <input type="email" value="<%=admin.Admin_email%>" name="admin_email" placeholder="Enter admin email" required>
+                
+            </div>
+
+            <div class="admin-input-group">
+                <label>Mobile Number</label>
+                <input type="tel" value="<%=admin.Admin_mobile%>" name="admin_mobile" placeholder="Enter mobile number" pattern="[0-9]{10}" maxlength="10" required>
+            </div>
+
+            <div class="admin-input-group">
+                <label>Date Of Birth</label>
+                <input type="date" value="<%=admin.Admin_dob%>" name="admin_dob" required>
+            </div>
+
+            <div class="admin-input-group">
+                <label>Admin Added Date</label>
+                <input type="date" value="<%=admin.Admin_added_date%>" name="add_admin_date" required>
+            </div>
+
+            <div class="admin-input-group">
+                <label>Admin Password</label>
+
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <input type="password" id="password" value="<%=admin.Admin_password%>"
+                    name="admin_password" placeholder="Enter admin password" required>
+
+                    <input type="checkbox" id="view_password"  style="width:20px;">
+                </div>
+            </div>
+
+        </div>
+
+        <div class="admin-submit-box">
+            <button type="submit">Update Admin User</button>
+            <button type="reset" class="reset-btn">Reset Form</button>
+        </div>
+
+    </form>
+
+</div>
+
+<script>
+    document.getElementById('admin_img').addEventListener('change', function(event) {
+
+        const file = event.target.files[0];
+
+        if(file) {
+            document.getElementById('adminPreview').src =
+                URL.createObjectURL(file);
+        }
+
+    });
+
+    var checkbox = document.getElementById('view_password');
+    var password = document.getElementById('password');
+
+    checkbox.addEventListener('change', function(){
+
+        if(checkbox.checked){
+            password.type = 'text';
+        }
+        else{
+            password.type = 'password';
+        }
+
+    });
+
+
+</script>
+
+<%-include('footer.ejs')%>

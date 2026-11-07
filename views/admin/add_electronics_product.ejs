@@ -1,0 +1,165 @@
+<%-include('header.ejs') %>
+
+
+<div class="electronics-form-container">
+
+    <div class="electronics-form-header">
+        <div class="electronics-header-icon">
+            <i class="fa-solid fa-laptop"></i>
+        </div>
+
+        <div>
+            <h2>Add Electronics Product</h2>
+            <p>Enter electronics product details below</p>
+        </div>
+    </div>
+
+    <form action="/admin/add_new_electronics_product"
+          method="POST"
+          enctype="multipart/form-data">
+
+        <div class="electronics-form-grid">
+
+            <!-- Product Status -->
+            <div class="electronics-form-group">
+                <label>Product Status</label>
+                <select name="product_status" required>
+                    <option value="">Select Status</option>
+                    <option value="Sale">Sale</option>
+                    <option value="New">New</option>
+                    <option value="Discount">Discount</option>
+                    <option value="Hot">Hot</option>
+                </select>
+            </div>
+
+            <!-- Product Image -->
+            <div class="electronics-form-group">
+                <label>Product Image</label>
+                <input type="file"
+                       name="product_img"
+                       accept="image/*"
+                       required>
+            </div>
+
+            <!-- Product Category -->
+            <div class="electronics-form-group">
+                <label>Product Category</label>
+                <select name="product_category" required>
+                    <option value="">Select Category</option>
+                    <option value="Mobile">Mobile</option>
+                    <option value="Laptop">Laptop</option>
+                    <option value="Tablet">Tablet</option>
+                    <option value="Computer">Computer</option>
+                    <option value="Headphones">Headphones</option>
+                    <option value="Smart Watch">Smart Watch</option>
+                    <option value="Camera">Camera</option>
+                    <option value="Accessories">Accessories</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <!-- Product Name -->
+            <div class="electronics-form-group">
+                <label>Product Name</label>
+                <input type="text"
+                       name="product_name"
+                       placeholder="Enter product name"
+                       required>
+            </div>
+
+            <!-- Brand -->
+            <div class="electronics-form-group">
+                <label>Product Brand</label>
+                <input type="text"
+                       name="product_brand"
+                       placeholder="Example: Samsung, Apple, HP"
+                       required>
+            </div>
+
+            <!-- Rating -->
+            <div class="electronics-form-group">
+                <label>Product Rating</label>
+                <input type="number"
+                       name="product_rating"
+                       min="0"
+                       max="5"
+                       step="0.1"
+                       placeholder="Example: 4.5"
+                       required>
+            </div>
+
+            <!-- Reviews -->
+            <div class="electronics-form-group">
+                <label>Product Reviews</label>
+                <input type="number"
+                       name="product_reviews"
+                       min="0"
+                       placeholder="Enter review count"
+                       required>
+            </div>
+
+            <!-- New Price -->
+            <div class="electronics-form-group">
+                <label>Product New Price (₹)</label>
+                <input type="number"
+                       name="product_new_price"
+                       min="0"
+                       step="0.01"
+                       placeholder="Enter new price"
+                       required>
+            </div>
+
+            <!-- Old Price -->
+            <div class="electronics-form-group">
+                <label>Product Old Price (₹)</label>
+                <input type="number"
+                       name="product_old_price"
+                       min="0"
+                       step="0.01"
+                       placeholder="Enter old price"
+                       required>
+            </div>
+
+            <!-- Warranty -->
+            <div class="electronics-form-group">
+                <label>Product Warranty</label>
+                <select name="product_warranty" required>
+                    <option value="">Select Warranty</option>
+                    <option value="No Warranty">No Warranty</option>
+                    <option value="6 Months">6 Months</option>
+                    <option value="1 Year">1 Year</option>
+                    <option value="2 Years">2 Years</option>
+                    <option value="3 Years">3 Years</option>
+                </select>
+            </div>
+
+            <!-- Description -->
+            <div class="electronics-form-group electronics-full-width">
+                <label>Product Description</label>
+                <textarea name="product_description"
+                          rows="4"
+                          placeholder="Enter product description"
+                          required></textarea>
+            </div>
+
+        </div>
+
+        <div class="electronics-form-buttons">
+
+            <button type="submit" class="electronics-submit-btn">
+                <i class="fa-solid fa-plus"></i>
+                Add Electronics Product
+            </button>
+
+            <button type="reset" class="electronics-reset-btn">
+                <i class="fa-solid fa-rotate-left"></i>
+                Reset
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+<%-include('footer.ejs') %>

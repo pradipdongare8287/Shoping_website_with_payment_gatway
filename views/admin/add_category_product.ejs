@@ -1,0 +1,80 @@
+
+<%- include('header.ejs') %>
+
+
+<div class="category-form-container">
+
+    <!-- FORM HEADER -->
+    <div class="category-form-header">
+        <div class="category-header-icon">
+            <i class="fa-solid fa-layer-group"></i>
+        </div>
+
+        <div>
+            <h2>Add Product Category</h2>
+            <p>Create a new category for your store products</p>
+        </div>
+    </div>
+
+    <!-- CATEGORY FORM -->
+    <form action="/admin/add_category_product" method="POST"
+          enctype="multipart/form-data">
+
+        <div class="category-form-body">
+
+            <!-- CATEGORY IMAGE -->
+            <div class="category-form-group">
+                <label for="category_img">Category Image</label>
+
+                <input type="file"
+                       name="category_img"
+                       id="category_img"
+                       accept="image/*"
+                       required>
+
+                <small>Upload category image (JPG, PNG, WEBP)</small>
+            </div>
+
+            <!-- CATEGORY NAME -->
+            <div class="category-form-group">
+                <label for="category_name">Product Category</label>
+
+                <input type="text"
+                       name="category_name"
+                       id="category_name"
+                       placeholder="Enter category name"
+                       required>
+            </div>
+
+            <!-- CATEGORY NOTE -->
+            <div class="category-form-group category-note-group">
+                <label for="category_note">Category Note</label>
+
+                <textarea name="category_note"
+                          id="category_note"
+                          rows="5"
+                          placeholder="Enter category description or note"
+                          required></textarea>
+            </div>
+
+        </div>
+
+        <!-- BUTTONS -->
+        <div class="category-form-buttons">
+            <button type="submit" class="category-save-btn">
+                <i class="fa-solid fa-plus"></i>
+                Add Category
+            </button>
+
+            <button type="reset" class="category-reset-btn">
+                Reset Form
+            </button>
+        </div>
+
+    </form>
+
+</div>
+
+
+<%- include('footer.ejs') %>
+

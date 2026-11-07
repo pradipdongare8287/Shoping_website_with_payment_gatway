@@ -1,0 +1,110 @@
+
+<%- include('header.ejs') %>
+
+<div class="product-table-container">
+
+    <!-- HEADER -->
+    <div class="product-table-header">
+        <div>
+            <h2>All Products</h2>
+            <p>Manage your store products</p>
+        </div>
+
+        <a href="/admin/add_product" class="add-product-btn">
+            <i class="fa-solid fa-plus"></i>
+            Add Product
+        </a>
+    </div>
+
+    <!-- TABLE -->
+    <div class="product-table-wrapper">
+
+        <table class="product-table">
+
+            <thead>
+                <tr>
+                    <th>Sr.No</th>
+                    <th>Status</th>
+                    <th>Image</th>
+                    <th>Category</th>
+                    <th>Product Name</th>
+                    <th>Rating</th>
+                    <th>Reviews</th>
+                    <th>New Price</th>
+                    <th>Old Price</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <!-- SAMPLE PRODUCT 1 -->
+                 <% for(var i=0;i<products.length;i++){ %>
+                    <tr>
+                    <td><%=i+1%></td>
+
+                    <td>
+                        <span class="product-status sale"><%=products[i].Product_status%></span>
+                    </td>
+
+                    <td>
+                        <img src="/images/<%=products[i].Product_img%>"
+                             class="product-table-img"
+                             alt="Product">
+                    </td>
+
+                    <td>Fashion</td>
+
+                    <td class="product-name">
+                       <%=products[i].Product_name%>
+                    </td>
+
+                    <td>
+                        <span class="product-rating">
+                           <% for(var a=0; a<products[i].Product_rating; a++){ %>
+                                <i class="fa-solid fa-star"></i>
+                            <% } %>
+                            <%=products[i].Product_rating %>
+                        </span>
+                    </td>
+
+                    <td><%=products[i].Product_review %></td>
+
+                    <td class="new-price"><%=products[i].Product_New_price %></td>
+
+                    <td class="old-price"><%=products[i].Product_Old_price %></td>
+
+                    <td>
+                        <div class="product-action-buttons">
+                            <a href="/admin/edit_product/1"
+                               class="edit-product-btn"
+                               title="Edit">
+                                <i class="fa-solid fa-pen"></i>
+                            </a>
+
+                            <a href="/admin/delete_product/<%=products[i].Pid %>"
+                               class="delete-product-btn"
+                               title="Delete">
+                                <i class="fa-solid fa-trash"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                    <% } %>
+                
+
+                <!-- SAMPLE PRODUCT 2 -->
+           
+
+             
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<%- include('footer.ejs') %>
+

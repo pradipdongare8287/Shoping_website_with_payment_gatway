@@ -1,0 +1,133 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(120deg, #090d1b, #171b3d, #25205c);
+    padding: 20px;
+}
+
+.login-wrapper {
+    width: 100%;
+    max-width: 430px;
+    padding: 40px;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 18px;
+    box-shadow: 0 15px 45px rgba(0,0,0,0.4);
+    backdrop-filter: blur(15px);
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.login-header > i {
+    font-size: 48px;
+    color: #8b7cff;
+    margin-bottom: 18px;
+}
+
+.login-header h2 {
+    color: white;
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+.login-header p {
+    color: #aaaac4;
+    font-size: 14px;
+}
+
+.form-group {
+    margin-bottom: 23px;
+}
+
+.form-group label {
+    display: block;
+    color: #ddd;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.input-field {
+    display: flex;
+    align-items: center;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 9px;
+    padding: 0 15px;
+    transition: 0.3s;
+}
+
+.input-field:focus-within {
+    border-color: #8b7cff;
+    box-shadow: 0 0 10px rgba(139,124,255,0.2);
+}
+
+.input-field i {
+    color: #aaa;
+}
+
+.input-field input {
+    width: 100%;
+    padding: 15px 12px;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 14px;
+}
+
+.input-field input::placeholder {
+    color: #999;
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 9px;
+    background: linear-gradient(90deg, #6654e8, #9473ff);
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(102,84,232,0.35);
+}
+
+button i {
+    margin-left: 8px;
+}
+
+.bottom-text {
+    text-align: center;
+    color: #aaaac4;
+    margin-top: 28px;
+    font-size: 13px;
+}
+
+.bottom-text i {
+    color: #8b7cff;
+    margin-right: 5px;
+}
+
+@media(max-width: 480px) {
+    .login-wrapper {
+        padding: 30px 22px;
+    }
+}

@@ -1,0 +1,126 @@
+<%-include('header.ejs') %>
+<div class="homeliving-table-container">
+
+    <!-- Table Header -->
+    <div class="homeliving-table-header">
+        <div>
+            <h2>Manage Home Living Products</h2>
+            <p>View, edit and manage all home living products</p>
+        </div>
+
+        <a href="/admin/add_home_living_product"
+           class="homeliving-add-btn">
+            <i class="fa-solid fa-plus"></i>
+            Add Product
+        </a>
+    </div>
+
+    <!-- Search -->
+    <div class="homeliving-search-box">
+        <i class="fa-solid fa-magnifying-glass"></i>
+
+        <input type="text"
+               id="homelivingSearch"
+               placeholder="Search product, category or brand...">
+    </div>
+
+    <!-- Table -->
+    <div class="homeliving-table-responsive">
+
+        <table class="homeliving-manage-table"
+               id="homelivingTable">
+
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Product</th>
+                    <th>Category</th>
+                    <th>Brand</th>
+                    <th>Status</th>
+                    <th>Rating</th>
+                    <th>Price</th>
+                    <th>Material</th>
+                    <th>Color</th>
+                    <th>Size</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <!-- Sample Product 1 -->
+                 <% for (var i=0;i<products.length;i++) {%>
+                <tr>
+                    <td><%=i+1%></td>
+
+                    <td>
+                        <div class="homeliving-product-info">
+                            <img src="/images/<%=products[i].product_img%>"
+                                 alt="Product Image">
+
+                            <span><%=products[i].product_name%></span>
+                        </div>
+                    </td>
+
+                    <td><%=products[i].product_category%></td>
+                    <td><%=products[i].product_brand%></td>
+
+                    <td>
+                        <span class="homeliving-status new">
+                            <%=products[i].Product_status%>
+                        </span>
+                    </td>
+
+                    <td>
+                        <span class="homeliving-rating">
+                             <% for(var a=0;a<products[i].product_rating;a++){ %>
+                                <i class="fa-solid fa-star"></i>
+                                <% } %> 
+                            
+                            <%=products[i].product_rating%>         
+                        </span>
+                    </td>
+
+                    <td>
+                        <div class="homeliving-price">
+                            <strong>₹<%=products[i].product_new_price%></strong>
+                            <del>₹<%=products[i].product_old_price%></del>
+                        </div>
+                    </td>
+
+                    <td><%=products[i].product_material%></td>
+                    <td><%=products[i].product_color%></td>
+                    <td><%=products[i].product_size%></td>
+
+                    <td>
+                        <div class="homeliving-action-buttons">
+
+                            <!-- <a href="/admin/edit_home_living_product/1"
+                               class="homeliving-edit-btn"
+                               title="Edit">
+                                <i class="fa-solid fa-pen"></i>
+                            </a> -->
+
+                            <a href="/admin/delete_home_living_product/<%=products[i].Pid%>/<%=products[i].product_img%>"
+                               class="homeliving-delete-btn"
+                               title="Delete"
+                               onclick="return confirm('Are you sure you want to delete <%=products[i].product_name%> product?')">
+                                <i class="fa-solid fa-trash"></i>
+                            </a>
+
+                        </div>
+                    </td>
+                </tr>
+                <% } %>
+            
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+

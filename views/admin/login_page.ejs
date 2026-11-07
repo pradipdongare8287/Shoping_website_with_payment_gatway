@@ -1,0 +1,54 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/admin/admin_login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+
+<div class="login-wrapper">
+
+    <div class="login-header">
+        <i class="fa-solid fa-user-lock"></i>
+        <h2>Admin Portal</h2>
+        <p>Login to manage your dashboard</p>
+    </div>
+
+    <form action="/admin/admin_login_check" method="POST">
+
+        <div class="form-group">
+            <label>Email Address</label>
+            <div class="input-field">
+                <i class="fa-solid fa-envelope"></i>
+                <input type="email" name="admin_email"
+                placeholder="Enter your email" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Password</label>
+            <div class="input-field">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" name="admin_password"
+                placeholder="Enter your password" required>
+            </div>
+        </div>
+
+        <button type="submit">
+            Sign In <i class="fa-solid fa-arrow-right"></i>
+        </button>
+
+    </form>
+
+    <div class="bottom-text">
+        <i class="fa-solid fa-shield-halved"></i>
+        Protected Admin Login
+    </div>
+
+</div>
+
+</body>
+</html>

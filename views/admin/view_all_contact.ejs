@@ -1,0 +1,57 @@
+<%-include('header.ejs')%>
+
+    
+
+
+<div class="table-container">
+
+    <h2>Manage Contact Options</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Sr.No</th>
+                <th>Contact Icon</th>
+                <th>Contact Name</th>
+                <th>Option Note</th>
+                <th>Contact Text</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <% all_contact_options.forEach((contact, index) => { %>
+
+            <tr>
+                <td><%= index + 1 %></td>
+
+                <td>
+                    <i class="<%= contact.contact_icon %> contact-icon"></i>
+                </td>
+
+                <td><%= contact.contact_contact_name %></td>
+
+                <td><%= contact.contact_option_note %></td>
+
+                <td><%= contact.contact_text %></td>
+
+                <td>
+                    <a href="/edit_contact_option/<%= contact.cid %>" class="edit">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </a>
+
+                    <a href="/admin/delete_contact_option/<%= contact.cid %>" class="delete"
+                    onclick="return confirm('Are you sure you want to delete?')">
+                        <i class="fa-solid fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+
+            <% }) %>
+        </tbody>
+    </table>
+
+</div>
+
+
+<%-include('footer.ejs')%>

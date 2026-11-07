@@ -1,0 +1,75 @@
+<%-include('header.ejs')%>
+
+<div class="manage-category-container">
+
+    <div class="manage-category-header">
+        <div>
+            <h2>Manage Category Products</h2>
+            <p>View and manage all category products</p>
+        </div>
+
+        <a href="/admin/add_category" class="add-category-btn">
+            <i class="fa-solid fa-plus"></i> Add New Category
+        </a>
+    </div>
+
+    <div class="category-table-wrapper">
+        <table class="category-table">
+
+            <thead>
+                <tr>
+                    <th>Sr.No</th>
+                    <th>Product Image</th>
+                    <th>Product Category</th>
+                    <th>Product Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <% for(var i = 0; i < products.length; i++) { %>
+                <tr>
+                    <td><%= i + 1 %></td>
+
+                    <td>
+                        <img src="/images/<%= products[i].Product_image %>"
+                             class="category-product-img"
+                             alt="Product Image">
+                    </td>
+
+                    <td>
+                        <span class="category-badge">
+                            <%= products[i].Product_category %>
+                        </span>
+                    </td>
+
+                    <td><%= products[i].Product_name %></td>
+
+                    <td>
+                        <div class="category-action-buttons">
+
+                            <a href="#"
+                               class="category-edit-btn"
+                               title="Edit">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+
+                            <a href="/admin/delete_category_product/<%= products[i].cpid %>/<%= products[i].Product_image %>"
+                               class="category-delete-btn"
+                               title="Delete"
+                               onclick="return confirm('Are you sure you want to delete <%= products[i].Product_name %> category product?')">
+                                <i class="fa-solid fa-trash"></i>
+                            </a>
+
+                        </div>
+                    </td>
+                </tr>
+                <% } %>
+            </tbody>
+
+        </table>
+    </div>
+
+</div>
+
+<%-include('footer.ejs')%>

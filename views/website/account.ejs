@@ -1,0 +1,198 @@
+<%- include('header.ejs') %>
+
+<link rel="stylesheet" href="/website/account.css">
+
+<section class="account-page">
+
+    <!-- Hero Section -->
+    <div class="account-hero">
+        <div>
+            <span class="account-tag">MY ACCOUNT</span>
+            <h1>Welcome Back!</h1>
+            <p>Manage your profile, orders and account details.</p>
+        </div>
+
+        <div class="account-hero-icon">
+            <i class="fa-solid fa-user"></i>
+        </div>
+    </div>
+
+    <!-- Account Content -->
+    <div class="account-container">
+
+        <!-- Sidebar -->
+        <div class="account-sidebar">
+
+            <div class="profile-box">
+                <div class="profile-avatar">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+
+                <h3><%=user.user_name%></h3>
+                <p><%=user.user_email%></p>
+            </div>
+
+            <a href="/account" class="account-menu active">
+                <i class="fa-solid fa-user"></i>
+                My Profile
+            </a>
+
+            <a href="/my-orders" class="account-menu">
+                <i class="fa-solid fa-box"></i>
+                My Orders
+            </a>
+
+            <a href="/wishlist" class="account-menu">
+                <i class="fa-solid fa-heart"></i>
+                My Wishlist
+            </a>
+
+            <a href="/address" class="account-menu">
+                <i class="fa-solid fa-location-dot"></i>
+                Saved Address
+            </a>
+
+            <a href="/logout" class="account-menu logout">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Logout
+            </a>
+
+        </div>
+
+        <!-- Main Content -->
+        <div class="account-main">
+
+            <div class="account-heading">
+                <h2>Account Overview</h2>
+                <p>View and manage your personal information.</p>
+            </div>
+
+            <!-- Statistics -->
+            <div class="account-stats">
+
+                <div class="stat-card">
+                    <div class="stat-icon purple">
+                        <i class="fa-solid fa-box"></i>
+                    </div>
+                    <div>
+                        <h3>05</h3>
+                        <p>Total Orders</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon pink">
+                        <i class="fa-solid fa-heart"></i>
+                    </div>
+                    <div>
+                        <h3>08</h3>
+                        <p>Wishlist Items</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon orange">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <div>
+                        <h3>02</h3>
+                        <p>Saved Address</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Personal Information -->
+            <div class="account-card">
+
+                <div class="card-heading">
+                    <div>
+                        <h3>Personal Information</h3>
+                        <p>Your personal details</p>
+                    </div>
+
+                    <a href="/edit-profile" class="edit-btn">
+                        <i class="fa-solid fa-pen"></i>
+                        Edit Profile
+                    </a>
+                </div>
+
+                <div class="profile-details">
+
+                    <div class="detail-item">
+                        <label>Full Name</label>
+                        <h4><%=user.user_name%></h4>
+                    </div>
+
+                    <div class="detail-item">
+                        <label>Email Address</label>
+                        <h4><%=user.user_email%></h4>
+                    </div>
+
+                    <div class="detail-item">
+                        <label>Phone Number</label>
+                        <h4><%=user.user_mobile%></h4>
+                    </div>
+
+                    <div class="detail-item">
+                        <label>Account Status</label>
+                        <span class="status-active"><%=user.user_account_status%></span>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Recent Orders -->
+            <div class="account-card">
+
+                <div class="card-heading">
+                    <div>
+                        <h3>Recent Orders</h3>
+                        <p>Your latest shopping activity</p>
+                    </div>
+
+                    <a href="/my-orders" class="view-all">
+                        View All <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <h2>My Orders</h2>
+
+<% if (orders.length > 0) { %>
+
+    <% orders.forEach(function(order) { %>
+
+        <div style="border:1px solid #ddd; padding:15px; margin:15px 0;">
+
+            <h3><%= order.Product_name %></h3>
+
+            <p>Price: ₹<%= order.Product_price %></p>
+
+            <p>Quantity: <%= order.Product_qty %></p>
+
+            <p>Order Date: <%= order.Order_date %></p>
+
+            <p>Order Status: <%= order.Order_status %></p>
+
+            <p>Payment Status: <%= order.Payment_status %></p>
+
+        </div>
+
+    <% }); %>
+
+<% } else { %>
+
+    <p>No orders found.</p>
+
+<% } %>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<%- include('footer.ejs') %>

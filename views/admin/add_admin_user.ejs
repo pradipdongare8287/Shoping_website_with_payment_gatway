@@ -1,0 +1,80 @@
+<%-include('header.ejs')%>
+
+<div class="admin-form-container">
+
+    <h2>Add New Admin User</h2>
+    <p class="form-subtitle">Enter admin details to create a new account</p>
+
+    <form action="/admin/save_admin_user" method="POST" enctype="multipart/form-data">
+
+        <div class="admin-image-box">
+            <img src="/images/default-user.png" id="adminPreview" alt="Admin Preview">
+
+            <label for="admin_img">Upload Admin Photo</label>
+            <input type="file" name="admin_img" id="admin_img" accept="image/*" required>
+        </div>
+
+        <div class="admin-form-grid">
+
+            <div class="admin-input-group">
+                <label>Admin Name</label>
+                <input type="text" name="admin_name" placeholder="Enter admin name" required>
+            </div>
+
+            <div class="admin-input-group">
+                <label>Admin Email</label>
+                <input type="email" name="admin_email" placeholder="Enter admin email" required>
+                <% if(msg=='Please Enter Other Email And Password') {%>
+                    <p style="color:red;background-color:rgba(245, 61, 16,0.5);padding:4px;border-radius:10px;display:inline-block;padding-left:20px;"><%=msg%></p>
+                    <% } else if (msg=='Admin Register Succesfully') {%>
+                    <p><%=msg%></p>
+                    <% } else{%>
+
+                    <% } %> 
+            </div>
+
+            <div class="admin-input-group">
+                <label>Mobile Number</label>
+                <input type="tel" name="admin_mobile" placeholder="Enter mobile number" pattern="[0-9]{10}" maxlength="10" required>
+            </div>
+
+            <div class="admin-input-group">
+                <label>Date Of Birth</label>
+                <input type="date" name="admin_dob" required>
+            </div>
+
+            <div class="admin-input-group">
+                <label>Admin Added Date</label>
+                <input type="date" name="add_admin_date" required>
+            </div>
+
+            <div class="admin-input-group">
+                <label>Admin Password</label>
+                <input type="password" name="admin_password" placeholder="Enter admin password" required>
+            </div>
+
+        </div>
+
+        <div class="admin-submit-box">
+            <button type="submit">Add Admin User</button>
+            <button type="reset" class="reset-btn">Reset Form</button>
+        </div>
+
+    </form>
+
+</div>
+
+<script>
+    document.getElementById('admin_img').addEventListener('change', function(event) {
+
+        const file = event.target.files[0];
+
+        if(file) {
+            document.getElementById('adminPreview').src =
+                URL.createObjectURL(file);
+        }
+
+    });
+</script>
+
+<%-include('footer.ejs')%>

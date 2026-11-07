@@ -1,0 +1,192 @@
+<%-include('header.ejs')%>
+
+
+
+
+<section class="beauty-page">
+
+    <!-- Hero Section -->
+    <section class="beauty-hero">
+
+        <div class="beauty-hero-content">
+
+            <span class="beauty-tag">✦ BEAUTY • CARE • CONFIDENCE</span>
+
+            <h1>
+                Your Beauty.<br>
+                <span>Your Signature.</span>
+            </h1>
+
+            <p>
+                Discover your beauty essentials with premium skincare,
+                luxurious makeup and refreshing fragrances.
+            </p>
+
+            <a href="#beauty-products" class="beauty-hero-btn">
+                Explore Beauty →
+            </a>
+
+        </div>
+
+        <div class="beauty-hero-image">
+            <img
+                src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=900&q=85"
+                alt="Beauty and Cosmetics Collection"
+            >
+        </div>
+
+    </section>
+
+
+    <!-- Categories -->
+    <section class="beauty-categories">
+
+        <div class="beauty-heading">
+            <span>DISCOVER YOUR FAVORITES</span>
+            <h2>Shop By Category</h2>
+            <p>Everything you need to feel beautiful every day.</p>
+        </div>
+
+        <div class="beauty-category-grid">
+
+            <a href="#beauty-products" class="beauty-category-card">
+                <div class="beauty-category-icon">🧴</div>
+                <h3>Skincare</h3>
+                <p>Glow from within</p>
+            </a>
+
+            <a href="#beauty-products" class="beauty-category-card">
+                <div class="beauty-category-icon">💄</div>
+                <h3>Makeup</h3>
+                <p>Express your style</p>
+            </a>
+
+            <a href="#beauty-products" class="beauty-category-card">
+                <div class="beauty-category-icon">🌸</div>
+                <h3>Fragrances</h3>
+                <p>Find your signature scent</p>
+            </a>
+
+            <a href="#beauty-products" class="beauty-category-card">
+                <div class="beauty-category-icon">🫧</div>
+                <h3>Hair Care</h3>
+                <p>Love your hair</p>
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- Offer Banner -->
+    <section class="beauty-offer">
+
+        <div class="beauty-offer-content">
+
+            <span>BEAUTY SPECIAL</span>
+
+            <h2>A Little Treat<br>For Your Beauty</h2>
+
+            <p>
+                Explore your favorite beauty essentials
+                and discover something new.
+            </p>
+
+            <a href="#beauty-products" class="beauty-offer-btn">
+                Shop The Collection →
+            </a>
+
+        </div>
+
+        <div class="beauty-offer-image">
+            <img
+                src="https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?auto=format&fit=crop&w=700&q=85"
+                alt="Beauty Products"
+            >
+        </div>
+
+    </section>
+
+
+    <!-- Products -->
+    <section class="beauty-products" id="beauty-products">
+
+        <div class="beauty-heading">
+            <span>BEAUTY MUST-HAVES</span>
+            <h2>Trending Beauty Products</h2>
+            <p>Find your next favorite from our beauty collection.</p>
+        </div>
+
+        <div class="beauty-product-grid">
+
+            <!-- Product 1 -->
+             <% for(var i =0;i<beauty.length;i++){ %>
+            <div class="beauty-product-card">
+
+                <span class="beauty-product-badge"><%=beauty[i].Product_Status%></span>
+
+                <div class="beauty-product-image">
+                    <img
+                        src="/images/<%=beauty[i].Prdouct_image%>"
+                        alt="Skincare Serum"
+                    >
+                </div>
+
+                <div class="beauty-product-info">
+
+                    <span class="beauty-product-category"><%=beauty[i].product_category%></span>
+
+                    <h3><%=beauty[i].product_name%></h3>
+
+                    <div class="beauty-rating">
+                        ★★★★★ 
+                        <small>(<%=beauty[i].product_rating%>)</small>
+                    </div>
+
+                    <div class="beauty-product-price">
+                        ₹<%=beauty[i].product_new_price%>
+                        <del>₹<%=beauty[i].product_old_price%></del>
+                    </div>
+
+                   <a href="payment_beauyt_product/<%=beauty[i].pid%>">
+                     <button type="button" class="beauty-product-btn">
+                        Buy Now
+                    </button>
+                   </a>
+
+                </div>
+
+            </div>
+            <% } %>
+
+        </div>
+
+    </section>
+
+
+    <!-- Beauty Promise -->
+    <section class="beauty-promise">
+
+        <div class="beauty-promise-item">
+            <span>♡</span>
+            <h3>Beauty For Everyone</h3>
+            <p>Celebrate your own unique beauty.</p>
+        </div>
+
+        <div class="beauty-promise-item">
+            <span>✦</span>
+            <h3>Discover Your Style</h3>
+            <p>Find products that suit your style.</p>
+        </div>
+
+        <div class="beauty-promise-item">
+            <span>❀</span>
+            <h3>Everyday Self Care</h3>
+            <p>Make time for yourself every day.</p>
+        </div>
+
+    </section>
+
+</section>
+
+<%-include('footer.ejs')%>

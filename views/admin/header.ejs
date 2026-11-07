@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>User Dashboard</title>
+
+    <link rel="stylesheet" href="/admin/style.css">
+
+    <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<div class="dashboard-container">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="sidebar-logo">
+            <i class="fa-solid fa-shop"></i>
+            <span>Pradip Shop</span>
+        </div>
+
+        <!-- SCROLLABLE MENU -->
+<div class="sidebar-menu">
+
+    <!-- DASHBOARD -->
+    <a href="/admin" class="menu-item active">
+        <i class="fa-solid fa-house"></i>
+        <span>Dashboard</span>
+    </a>
+
+
+    <!-- PRODUCTS DROPDOWN -->
+    <div class="menu-dropdown">
+
+        <button class="dropdown-btn" onclick="toggleDropdown('productMenu')">
+            <span>
+                <i class="fa-solid fa-box"></i>
+                Products
+            </span>
+            <i class="fa-solid fa-chevron-down arrow"></i>
+        </button>
+
+        <div class="dropdown-content" id="productMenu">
+            <a href="/admin/add_product">Add Product</a>
+            <a href="/admin/all_products">All Products</a>
+            <a href="/admin/add_trending_product">Add Trending Products</a>
+            <a href="/admin/manage_trending_product">Manage Trending Products</a>
+            <a href="/admin/add_fashion_product">Add Fashion Products</a>
+            <a href="/admin/manage_fashion_product">Manage Fashion Products</a>
+            <a href="/admin/add_electrounics_product">Add Electronics Product</a>
+            <a href="/admin/manage_electronics_product">Mangate Electronics Product</a>
+            <a href="/admin/add_beauty_product">Add Beauty Product</a>
+            <a href="/admin/mange_beaut_product">Mangate Beauty Product</a>
+            <a href="/admin/add_home_and_leaving_product">Add Home & Living Product</a>
+            <a href="/admin/manage_home_leaving_product">Mangate Home & Living Product</a>
+        </div>
+
+    </div>
+
+
+    <!-- CATEGORIES DROPDOWN -->
+    <div class="menu-dropdown">
+
+        <button class="dropdown-btn" onclick="toggleDropdown('categoryMenu')">
+            <span>
+                <i class="fa-solid fa-list"></i>
+                Categories
+            </span>
+            <i class="fa-solid fa-chevron-down arrow"></i>
+        </button>
+
+        <div class="dropdown-content" id="categoryMenu">
+            <a href="/admin/add_category">Add Category</a>
+            <a href="/admin/all_categories">All Categories</a>
+        </div>
+
+    </div>
+
+
+    <!-- ORDERS DROPDOWN -->
+    <div class="menu-dropdown">
+
+        <button class="dropdown-btn" onclick="toggleDropdown('orderMenu')">
+            <span>
+                <i class="fa-solid fa-cart-shopping"></i>
+                Orders
+            </span>
+            <i class="fa-solid fa-chevron-down arrow"></i>
+        </button>
+
+        <div class="dropdown-content" id="orderMenu">
+            <a href="/admin/all_orders">All Orders</a>
+            <a href="#">Pending Orders</a>
+            <a href="#">Confirmed Orders</a>
+            <a href="#">Accepted Orders</a>
+        </div>
+
+    </div>
+
+
+    <!-- MESSAGES DROPDOWN -->
+    <div class="menu-dropdown">
+
+        <button class="dropdown-btn" onclick="toggleDropdown('messageMenu')">
+            <span>
+                <i class="fa-solid fa-envelope"></i>
+                Messages
+            </span>
+            <i class="fa-solid fa-chevron-down arrow"></i>
+        </button>
+
+        <div class="dropdown-content" id="messageMenu">
+            <a href="/admin/all_messages">All Messages</a>
+            <a href="/admin/pending_messages">Pending Messages</a>
+            <a href="/admin/confirmed_messages">Confirmed Messages</a>
+            <a href="/admin/accepted_messages">Accepted Messages</a>
+        </div>
+
+    </div>
+
+
+    <!-- CUSTOMERS DROPDOWN -->
+    <div class="menu-dropdown">
+
+        <button class="dropdown-btn" onclick="toggleDropdown('customerMenu')">
+            <span>
+                <i class="fa-solid fa-users"></i>
+                Customers
+            </span>
+            <i class="fa-solid fa-chevron-down arrow"></i>
+        </button>
+
+        <div class="dropdown-content" id="customerMenu">
+            <a href="/admin/all_customers">All Customers</a>
+        </div>
+
+    </div>
+
+    <!-- CONTACT DROPDOWN -->
+
+
+      <div class="menu-dropdown">
+
+        <button class="dropdown-btn" onclick="toggleDropdown('contact')">
+            <span>
+                <i class="fa-solid fa-users"></i>
+                Contact
+            </span>
+            <i class="fa-solid fa-chevron-down arrow"></i>
+        </button>
+
+        <div class="dropdown-content" id="contact">
+            <a href="/admin/add_contact">Add Contact</a>
+            <a href="/admin/View_all_contact">View All Contact</a>
+        </div>
+         
+
+    </div>
+
+    <!-- SETTINGS DROPDOWN -->
+    <div class="menu-dropdown">
+
+        <button class="dropdown-btn" onclick="toggleDropdown('settingsMenu')">
+            <span>
+                <i class="fa-solid fa-gear"></i>
+                Settings
+            </span>
+            <i class="fa-solid fa-chevron-down arrow"></i>
+        </button>
+
+        <div class="dropdown-content" id="settingsMenu">
+            <a href="/admin/profile">My Profile</a>
+        </div>
+
+    </div>
+
+</div>
+
+        <!-- SIDEBAR FOOTER -->
+        <div class="sidebar-footer">
+
+            <img src="/images/<%=user_Photo%>" alt="User Photo">
+
+            <div class="user-info">
+                <h4><%=user_name%></h4>
+                <p><%=user_email%></p>
+            </div>
+
+            <a href="/admin/logout" class="logout-btn" title="Logout">
+                <i class="fa-solid fa-right-from-bracket"></i>
+            </a>
+
+        </div>
+
+    </aside>
+
+
+<!-- RIGHT MAIN SECTION -->
+<main class="main-section">
+
+    <!-- TOP HEADER -->
+    <header class="top-header">
+
+        <div class="welcome-text">
+            <h2>Welcome Back <%=user_name%> 👋</h2>
+            <p>Here is your dashboard overview</p>
+        </div>
+
+        <div class="header-user">
+
+            <div class="header-user-info">
+                <h4><%=user_name%> </h4>
+                <p><%=user_email%> </p>
+            </div>
+
+            <img src="/images/<%=user_Photo%> " alt="User Photo">
+
+        </div>
+
+    </header>
+
+    <!-- MAIN CONTENT START -->
+    <div class="main-content">
+
+
+</div>
+
+
+<script>
+    function toggleDropdown(menuId) {
+
+        const menu = document.getElementById(menuId);
+
+        menu.classList.toggle("show");
+
+    }
+</script>
+
+</body>
+</html>

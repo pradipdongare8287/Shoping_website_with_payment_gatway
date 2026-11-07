@@ -1,0 +1,241 @@
+<%-include('header.ejs')%>
+    <!-- Navigation -->
+  
+
+    <!-- Hero Section -->
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <span class="hero-tag">
+                <i class="fa-solid fa-fire"></i>
+                THE BIGGEST SALE
+            </span>
+
+            <h1>
+                Discover Your
+                <span>Style</span>
+            </h1>
+
+            <p>
+                Shop the latest trends with amazing deals.
+                Quality products, unbeatable prices and
+                a shopping experience you'll love.
+            </p>
+
+            <div class="hero-buttons">
+
+                <a href="#" class="shop-btn">
+                    Shop Now
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+
+                <a href="#" class="explore-btn">
+                    Explore Collection
+                </a>
+
+            </div>
+
+            <div class="hero-stats">
+
+                <div>
+                    <h3>10K+</h3>
+                    <p>Happy Customers</p>
+                </div>
+
+                <div>
+                    <h3>500+</h3>
+                    <p>Products</p>
+                </div>
+
+                <div>
+                    <h3>4.9★</h3>
+                    <p>Customer Rating</p>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="hero-image">
+
+            <div class="image-circle"></div>
+
+            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=85"
+                alt="Stylish Shopping Product">
+
+            <div class="discount-card">
+                <span>UP TO</span>
+                <h2>50%</h2>
+                <p>OFF</p>
+            </div>
+
+            <div class="floating-card">
+                <i class="fa-solid fa-truck-fast"></i>
+                <div>
+                    <h4>Free Delivery</h4>
+                    <p>On orders above ₹999</p>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- Categories -->
+    <section class="categories section">
+
+        <div class="section-heading">
+            <div>
+                <span class="small-title">SHOP BY CATEGORY</span>
+                <h2>Explore Categories</h2>
+            </div>
+
+            <a href="#">View All <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+
+        <div class="category-grid">
+
+        <%  categrory_product.forEach((category,index)=>{ %>
+            
+            <a class="category-card">
+                <div class="category-image">
+                    <img src="/images/<%=category.Product_image%>"
+                        alt="Fashion">
+                </div>
+                <h3><%=category.Product_category%></h3>
+                <p><%=category.Product_name%></p>
+            </a>
+        
+            
+
+        <% }) %>
+        
+            </div>
+    </section>
+
+    <!-- Trending Products -->
+    <section class="products section">
+
+        <div class="section-heading">
+            <div>
+                <span class="small-title">OUR COLLECTION</span>
+                <h2>Trending Products</h2>
+            </div>
+
+            <a href="#">View All <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+
+        <div class="product-grid">
+
+            <!-- Product 1 -->
+             <% for(var i=0;i<product.length;i++){ %>
+                <div class="product-card">
+
+                <div class="product-image">
+                    <span class="sale-badge"><%=product[i].TProduct_discount%> %</span>
+
+                    <button class="wishlist">
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
+
+                    <img src="/images/<%=product[i].TProduct_image%>"
+                        alt="Nike Shoes">
+                </div>
+
+                <div class="product-info">
+
+                    <span class="product-category"><%=product[i].TProduct_category%></span>
+
+                    <h3><%=product[i].TProduct_name%></h3>
+
+                    <div class="rating">
+                        <% for (var a = 0;a<product[i].TProduct_rating;a++){ %>
+                        ★
+                        <% } %>
+                        <span>(<%=product[i].TProduct_rating%>)</span>
+                    </div>
+
+                    <div class="price">
+                        <strong>₹<%=product[i].TProduct_new_price%></strong>
+                        <del>₹<%=product[i].TProduct_old_price%></del>
+                    </div>
+
+                    <a href="/trending_product_payemnt/<%=product[i].tpid%>">
+                        <button class="add-cart">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        Buy Now
+                    </button>
+                    </a>
+
+                </div>
+
+            </div>
+                <% } %>
+            
+
+         
+
+        </div>
+
+    </section>
+
+    <!-- Promotional Banner -->
+    <section class="promo-banner">
+
+        <div class="promo-content">
+
+            <span>LIMITED TIME OFFER</span>
+
+            <h2>Upgrade Your Style.<br>Upgrade Your Life.</h2>
+
+            <p>Discover amazing products at unbeatable prices.</p>
+
+            <a href="#" class="shop-btn">
+                Shop Collection
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+
+        </div>
+
+        <div class="promo-icon">
+            <i class="fa-solid fa-gift"></i>
+        </div>
+
+    </section>
+
+    <!-- Benefits -->
+    <section class="benefits section">
+
+        <div class="benefit-card">
+            <i class="fa-solid fa-truck-fast"></i>
+            <h3>Free Shipping</h3>
+            <p>Free delivery on orders above ₹999</p>
+        </div>
+
+        <div class="benefit-card">
+            <i class="fa-solid fa-shield-halved"></i>
+            <h3>Secure Payment</h3>
+            <p>100% safe and secure payments</p>
+        </div>
+
+        <div class="benefit-card">
+            <i class="fa-solid fa-rotate-left"></i>
+            <h3>Easy Returns</h3>
+            <p>Easy returns within 7 days</p>
+        </div>
+
+        <div class="benefit-card">
+            <i class="fa-solid fa-headset"></i>
+            <h3>24/7 Support</h3>
+            <p>We are always here to help you</p>
+        </div>
+
+    </section>
+
+    <!-- Footer -->
+<%-include('footer.ejs') %>
+
+</body>
+
+</html>

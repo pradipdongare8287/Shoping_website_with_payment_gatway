@@ -1,0 +1,170 @@
+<%-include('header.ejs') %>
+<div class="homeliving-form-container">
+
+    <div class="homeliving-form-header">
+        <div class="homeliving-header-icon">
+            <i class="fa-solid fa-house"></i>
+        </div>
+
+        <div>
+            <h2>Add Home Living Product</h2>
+            <p>Enter home living product details below</p>
+        </div>
+    </div>
+
+    <form action="/admin/add_new_home_living_product"
+          method="POST"
+          enctype="multipart/form-data">
+
+        <div class="homeliving-form-grid">
+
+            <!-- Product Status -->
+            <div class="homeliving-form-group">
+                <label>Product Status</label>
+                <input type="text" name="Product_status"/>
+            </div>
+
+            <!-- Product Image -->
+            <div class="homeliving-form-group">
+                <label>Product Image</label>
+                <input type="file"
+                       name="product_img"
+                       accept="image/*"
+                       required>
+            </div>
+
+            <!-- Product Category -->
+            <div class="homeliving-form-group">
+                <label>Product Category</label>
+                <select name="product_category" required>
+                    <option value="">Select Category</option>
+                    <option value="Furniture">Furniture</option>
+                    <option value="Home Decor">Home Decor</option>
+                    <option value="Kitchen">Kitchen</option>
+                    <option value="Bedding">Bedding</option>
+                    <option value="Lighting">Lighting</option>
+                    <option value="Storage">Storage</option>
+                    <option value="Bathroom">Bathroom</option>
+                    <option value="Curtains">Curtains</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <!-- Product Name -->
+            <div class="homeliving-form-group">
+                <label>Product Name</label>
+                <input type="text"
+                       name="product_name"
+                       placeholder="Enter product name"
+                       required>
+            </div>
+
+            <!-- Brand -->
+            <div class="homeliving-form-group">
+                <label>Product Brand</label>
+                <input type="text"
+                       name="product_brand"
+                       placeholder="Enter product brand"
+                       required>
+            </div>
+
+            <!-- Rating -->
+            <div class="homeliving-form-group">
+                <label>Product Rating</label>
+                <input type="number"
+                       name="product_rating"
+                       min="0"
+                       max="5"
+                       step="0.1"
+                       placeholder="Example: 4.5"
+                       required>
+            </div>
+
+            <!-- Reviews -->
+            <div class="homeliving-form-group">
+                <label>Product Reviews</label>
+                <input type="number"
+                       name="product_reviews"
+                       min="0"
+                       placeholder="Enter review count"
+                       required>
+            </div>
+
+            <!-- New Price -->
+            <div class="homeliving-form-group">
+                <label>Product New Price (₹)</label>
+                <input type="number"
+                       name="product_new_price"
+                       min="0"
+                       step="0.01"
+                       placeholder="Enter new price"
+                       required>
+            </div>
+
+            <!-- Old Price -->
+            <div class="homeliving-form-group">
+                <label>Product Old Price (₹)</label>
+                <input type="number"
+                       name="product_old_price"
+                       min="0"
+                       step="0.01"
+                       placeholder="Enter old price"
+                       required>
+            </div>
+
+            <!-- Material -->
+            <div class="homeliving-form-group">
+                <label>Product Material</label>
+                <input type="text"
+                       name="product_material"
+                       placeholder="Example: Wood, Plastic, Cotton"
+                       required>
+            </div>
+
+            <!-- Color -->
+            <div class="homeliving-form-group">
+                <label>Product Color</label>
+                <input type="text"
+                       name="product_color"
+                       placeholder="Example: White, Black, Brown"
+                       required>
+            </div>
+
+            <!-- Size -->
+            <div class="homeliving-form-group">
+                <label>Product Size</label>
+                <input type="text"
+                       name="product_size"
+                       placeholder="Example: Small, Medium, Large"
+                       required>
+            </div>
+
+            <!-- Description -->
+            <div class="homeliving-form-group homeliving-full-width">
+                <label>Product Description</label>
+                <textarea name="product_description"
+                          rows="4"
+                          placeholder="Enter product description"
+                          required></textarea>
+            </div>
+
+        </div>
+
+        <div class="homeliving-form-buttons">
+
+            <button type="submit" class="homeliving-submit-btn">
+                <i class="fa-solid fa-plus"></i>
+                Add Home Living Product
+            </button>
+
+            <button type="reset" class="homeliving-reset-btn">
+                <i class="fa-solid fa-rotate-left"></i>
+                Reset
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+<%-include('footer.ejs') %>

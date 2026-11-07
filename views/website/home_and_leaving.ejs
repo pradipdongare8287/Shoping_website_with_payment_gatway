@@ -1,0 +1,245 @@
+<%-include('header.ejs')%>
+
+
+<link rel="stylesheet" href="/website/home_living.css">
+
+<section class="living-page">
+
+    <!-- HERO SECTION -->
+    <section class="living-hero">
+
+        <div class="living-hero-content">
+
+            <span class="living-label">
+                ✦ HOME • LIVING • LIFESTYLE
+            </span>
+
+            <h1>
+                Make Your Home<br>
+                <span>Feel Like You.</span>
+            </h1>
+
+            <p>
+                Discover beautiful furniture, cozy decor and
+                thoughtfully designed essentials that turn
+                every corner into your happy place.
+            </p>
+
+            <a href="#living-products" class="living-hero-btn">
+                Explore Collection <span>→</span>
+            </a>
+
+            <div class="living-hero-features">
+                <div>
+                    <strong>✦</strong>
+                    <span>Beautiful Designs</span>
+                </div>
+
+                <div>
+                    <strong>♡</strong>
+                    <span>Made for Comfort</span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="living-hero-visual">
+
+            <div class="living-orbit orbit-one"></div>
+            <div class="living-orbit orbit-two"></div>
+
+            <div class="living-floating floating-one">✦</div>
+            <div class="living-floating floating-two">♡</div>
+
+            <div class="living-main-image">
+                <img
+                    src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1000&q=85"
+                    alt="Beautiful Home Interior"
+                >
+            </div>
+
+            <div class="living-image-caption">
+                <span>YOUR SPACE</span>
+                <strong>Your Story.</strong>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- CATEGORIES -->
+    <section class="living-categories">
+
+        <div class="living-section-heading">
+            <span>CURATED FOR YOUR HOME</span>
+            <h2>Find Your Happy Place</h2>
+            <p>Small details. Big difference.</p>
+        </div>
+
+        <div class="living-category-grid">
+
+            <a href="#living-products" class="living-category category-large">
+
+                <img
+                    src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=900&q=85"
+                    alt="Home Decor"
+                >
+
+                <div class="living-category-content">
+                    <span>01 / DECOR</span>
+                    <h3>Home Decor</h3>
+                    <p>Make every corner beautiful →</p>
+                </div>
+
+            </a>
+
+
+            <a href="#living-products" class="living-category">
+
+                <img
+                    src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=700&q=85"
+                    alt="Furniture"
+                >
+
+                <div class="living-category-content">
+                    <span>02 / FURNITURE</span>
+                    <h3>Furniture</h3>
+                    <p>Comfort meets style →</p>
+                </div>
+
+            </a>
+
+
+            <a href="#living-products" class="living-category">
+
+                <img
+                    src="https://images.unsplash.com/photo-1615874694520-474822394e73?auto=format&fit=crop&w=700&q=85"
+                    alt="Bedroom Essentials"
+                >
+
+                <div class="living-category-content">
+                    <span>03 / BEDROOM</span>
+                    <h3>Bedroom</h3>
+                    <p>Your cozy retreat →</p>
+                </div>
+
+            </a>
+
+
+            <a href="#living-products" class="living-category">
+
+                <img
+                    src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=700&q=85"
+                    alt="Living Room"
+                >
+
+                <div class="living-category-content">
+                    <span>04 / LIVING ROOM</span>
+                    <h3>Living Space</h3>
+                    <p>Live beautifully →</p>
+                </div>
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- SPECIAL OFFER -->
+    <section class="living-special">
+
+        <div class="living-special-image">
+            <img
+                src="https://images.unsplash.com/photo-1616486029423-aaa4789e8c9a?auto=format&fit=crop&w=900&q=85"
+                alt="Stylish home decor"
+            >
+        </div>
+
+        <div class="living-special-content">
+
+            <span>✦ THE ART OF LIVING</span>
+
+            <h2>
+                A Little More<br>
+                <em>Beautiful.</em>
+            </h2>
+
+            <p>
+                Bring warmth, character and charm to your home
+                with pieces you'll love every day.
+            </p>
+
+            <a href="#living-products">
+                Discover Your Style ↗
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- PRODUCTS -->
+    <section class="living-products" id="living-products">
+
+        <div class="living-section-heading">
+            <span>THE LITTLE THINGS THAT MATTER</span>
+            <h2>Home Favorites</h2>
+            <p>Beautiful finds for your beautiful home.</p>
+        </div>
+
+        <div class="living-product-grid">
+
+        <% for (var i =0 ;i<products.length;i++) {%>
+            <!-- Product 1 -->
+            <div class="living-product-card">
+
+                <span class="living-product-tag"><%=products[i].Product_status%></span>
+
+                <div class="living-product-image">
+                    <img
+                        src="/images/<%=products[i].product_img%>"
+                        alt="Decorative Vase"
+                    >
+                    <div class="living-product-overlay">
+                        <button type="button">View Product ↗</button>
+                    </div>
+                </div>
+
+                <div class="living-product-info">
+                    <span><%=products[i].product_category%></span>
+                    <h3><%=products[i].product_name%></h3>
+                    <div class="living-price">
+                        ₹<%=products[i].product_new_price%>
+                        <del>₹<%=products[i].product_old_price%></del>
+                    </div>
+                </div>
+
+            </div>
+
+            <% } %>
+
+        </div>
+
+    </section>
+
+
+    <!-- BOTTOM QUOTE -->
+    <section class="living-quote">
+
+        <div class="living-quote-symbol">“</div>
+
+        <h2>
+            Home is not a place.<br>
+            <span>It's a feeling.</span>
+        </h2>
+
+        <p>Make space for the things you love.</p>
+
+    </section>
+
+</section>
+
+
+<%-include('footer.ejs')%>

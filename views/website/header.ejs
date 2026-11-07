@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ShopEase | Online Shopping</title>
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="/website/style.css">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Top Offer Bar -->
+    <div class="top-offer">
+        <p>🔥 Mega Sale is Live! Get Up to 50% OFF</p>
+    </div>
+
+    <!-- Header -->
+  <header class="header">
+
+    <!-- Logo -->
+    <div class="logo">
+        <i class="fa-solid fa-bag-shopping"></i>
+        <span>Shop<span class="logo-color">Ease</span></span>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="search-box">
+        <input type="text" placeholder="Search for products...">
+
+        <button>
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+    </div>
+
+    <!-- Header Icons -->
+    <div class="header-icons">
+
+        <% if(uid){ %>
+
+    <a href="/account">
+        <i class="fa-regular fa-user"></i>
+        <span>Account</span>
+    </a>
+
+<% } else { %>
+
+    <a href="/login">
+        <i class="fa-regular fa-user"></i>
+        <span>Login</span>
+    </a>
+
+<% } %>
+        
+        <a href="/wishlist">
+            <i class="fa-regular fa-heart"></i>
+            <span>Wishlist</span>
+        </a>
+
+        <a href="/cart" class="cart-icon">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span>Cart</span>
+            <b>2</b>
+        </a>
+
+    </div>
+
+    <!-- Navbar Inside Header -->
+    <nav class="navbar">
+
+        <a href="/" class="active">Home</a>
+        <a href="/all_products">All Products</a>
+        <a href="/fashion">Fashion</a>
+        <a href="/electronics">Electronics</a>
+        <a href="/beauty">Beauty</a>
+        <a href="/home_and_leaving">Home & Living</a>
+        <a href="/contact">Contact</a>
+
+    </nav>
+
+</header>

@@ -1,0 +1,215 @@
+<%-include('header.ejs') %>
+
+
+<!-- DASHBOARD STATS -->
+<div class="admin-stats-grid">
+
+    <!-- TOTAL ORDERS -->
+    <div class="admin-stats-card" style="background-color:#0d8a7e;">
+        <div class="admin-stats-info">
+            <p style="color:white;">Total Orders</p>
+            <h2 style="color:white;"><%=order_count.total_order%></h2>
+        </div>
+
+        <div class="admin-stats-icon orders-icon">
+            <i class="fa-solid fa-cart-shopping"></i>
+        </div>
+    </div>
+
+    <!-- TOTAL PRODUCTS -->
+    <div class="admin-stats-card" style="background-color:#ed9309;">
+        <div class="admin-stats-info">
+            <p style="color:white;">Total Products</p>
+            <h2 style="color:white;"><%=total_product_count.total_product%></h2>
+        </div>
+
+        <div class="admin-stats-icon products-icon">
+            <i class="fa-solid fa-box"></i>
+        </div>
+    </div>
+
+    <!-- TOTAL MESSAGES -->
+    <div class="admin-stats-card" style="background-color:#116c65;">
+        <div class="admin-stats-info">
+            <p style="color:white;">Total Messages</p>
+            <h2 style="color:white;"><%=total_message_count.total_message%></h2>
+        </div>
+
+        <div class="admin-stats-icon messages-icon">
+            <i class="fa-solid fa-envelope"></i>
+        </div>
+    </div>
+
+    <!-- TOTAL USERS -->
+    <div class="admin-stats-card" style="background-color:#f15874;">
+        <div class="admin-stats-info">
+            <p style="color:white;">Total Users</p>
+            <h2 style="color:white;"><%=total_user_count.total_users%></h2>
+        </div>
+
+        <div class="admin-stats-icon users-icon">
+            <i class="fa-solid fa-users"></i>
+        </div>
+    </div>
+
+    <!-- PENDING MESSAGE -->
+    <div class="admin-stats-card" style="background-color:#3276f1;">
+        <div class="admin-stats-info">
+            <p style="color:white;">Pending Messages</p>
+            <h2 style="color:white;"><%=pending_message_count.pending_message%></h2>
+        </div>
+
+        <div class="admin-stats-icon users-icon">
+            <i style="color:blue;" class="fa-solid fa-hourglass-half"></i>
+        </div>
+    </div>
+
+    <!-- TRENDING PRODUCT -->
+    <div class="admin-stats-card" style="background-color:#5956eb;">
+        <div class="admin-stats-info">
+            <b><p style="color:white;">Trending Products</p></b>
+            <h2 style="color:white;"><%=total_trending.trending_product%></h2>
+        </div>
+
+        <div class="admin-stats-icon users-icon">
+            <i style="color:rgba(233, 144, 10, 0.959);" class="fa-solid fa-fire"></i>
+        </div>
+    </div>
+
+    <!-- All PRODUCT -->
+    <div class="admin-stats-card" style="background-color:#f1d357;">
+        <div class="admin-stats-info">
+            <b><p style="color:white;">All Products</p></b>
+            <h2 style="color:white;"><%=all_product.total_product%></h2>
+        </div>
+
+        <div class="admin-stats-icon users-icon">
+            <i class="fa-solid fa-layer-group"></i>
+        </div>
+    </div>
+
+    <!-- FASHION PRODUCT -->
+    <div class="admin-stats-card" style="background-color:#18beaa;">
+        <div class="admin-stats-info">
+            <b><p style="color:white;">Fashion Products</p></b>
+            <h2 style="color:white;"><%=total_fashion_product.fashion_product%></h2>
+        </div>
+
+        <div class="admin-stats-icon users-icon">
+            <i style="color:orange;" class="fa-solid fa-shirt"></i>
+        </div>
+    </div>
+
+     <!-- ELECTRONICS PRODUCT -->
+    <div class="admin-stats-card" style="background-color:#536277;">
+        <div class="admin-stats-info">
+            <b><p style="color:white;">Electronics Products</p></b>
+            <h2 style="color:white;"><%=total_electronics_product.electronics_product%></h2>
+        </div>
+
+        <div class="admin-stats-icon users-icon">
+            <i style="color:gray;" class="fa-solid fa-laptop"></i>
+        </div>
+    </div>
+
+     <!-- BEAUTY PRODUCT -->
+    <div class="admin-stats-card" style="background-color:#17f58d;">
+        <div class="admin-stats-info">
+            <b><p style="color:white;">Beauty Products</p></b>
+            <h2 style="color:white;"><%=total_beauty_product.beauty_product%></h2>
+        </div>
+
+        <div class="admin-stats-icon users-icon">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+        </div>
+    </div>
+
+    <!-- HOME PRODUCT -->
+    <div class="admin-stats-card" style="background-color:#79006f;">
+        <div class="admin-stats-info">
+            <b><p style="color:white;">Home Products</p></b>
+            <h2 style="color:white;"><%=total_home_product.home_product%></h2>
+        </div>
+
+        <div class="admin-stats-icon users-icon">
+            <i style="color:blue;" class="fa-solid fa-house"></i>
+        </div>
+    </div>
+
+
+
+    
+
+</div>
+ 
+
+<!-- RECENT ORDERS SECTION -->
+<div class="admin-dashboard-bottom">
+
+    <!-- RECENT ORDERS -->
+    <div class="admin-dashboard-panel">
+
+        <div class="admin-panel-header">
+            <h3>Recent Orders</h3>
+            <a href="/admin/all_orders">View All</a>
+        </div>
+
+        <div class="admin-order-list">
+
+            <% for(var i=0;i<total_letest_order.length;i++) {%>
+            <div class="admin-order-item">
+                <div>
+                    <h4>Order Payment Id <%=total_letest_order[i].Payment_id%></h4>
+                    <p>Product Price: <%=total_letest_order[i].Product_price%></p>
+                </div>
+                <span class="order-status pending" style="color:green;background-color:rgba(27, 241, 27,0.3);"><%=total_letest_order[i].Order_status%></span>
+            </div>
+            <% } %>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- QUICK ACTIONS -->
+    <div class="admin-dashboard-panel">
+
+        <div class="admin-panel-header">
+            <h3>Quick Actions</h3>
+        </div>
+
+        <div class="admin-quick-actions">
+
+            <a href="/admin/add_product">
+                <i class="fa-solid fa-plus"></i>
+                Add Product
+            </a>
+            <a href="/admin/add_new_admin_user_product">
+                <i class="fa-solid fa-plus"></i>
+                Add New User
+            </a>
+            <a href="/admin/add_category">
+                <i class="fa-solid fa-list"></i>
+                Add Category
+            </a>
+
+            <a href="/admin/all_orders">
+                <i class="fa-solid fa-cart-shopping"></i>
+                Manage Orders
+            </a>
+
+            <a href="/admin/all_messages">
+                <i class="fa-solid fa-envelope"></i>
+                View Messages
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+ 
+<%-include('footer.ejs') %>
