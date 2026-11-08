@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>User Dashboard</title>
+    <title><%=user_name%> User Dashboard</title>
 
     <link rel="stylesheet" href="/admin/style.css">
-
+    <link rel="icon" type="image/png" href="/images/<%=user_Photo%>">
     <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
@@ -217,7 +217,7 @@
                 <p><%=user_email%></p>
             </div>
 
-            <a href="/admin/logout" class="logout-btn" title="Logout">
+            <a href="/admin/logout" onclick="return confirm('Are Sure Log Out Mr/Ms <%=user_name%>')" class="logout-btn" title="Logout">
                 <i class="fa-solid fa-right-from-bracket"></i>
             </a>
 
@@ -230,17 +230,24 @@
 <main class="main-section">
 
     <!-- TOP HEADER -->
-    <header class="top-header">
+    <header class="top-header" style="background:linear-gradient(to right, #20375f 0%, #202938 100%);">
 
         <div class="welcome-text">
-            <h2>Welcome Back <%=user_name%> 👋</h2>
+            <% if(Owner=='Owner'){ %>
+                
+                <h2 style="background-color:#0c8a7e;padding:7px;border-radius:25px;">Welcome Back <%=user_name%> Owner 👋</h2>
+
+            <% } else { %>
+                <h2>Welcome Back <%=user_name%> 👋</h2>
+            <% } %>
+            
             <p>Here is your dashboard overview</p>
         </div>
 
         <div class="header-user">
 
             <div class="header-user-info">
-                <h4><%=user_name%> </h4>
+                <h4 style="color:rgba(4, 172, 214, 0.753);"><%=user_name%> </h4>
                 <p><%=user_email%> </p>
             </div>
 

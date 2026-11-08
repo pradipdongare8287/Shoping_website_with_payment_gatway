@@ -155,8 +155,11 @@ body {
 
 /* SIDEBAR FOOTER */
 
+
 .sidebar-footer {
+    width: 100%;
     min-height: 85px;
+    box-sizing: border-box;
 
     display: flex;
     align-items: center;
@@ -165,14 +168,139 @@ body {
     padding: 12px;
 
     border-top: 1px solid #374151;
+    overflow: hidden;
 }
 
 .sidebar-footer img {
-    width: 40px;
-    height: 40px;
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+
     border-radius: 50%;
     object-fit: cover;
 }
+
+.sidebar-footer .user-info {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.sidebar-footer .user-info h4 {
+    margin: 0 0 4px;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sidebar-footer .user-info p {
+    margin: 0;
+    font-size: 11px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sidebar-footer .logout-btn {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #fff;
+    background: #dc2626;
+
+    border-radius: 8px;
+    text-decoration: none;
+
+    font-size: 16px;
+    margin-left: auto;
+    flex-shrink: 0;
+
+    transition: 0.3s ease;
+}
+
+.sidebar-footer .logout-btn:hover {
+    background: #b91c1c;
+    transform: scale(1.05);
+}
+
+/* Mobile View Logout */
+
+
+/* MOBILE SIDEBAR FOOTER */
+@media screen and (max-width: 768px) {
+
+    .sidebar-footer {
+        width: 100% !important;
+        min-height: 105px !important;
+        height: auto !important;
+
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+
+        gap: 8px !important;
+        padding: 8px 3px !important;
+
+        box-sizing: border-box;
+        overflow: visible !important;
+    }
+
+    /* Profile Image */
+    .sidebar-footer img {
+        width: 32px !important;
+        height: 32px !important;
+        min-width: 32px !important;
+
+        border-radius: 50%;
+        object-fit: cover;
+        display: block !important;
+    }
+
+    /* Hide User Details in Mobile */
+    .sidebar-footer .user-info {
+        display: none !important;
+    }
+
+    /* Logout Button */
+    .sidebar-footer .logout-btn {
+        display: flex !important;
+
+        width: 32px !important;
+        height: 32px !important;
+        min-width: 32px !important;
+
+        align-items: center !important;
+        justify-content: center !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        background: #dc2626 !important;
+        color: #ffffff !important;
+
+        border-radius: 8px !important;
+        font-size: 15px !important;
+
+        flex-shrink: 0 !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+
+    .sidebar-footer .logout-btn i {
+        display: inline-block !important;
+        color: white !important;
+    }
+
+}
+
+/* =================== */
 
 .user-info {
     flex: 1;
