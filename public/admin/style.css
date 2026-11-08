@@ -4556,3 +4556,40 @@ tr:nth-child(even) {
         width: 100%;
     }
 }
+
+/* logout option on img click */
+
+
+ .profile-dropdown {
+        position: relative;
+        display: inline-block;
+        
+    }
+
+    .profile-dropdown img {
+        cursor: pointer;
+    }
+
+    .logout-menu {
+        display: none;
+        position: absolute;
+        right: 0;
+        top: 100%;
+        background: white;
+        min-width:auto;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        border-radius: 10px;
+        z-index: 1000;
+    }
+
+    .logout-menu a {
+        display: block;
+        padding: 10px 15px;
+        color: black;
+        text-decoration: none;
+    }
+
+    .logout-menu a:hover {
+        background: #f1f1f1;
+    }
+/* =============================== */

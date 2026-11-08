@@ -246,14 +246,24 @@
 
         <div class="header-user">
 
-            <div class="header-user-info">
-                <h4 style="color:rgba(4, 172, 214, 0.753);"><%=user_name%> </h4>
-                <p><%=user_email%> </p>
-            </div>
+    <div class="header-user-info">
+        <h4 style="color:rgba(4, 172, 214, 0.753);"><%=user_name%> </h4>
+        <p><%=user_email%> </p>
+    </div>
 
-            <img src="/images/<%=user_Photo%> " alt="User Photo">
+    <div class="profile-dropdown" style="background:none;" >
+        <img src="/images/<%=user_Photo%>" alt="User Photo" onclick="toggleLogout()">
 
+        <div id="logoutMenu" class="logout-menu">
+            <a href="/logout" style="">
+                <i style="color:red;background-color:rgba(245, 9, 9,0.5);padding:10px;border-radius:50%;" class="fa-solid fa-right-from-bracket"></i></a>
         </div>
+    </div>
+
+</div>
+
+
+
 
     </header>
 
@@ -271,6 +281,16 @@
 
         menu.classList.toggle("show");
 
+    }
+
+    function toggleLogout() {
+        var menu = document.getElementById("logoutMenu");
+
+        if (menu.style.display === "block") {
+            menu.style.display = "none";
+        } else {
+            menu.style.display = "block";
+        }
     }
 </script>
 
