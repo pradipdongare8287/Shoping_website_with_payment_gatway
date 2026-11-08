@@ -370,7 +370,7 @@ admin.get('/delete_category_product/:id/:img',async(req,res)=>{
     var delete_product = 'delete from category_product where cpid = ?'
     var deletep = await query(delete_product,[id])
 
-    res.redirect('/admin/all_categories')
+    res.redirect(req.get('Referrer') || '/admin');
 
 })
 admin.get('/all_orders',Login_check,async(req,res)=>{
@@ -395,7 +395,7 @@ admin.get('/accept_customer_message/:id',async(req,res)=>{
     var id = req.params.id
     var accept_message = 'update users_contact_message set Message_status="Accept" where Mid=?'
     var accept = await query(accept_message,[id])
-    res.redirect('/admin/accepted_messages')
+    res.redirect(req.get('Referrer') || '/admin');
 })
 
 admin.get('/confirm_customer_message/:id',async(req,res)=>{
