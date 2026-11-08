@@ -1,0 +1,136 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Registration Form</title>
+</head>
+
+<body style="
+    margin:0;
+    padding:0;
+    font-family:Arial, sans-serif;
+    background:linear-gradient(135deg,#667eea,#764ba2);
+">
+
+    <div style="
+        width:400px;
+        margin:40px auto;
+        padding:30px;
+        background:white;
+        border-radius:12px;
+        box-shadow:0 5px 20px rgba(0,0,0,0.2);
+    ">
+
+        <h2 style="
+            text-align:center;
+            color:#333;
+            margin-bottom:25px;
+        ">
+            User Registration
+        </h2>
+
+        <form action="/save_user" onsubmit="return confirm('Are You Sure Register Your Account')" method="POST">
+
+            <!-- User Name -->
+            <label style="font-weight:bold;">User Name</label>
+            <input type="text"
+                   name="user_name"
+                   placeholder="Enter your name"
+                   required
+                   style="width:100%; padding:11px; margin:8px 0 18px;
+                   border:1px solid #ccc; border-radius:6px;
+                   box-sizing:border-box;">
+
+            <!-- User Email -->
+            <label style="font-weight:bold;">User Email</label>
+            <input type="email"
+                   name="user_email"
+                   placeholder="Enter your email"
+                   required
+                   style="width:100%; padding:11px; margin:8px 0 18px;
+                   border:1px solid #ccc; border-radius:6px;
+                   box-sizing:border-box;">
+                   <% if(warning=='Please Enter Other Email This Email Is Used'){ %>
+                    <span style="background-color:rgba(255, 0, 0,0.5);padding:7px;border-radius:20px;color:red;"><%=warning%></span>
+                    <% } else{  %>
+
+                        <% } %><br/><br/>
+
+
+            <!-- User Password -->
+            <label style="font-weight:bold;">User Password</label>
+            <input type="password"
+                   name="user_password"
+                   placeholder="Enter your password"
+                   required
+                   minlength="8"
+                   style="width:100%; padding:11px; margin:8px 0 18px;
+                   border:1px solid #ccc; border-radius:6px;
+                   box-sizing:border-box;">
+
+            <!-- User Mobile -->
+            <label style="font-weight:bold;">User Mobile</label>
+            <input type="tel"
+                   name="user_mobile"
+                   placeholder="Enter mobile number"
+                   pattern="[0-9]{10}"
+                   maxlength="10"
+                   required
+                   style="width:100%; padding:11px; margin:8px 0 18px;
+                   border:1px solid #ccc; border-radius:6px;
+                   box-sizing:border-box;">
+
+            <!-- User Address -->
+            <label style="font-weight:bold;">User Address</label>
+            <textarea name="user_address"
+                      placeholder="Enter your address"
+                      rows="3"
+                      required
+                      style="width:100%; padding:11px; margin:8px 0 18px;
+                      border:1px solid #ccc; border-radius:6px;
+                      box-sizing:border-box; resize:vertical;"></textarea>
+
+            <!-- User Account Status -->
+            <label style="font-weight:bold;">User Account Status</label>
+            <select name="user_account_status"
+                    required
+                    style="width:100%; padding:11px; margin:8px 0 22px;
+                    border:1px solid #ccc; border-radius:6px;
+                    box-sizing:border-box;">
+
+                <option value="">Select Status</option>
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+
+            </select>
+
+            <!-- Submit Button -->
+            <button type="submit"
+                    style="width:100%; padding:13px;
+                    background:#667eea; color:white;
+                    border:none; border-radius:6px;
+                    font-size:16px; font-weight:bold;
+                    cursor:pointer;">
+
+                Register Now
+
+            </button>
+
+            <!-- Reset Button -->
+            <button type="reset"
+                    style="width:100%; padding:13px;
+                    margin-top:10px;
+                    background:#e74c3c; color:white;
+                    border:none; border-radius:6px;
+                    font-size:16px; cursor:pointer;">
+
+                Reset
+
+            </button>
+
+        </form>
+    </div>
+
+</body>
+</html>
+

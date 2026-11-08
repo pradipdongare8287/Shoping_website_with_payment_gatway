@@ -384,6 +384,28 @@ website.get('/wishlist', (req, res) => {
 
 });
 
+
+website.get('/registration',(req,res)=>{
+        res.render('website/register_user.ejs',{warning:''})
+})
+
+website.post('/save_user',async(req,res)=>{
+    var {user_name,user_email,user_password,user_mobile,user_address,user_account_status} = req.body
+
+    var find_copy_user = 'select * from users where user_email=?'
+    var exist_user = await query(find_copy_user,[user_email])
+
+    if(exist_user.length>0){
+        res.render('website/register_user.ejs',{warning:'Please Enter Other Email This Email Is Used'})
+    }
+    else{
+        var save_new_user = 'insert into users (user_email,user_password,user_mobile,user_account_status,user_address,user_name) values(?,?,?,?,?,?)'
+        var save = await query(save_new_user,[user_email,user_password,user_mobile,user_account_status,user_address,user_name])
+        res.redirect('/login')
+    }
+    
+})
+
 website.post('/contact_save',async(req,res)=>{
     var {Customer_name,Customer_email,Customer_subject,Customer_message} = req.body
     var contact = 'insert into users_contact_message (Customer_name,Customer_email,Customer_subject,Customer_message,Message_status) values(?,?,?,?,?)'
