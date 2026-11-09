@@ -1,4 +1,6 @@
 <%-include('header.ejs')%>
+<div class="table-responsive">
+
 <table class="admin-table">
     <thead>
         <tr>
@@ -30,19 +32,21 @@
                 <td><%= admin.Admin_password %></td>
                 <td>
                     <span class="role-badge <%= admin.Admin_role === 'Owner' ? 'owner' : 'admin' %>">
-                        <%= admin.Admin_role %>
+                        Employee
                     </span>
                 </td>
 
                 <td>
                     <a href="/admin/create_owner/<%= admin.Aid %>" style="background-color:green;" class="edit-btn">
-                        Owner
+                      Create Owner
                     </a>
-                    <a href="/admin/delete_admin/<%= admin.Aid %>/<%= admin.Admin_photo %>" class="delete-btn">Delete</a>
+                    <a href="/admin/delete_admin/<%= admin.Aid %>/<%= admin.Admin_photo %>" class="delete-btn">Delete Owner</a>
                 </td>
             </tr>
         <% }) %>
     </tbody>
 </table>
+
+</div>
 <%-include('footer.ejs')%>
 

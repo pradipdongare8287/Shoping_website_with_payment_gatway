@@ -195,7 +195,7 @@
         <div class="dropdown-content" id="settingsMenu">
             <a href="/admin/profile">My Profile</a>
             <% if(Owner=='Owner'){ %>
-            <a href="/admin/check_admin_user">Check All Admin users</a>
+            <a href="/admin/check_admin_user">Check All Employee users</a>
             <a href="/admin/check_Owner">Check All Owner </a>
 
             <% } else { %>
@@ -235,13 +235,19 @@
         <div class="welcome-text">
             <% if(Owner=='Owner'){ %>
                 
-                <h2 style="background-color:#0c8a7e;padding:7px;border-radius:25px;">Welcome Back <%=user_name%> Owner 👋</h2>
+                <h2 style="background-color:#f10890;padding:7px;border-radius:25px;">Welcome Back <%=user_name%> ( Owner ) 👋</h2>
 
             <% } else { %>
-                <h2>Welcome Back <%=user_name%> 👋</h2>
+                <h2 style="background-color:#d8ee12;padding:7px;border-radius:25px;">Welcome Back <%=user_name%> ( Employee ) 👋</h2>
             <% } %>
             
-            <p>Here is your dashboard overview</p>
+            
+            <% if (Owner=='Owner'){ %>
+                <p style="color:rgb(240, 118, 5);"><%=user_name%> Here is All Panel overview</p>
+            <% } else { %>
+                <p>Here is your dashboard overview</p>
+                <% } %>
+
         </div>
 
         <div class="header-user">
@@ -255,7 +261,7 @@
         <img src="/images/<%=user_Photo%>" alt="User Photo" onclick="toggleLogout()">
 
         <div id="logoutMenu" class="logout-menu">
-            <a href="/admin/logout" style="">
+            <a href="/admin/logout" style="" title="Logout" onclick="return confirm('Are You Sure Log Out Mr/Ms <%=user_name%>')">
                 <i style="color:red;background-color:rgba(245, 9, 9,0.5);padding:10px;border-radius:50%;" class="fa-solid fa-right-from-bracket"></i></a>
         </div>
     </div>

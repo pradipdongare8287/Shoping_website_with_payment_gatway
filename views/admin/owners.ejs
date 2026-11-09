@@ -1,5 +1,6 @@
 <%-include('header.ejs')%>
-<table class="admin-table">
+<div class="table-responsive">
+    <table class="admin-table">
     <thead>
         <tr>
             <th>Sr.No</th>
@@ -35,14 +36,15 @@
                 </td>
 
                 <td>
-                    <a href="/admin/create_admin/<%= admin.Aid %>" style="background-color:rgb(231, 20, 150);" class="edit-btn">
-                        Admin
+                    <a href="/admin/create_admin/<%= admin.Aid %>" style="background-color:rgb(233, 131, 16);" class="edit-btn">
+                        Create Employee
                     </a>
-                    <a href="/admin/delete_admin/<%= admin.Aid %>/<%= admin.Admin_photo %>" class="delete-btn">Delete</a>
+                    <a href="/admin/delete_admin/<%= admin.Aid %>/<%= admin.Admin_photo %>" class="delete-btn">Delete Owner</a>
                 </td>
             </tr>
         <% }) %>
     </tbody>
 </table>
+</div>
 <%-include('footer.ejs')%>
 
