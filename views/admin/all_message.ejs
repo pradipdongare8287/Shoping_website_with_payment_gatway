@@ -54,26 +54,34 @@
                     </td>
 
                     <td>
-                        <span class="message-status">
+                        
                             <% if( pending[i].Message_status =='Pending') {%>
-                                <span style="color:red;">
-                                    <%= pending[i].Message_status %>
-                                </span>
+                                <span class="message-status" style="background-color:rgba(255, 0, 0,0.3);" >
+                                    <span  style="color:red;" >
+                                        <%= pending[i].Message_status %>
+                                    </span>
+                                 </span>
                             <% } else if(pending[i].Message_status =='Accept') { %>
-                                <span style="color:orange;">
-                                    <%= pending[i].Message_status %>
+                                <span class="message-status" style="background-color:rgba(255, 166, 0, 0.3);" >
+                                    <span style="color:orange;">
+                                        <%= pending[i].Message_status %>
+                                    </span>
                                 </span>
                             <% } else if(pending[i].Message_status =='Confirm'){ %>
-                                <span style="color:rgb(0,214,0);">
-                                    <%= pending[i].Message_status %>
+                                <span class="message-status" style="background-color:rgba(0,214,0,0.3);" >
+                                    <span style="color:rgb(0,214,0);">
+                                        <%= pending[i].Message_status %>
+                                    </span>
                                 </span>
                                 <% } else if(pending[i].Message_status =='Reject') {%>
-                                <span style="color:rgba(173, 8, 8, 0.658);">
-                                    <%= pending[i].Message_status %>
+                                <span class="message-status" style="background-color:rgba(173, 8, 8, 0.3);" >
+                                    <span style="color:rgba(173, 8, 8, 0.658);">
+                                        <%= pending[i].Message_status %>
+                                    </span>
                                 </span>
                                 <% } %>
 
-                        </span>
+                      
                     </td>
 
                     <td>
