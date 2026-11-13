@@ -23,6 +23,29 @@ website.use(session({
     saveUninitialized: false
 }));
 
+// ====================Check Use login ===================================
+
+function Check_User_Login(req, res, next) {
+
+    var token = req.cookies.User;
+
+    if (!token) {
+        return res.redirect('/login?message=login_first');
+    }
+
+    try {
+        var verify_user = jwt.verify(token, key);
+
+        req.user = verify_user;
+
+        next();
+
+    } catch (error) {
+        res.clearCookie('User');
+        return res.redirect('/login?message=login_first');
+    }
+}
+
 // ================= JWT COOKIE MIDDLEWARE =================
 
 website.use((req, res, next) => {
@@ -97,7 +120,7 @@ website.post('/login_check', async (req, res) => {
 });
 // ================= TRENDING PRODUCT PAYMENT =================
 
-website.get('/trending_product_payemnt/:id', async (req, res) => {
+website.get('/trending_product_payemnt/:id',Check_User_Login, async (req, res) => {
 
     var id = req.params.id;
 
@@ -114,7 +137,8 @@ website.get('/trending_product_payemnt/:id', async (req, res) => {
             Product_New_price: product[0].TProduct_new_price
         },
         product_id: product[0].tpid,
-        product_name: product[0].TProduct_name
+        product_name: product[0].TProduct_name,
+        product_img : product[0].TProduct_image
     });
 
 });
@@ -136,7 +160,7 @@ website.get('/all_products', async (req, res) => {
 
 
 // ================= ALL PRODUCT PAYMENT =================
-website.get('/all_product_payment/:id', async (req, res) => {
+website.get('/all_product_payment/:id',Check_User_Login, async (req, res) => {
 
     var id = req.params.id;
 
@@ -144,7 +168,12 @@ website.get('/all_product_payment/:id', async (req, res) => {
 
     var product = await query(all_proudct, [id]);
 
-    res.render('website/payment_page.ejs', { payment_amt: {Product_New_price: product[0].Product_New_price },product_id: product[0].Pid, product_name: product[0].Product_name});
+    res.render('website/payment_page.ejs', { payment_amt: {Product_New_price: product[0].Product_New_price },
+        product_id: product[0].Pid,
+         product_name: product[0].Product_name,
+         product_img:product[0].Product_img
+
+        });
 
 });
 
@@ -166,21 +195,26 @@ website.get('/fashion', async (req, res) => {
 
 // ================= FASHION PAYMENT =================
 
-website.get('/fashion_product_paymnet/:id', async (req, res) => {
+website.get('/fashion_product_paymnet/:id', Check_User_Login,async (req, res) => {
 
     var id = req.params.id;
 
-    var purchase_product = `
-        select fashion_product_new_price as Product_New_price
-        from fashion_product
-        where fid = ?
+        var purchase_product = `
+        SELECT *,
+        fashion_product_new_price AS Product_New_price
+        FROM fashion_product
+        WHERE fid = ?
     `;
 
     var product = await query(purchase_product, [id]);
 
-    res.render('website/payment_page.ejs', {
-        payment_amt: product[0]
+    res.render('website/payment_page.ejs', { payment_amt:{Product_New_price: product[0].fashion_product_new_price },
+        product_id: product[0].fid, 
+        product_name: product[0].fashion_product_name,
+        product_img:product[0].fashion_product_img
+
     });
+
 
 });
 
@@ -194,7 +228,7 @@ website.get('/electronics', async (req, res) => {
     var all_products = await query(products);
 
     res.render('website/electronics.ejs', {
-        all_products: all_products
+        all_products: all_products    
     });
 
 });
@@ -202,21 +236,27 @@ website.get('/electronics', async (req, res) => {
 
 // ================= ELECTRONICS PAYMENT =================
 
-website.get('/Pyment_electnocis_product/:id', async (req, res) => {
+website.get('/Pyment_electnocis_product/:id',Check_User_Login, async (req, res) => {
 
     var id = req.params.id;
 
-    var select_purchase_product = `
-        select Eproduct_new_price as Product_New_price
-        from electronics_products
-        where Eid = ?
+  
+     var select_purchase_product = `
+        SELECT *,
+        Eproduct_new_price AS Product_New_price
+        FROM electronics_products
+        WHERE Eid = ?
     `;
 
-    var payment_amt = await query(select_purchase_product, [id]);
+    var product = await query(select_purchase_product, [id]);
 
-    res.render('website/payment_page.ejs', {
-        payment_amt: payment_amt[0]
+     res.render('website/payment_page.ejs', { payment_amt:{Product_New_price: product[0].Eproduct_new_price },
+        product_id: product[0].Eid, 
+        product_name: product[0].Eproduct_name,
+        product_img:product[0].Eprodcut_img
+
     });
+    
 
 });
 
@@ -235,28 +275,82 @@ website.get('/beauty', async (req, res) => {
 
 });
 
-
+ 
 // ================= BEAUTY PAYMENT =================
 
-website.get('/payment_beauyt_product/:id', async (req, res) => {
+website.get('/payment_beauyt_product/:id',Check_User_Login, async (req, res) => {
 
     var id = req.params.id;
 
-    var select_product = `
-        select product_new_price as Product_New_price
-        from beauty_product
-        where pid = ?
+     var select_product = `
+        SELECT *,
+        product_new_price AS Product_New_price
+        FROM beauty_product
+        WHERE pid = ?
     `;
 
-    var payment_amt = await query(select_product, [id]);
+    var product = await query(select_product, [id]);
+        res.render('website/payment_page.ejs', { payment_amt:{Product_New_price: product[0].product_new_price },
+        product_id: product[0].pid, 
+        product_name: product[0].product_name,
+        product_img:product[0].Prdouct_image
 
-    res.render('website/payment_page.ejs', {
-        payment_amt: payment_amt[0]
     });
+
 
 });
 
 // ================= Save Order =================
+
+// website.post('/save_order', async (req, res) => {
+
+//     if (!req.user) {
+//         return res.status(401).json({
+//             success: false,
+//             message: 'Please login first'
+//         });
+//     }
+
+//     var {
+//         product_id,
+//         product_name,
+//         product_price,
+//         payment_id
+//     } = req.body;
+
+//     var save_order = `
+//         INSERT INTO orders
+//         (
+//             Uid,
+//             Product_id,
+//             Product_name,
+//             Product_price,
+//             Product_qty,
+//             Payment_id,
+//             // Order_date,
+//             Order_status,
+//             Payment_status
+//         )
+//         VALUES (?, ?, ?, ?, 1, ?, 'Placed', 'Paid')
+//     `;
+//     let now = new Date();
+
+//     let Order_date = now.toLocaleString('en-IN');
+
+//     await query(save_order, [
+//         req.user.uid,
+//         product_id,
+//         product_name,
+//         product_price,
+//         payment_id,
+//         // Order_date
+//     ]);
+
+//     res.json({
+//         success: true
+//     });
+
+// });
 
 website.post('/save_order', async (req, res) => {
 
@@ -271,7 +365,8 @@ website.post('/save_order', async (req, res) => {
         product_id,
         product_name,
         product_price,
-        payment_id
+        payment_id,
+        product_img
     } = req.body;
 
     var save_order = `
@@ -283,27 +378,39 @@ website.post('/save_order', async (req, res) => {
             Product_price,
             Product_qty,
             Payment_id,
+            Order_date,
             Order_status,
-            Payment_status
+            Payment_status,
+            Product_image
         )
-        VALUES (?, ?, ?, ?, 1, ?, 'Placed', 'Paid')
+        VALUES (?, ?, ?, ?, 1, ?, ?, 'Booked', 'Paid',?)
     `;
+
+  let now = new Date();
+
+let Order_date = now.getFullYear() + "-" +
+    String(now.getMonth() + 1).padStart(2, '0') + "-" +
+    String(now.getDate()).padStart(2, '0') + " " +
+    String(now.getHours()).padStart(2, '0') + ":" +
+    String(now.getMinutes()).padStart(2, '0') + ":" +
+    String(now.getSeconds()).padStart(2, '0');
 
     await query(save_order, [
         req.user.uid,
         product_id,
         product_name,
         product_price,
-        payment_id
+        payment_id,
+        Order_date,
+        product_img
     ]);
-
+    console.log(product_img)
     res.json({
         success: true
     });
 
+    
 });
-
-
 
 
 // ================= HOME AND LIVING =================
@@ -341,12 +448,16 @@ website.get('/account', async (req, res) => {
     var getuser = 'SELECT * FROM users WHERE Uid = ?';
     var user = await query(getuser, [user_id]);
 
+    var total_orders = `SELECT COUNT(*) AS Total_Orders FROM orders WHERE Uid = ?;`
+    var all_orders = await query(total_orders,[user_id])
+
     var getorders = 'SELECT * FROM orders WHERE Uid = ? ORDER BY Order_date DESC';
     var orders = await query(getorders, [user_id]);
 
     res.render('website/account.ejs', {
         user: user[0],
-        orders: orders
+        orders: orders,
+        all_orders:all_orders[0]
     });
 
 });

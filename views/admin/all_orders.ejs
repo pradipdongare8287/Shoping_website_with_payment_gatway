@@ -1,94 +1,126 @@
 <%-include('header.ejs')%>
 
+
 <div class="orders-container">
 
-    <div class="orders-header">
-        <div>
-            <h2>All Orders</h2>
-            <p>Track and manage all customer orders</p>
-        </div>
-
-        <div class="orders-count">
-            <i class="fa-solid fa-box"></i>
-            All Orders
-        </div>
-    </div>
+    <h2 class="orders-title">All Customer Orders</h2>
 
     <div class="orders-table-wrapper">
+
         <table class="orders-table">
 
             <thead>
                 <tr>
-                    <th>Sr.No</th>
-                    <th>Order ID</th>
-                    <th>Quantity</th>
+                    <th>Sr.no</th>
+                    <th>Product Image</th>
+                    <th>Customer Name</th>
+                    <th>Customer Mobile</th>
+                    <th>Product Name</th>
+                    <th>Product QTY</th>
+                    <th>Product Price</th>
                     <th>Order Date</th>
-                    <th>Prodcut Price</th>
-                    <th>Payment Status</th>
+                    <th>Address</th>
                     <th>Order Status</th>
+                    <th>Payment Status</th>
+                    <th>Payment ID</th>
                     <th>Action</th>
                 </tr>
             </thead>
 
             <tbody>
-                <% for(var i = 0; i < orders.length; i++) { %>
-                <tr>
 
-                    <td><%= i + 1 %></td>
+                <% orders.forEach((order,index) => { %>
 
-                    <td class="order-id">
-                        #<%= orders[i].Order_id %>
-                    </td>
-                    
-                    <td><%= orders[i].Product_qty %></td>
-
-                    <td class="order-amount">
-                        <%= orders[i].Order_date %>
-                    </td>
-                    <td>
-                        <span class="payment-status paid">
-                            +<%= orders[i].Product_price %>
-                        </span>
-                    </td>
-
-                    <td>
-                        <span class="payment-status paid">
-                            <%= orders[i].Payment_status %>
-                        </span>
-                    </td>
-
-                    <td>
-                        <span class="order-status delivered">
-                            <%= orders[i].Order_status %>
-                        </span>
-                    </td>
-
-                    <td>
-                        <div class="order-action-buttons">
-
-                            <a href="/admin/view_order/<%= orders[i].Order_id %>"
-                               class="order-view-btn"
-                               title="View Order">
-                                <i class="fa-solid fa-eye"></i>
+                    <tr>
+                        <td><%= index+1 %></td>
+                        <td>
+                            <a href="images/<%= order.Product_image %>" target="_blank">
+                                <img style="height:100px;width:130px;" src="images/<%= order.Product_image %>"/>
                             </a>
+                        </td>
 
-                            <a href="/admin/delete_order/<%= orders[i].Order_id %>"
-                               class="order-delete-btn"
-                               title="Delete Order"
-                               onclick="return confirm('Are you sure you want to delete this order?')">
-                                <i class="fa-solid fa-trash"></i>
+                        <td><%= order.customer_name %></td>
+
+                        <td><%= order.customer_mobile %></td>
+
+                        <td><%= order.Product_name %></td>
+
+                        <td><%= order.Product_qty %></td>
+
+
+                        <td><span style="background-color:rgba(21, 207, 21,0.3);padding:4px;border-radius:20px;color:green;">
+                            ₹ <%= order.Product_price %>
+                        </span></td>
+
+                        <td>
+                            <%= new Date(String(order.Order_date).replace(' ', 'T')).toLocaleString('en-IN', {
+                                day: '2-digit',
+                                month: '2-digit',
+                                year: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit',
+                                second: '2-digit',
+                                hour12: true,
+                                timeZone: 'Asia/Kolkata'
+                            }) %>
+                        </td>
+
+                        <td><%= order.customer_address %></td>
+
+                        <td>
+                            
+                            <% if(order.Order_status=='Confirm'){ %>
+                                <span class="order-status" style="background-color:rgb(253, 174, 27);color:white;">
+                                <%= order.Order_status %>
+                            </span>
+                            <% } else if(order.Order_status=='Order Dispatched'){ %>
+                                <span class="order-status" style="background-color:green;color:white;">
+                                <%= order.Order_status %>
+                            </span>
+                            <% }else if(order.Order_status=='Booked') { %>
+                                <span class="order-status" style="background-color:rgb(235, 57, 12);color:white;">
+                                <%= order.Order_status %>
+                            </span>
+                                <% } %>
+                        </td>
+
+                        <td style="color:rgb(11, 219, 11);"><%= order.Payment_status %></td>
+
+                        <td><%= order.Payment_id %></td>
+
+                        <td>
+                            <a href="/admin/delete_order/<%= order.Order_id %>">
+                                <i title="Delete order" style="font-size:17px;color:red;" class="fa fa-trash"></i>
+                                
+                            </a><br>
+                              <% if(order.Order_status=="Booked"){ %>
+                                <a href="/admin/confirm_order/<%= order.Order_id %>">
+                                    <button title="Confirm Order" style="background-color:orange;padding:5px;margin:3px;font-size:15px;border:2px solid rgb(243, 131, 4);">
+                                        Confirm Order
+                                    </button>        
+                            </a
+                            <% } else if(order.Order_status=="Confirm") {%>
+                                <a href="/admin/dispatched_order/<%= order.Order_id %>">
+                            <button title="Dispatched Order" style="background-color:rgba(25, 197, 53, 0.822);padding:5px;margin:3px;font-size:15px;border:2px solid green;">
+                                Order Dispatched
+                            </button>        
                             </a>
+                            <% }else {%>
 
-                        </div>
-                    </td>
+                            <% } %>
+                        </td>
 
-                </tr>
-                <% } %>
+                    </tr>
+
+                <% }) %>
+
             </tbody>
 
         </table>
+
     </div>
 
 </div>
+
 
 <%-include('footer.ejs')%>

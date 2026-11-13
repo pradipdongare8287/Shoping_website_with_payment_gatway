@@ -374,9 +374,23 @@ admin.get('/delete_category_product/:id/:img',async(req,res)=>{
 
 })
 admin.get('/all_orders',Login_check,async(req,res)=>{
-    var all_order = 'select * from orders'
-    var orders = await query(all_order)
+
+    var all_orders = `SELECT orders.*,users.user_name AS customer_name,
+                    users.user_address AS customer_address,
+                    users.user_mobile AS customer_mobile FROM orders
+                     INNER JOIN users ON orders.Uid = users.Uid;`
+
+    var orders = await query(all_orders)
+    console.log(orders)
     res.render('admin/all_orders.ejs',{orders:orders})
+})
+
+admin.get('/delete_order/:id',async(req,res)=>{
+    var id = req.params.id
+    var delete_order = 'delete from orders where Order_id = ?'
+    var dele = await query(delete_order,[id])
+    res.redirect(req.get('Referrer') || '/admin');
+
 })
 
 admin.get('/all_messages',async(req,res)=>{
@@ -540,7 +554,113 @@ admin.get('/create_admin/:id',async(req,res)=>{
     res.redirect(req.get('Referrer') || '/admin');
 })
 
+admin.get('/today_orders',Login_check,async(req,res)=>{
+    var today_order = ` SELECT
+        orders.Product_image AS Product_image,
+        users.user_name AS customer_name,
+        users.user_mobile AS customer_mobile,
+        orders.Product_name,
+        orders.Product_qty,
+        orders.Product_price,
+        orders.Order_date,
+        users.user_address AS customer_address,
+        orders.Order_status,
+        orders.Payment_status,
+        orders.Payment_id,
+        orders.Order_id
 
+    FROM orders
+
+    INNER JOIN users
+    ON orders.Uid = users.Uid
+
+    WHERE DATE(orders.Order_date) = CURDATE()
+
+    ORDER BY orders.Order_date DESC`
+
+    var orders = await query(today_order)
+     
+    // console.log(orders)
+    res.render('admin/today_orders.ejs',{today_all_orders:orders})
+})
+
+
+
+admin.get('/confirm_order',Login_check,async(req,res)=>{
+    var confirm_order = ` SELECT
+        orders.Product_image AS Product_image,
+        users.user_name AS customer_name,
+        users.user_mobile AS customer_mobile,
+        orders.Product_name,
+        orders.Product_qty,
+        orders.Product_price,
+        orders.Order_date,
+        users.user_address AS customer_address,
+        orders.Order_status,
+        orders.Payment_status,
+        orders.Payment_id,
+        orders.Order_id
+
+    FROM orders
+
+    INNER JOIN users
+    ON orders.Uid = users.Uid
+
+    WHERE DATE(orders.Order_date) = CURDATE() and Order_status = 'Confirm'
+
+    ORDER BY orders.Order_date DESC`
+
+    var orders = await query(confirm_order)
+     
+    console.log(orders)
+    res.render('admin/confirm_orders.ejs',{today_all_confirm_orders:orders})
+})
+
+admin.get('/confirm_order/:id',async(req,res)=>{
+    var id = req.params.id
+    var update_order_status = 'update orders set Order_status="Confirm" where Order_id=?'
+    var update = await query(update_order_status,[id])
+    res.redirect(req.get('Referrer') || '/admin');
+    
+})
+
+admin.get('/dispatched_order/:id',async(req,res)=>{
+    var id = req.params.id
+    var update_order_status = 'update orders set Order_status="Order Dispatched" where Order_id=?'
+    var update = await query(update_order_status,[id])
+    res.redirect(req.get('Referrer') || '/admin');
+})
+
+admin.get('/dispatched_order',Login_check,async(req,res)=>{
+      var dispatched_order = ` SELECT
+        orders.Product_image AS Product_image,
+        users.user_name AS customer_name,
+        users.user_mobile AS customer_mobile,
+        orders.Product_name,
+        orders.Product_qty,
+        orders.Product_price,
+        orders.Order_date,
+        users.user_address AS customer_address,
+        orders.Order_status,
+        orders.Payment_status,
+        orders.Payment_id,
+        orders.Order_id
+
+    FROM orders
+
+    INNER JOIN users
+    ON orders.Uid = users.Uid
+
+    WHERE DATE(orders.Order_date) = CURDATE() and Order_status = 'Order Dispatched'
+
+    ORDER BY orders.Order_date DESC`
+
+    var orders = await query(dispatched_order)
+     
+    // console.log(orders)
+    res.render('admin/dispatched_orders.ejs',{today_dispatched_order:orders})
+
+})
 
 
 

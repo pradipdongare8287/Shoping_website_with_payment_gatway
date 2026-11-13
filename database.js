@@ -8,6 +8,13 @@ var database = mysql.createConnection({
     database:'bh1yu1sdpuf8dqrdl9tq'
 })
 
+// var database = mysql.createConnection({
+//     host:'localhost',
+//     user:'root',
+//     password:'root',
+//     database:'shoping_website'
+// })
+
 var query = util.promisify(database.query).bind(database)
 
 module.exports = query

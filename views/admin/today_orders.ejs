@@ -1,0 +1,217 @@
+<%-include('header.ejs')%>
+<div class="orders-container">
+
+    <!-- Page Header -->
+    <div class="page-header">
+
+        <div>
+            <span class="header-tag">ADMIN DASHBOARD</span>
+            <h1>Today's Orders</h1>
+            <p>Manage and monitor all orders received today.</p>
+        </div>
+
+        <div class="order-count">
+            <span>Total Orders Today</span>
+            <h2><%=today_all_orders.length %></h2>
+        </div>
+
+    </div>
+
+
+    <!-- Orders Table -->
+    <div class="table-card">
+
+        <div class="table-heading">
+            <div>
+                <h2>Recent Orders</h2>
+                <p>All customer orders placed today</p>
+            </div>
+
+            <span class="live-badge">
+                <span class="live-dot"></span>
+                Today's Orders
+            </span>
+        </div>
+
+
+        <div class="table-responsive">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>PRODUCT</th>
+                        <th>CUSTOMER</th>
+                        <th>PRODUCT NAME</th>
+                        <th>QTY</th>
+                        <th>PRICE</th>
+                        <th>ORDER DATE</th>
+                        <th>ADDRESS</th>
+                        <th>ORDER STATUS</th>
+                        <th>PAYMENT</th>
+                        <th>PAYMENT ID</th>
+                        <th>Action</th>
+
+                    </tr>
+                </thead>
+
+            <tbody>
+
+                    <% if (today_all_orders.length > 0) { %>
+
+                        <% today_all_orders.forEach((order,index) => { %>
+
+                            <tr>
+
+                                <!-- Product Image -->
+                                <td>
+                                    <div class="product-image">
+                                        <img src="images/<%= order.Product_image %>"
+                                             alt="Product">
+                                    </div>
+                                </td>
+
+
+                                <!-- Customer -->
+                                <td>
+                                    <div class="customer-info">
+                                        <strong><%= order.customer_name %></strong>
+                                        <small><%= order.customer_mobile %></small>
+                                    </div>
+                                </td>
+
+
+                                <!-- Product Name -->
+                                <td>
+                                    <span class="product-name">
+                                        <%= order.Product_name %>
+                                    </span>
+                                </td>
+
+
+                                <!-- Quantity -->
+                                <td>
+                                    <span class="qty-badge">
+                                        <%= order.Product_qty %>
+                                    </span>
+                                </td>
+
+
+                                <!-- Price -->
+                                <td>
+                                    <strong class="price">
+                                        ₹<%= order.Product_price %>
+                                    </strong>
+                                </td>
+
+
+                                <!-- Date -->
+                                <td>
+                                    <span class="date-text">
+                                        <%= new Date(String(order.Order_date).replace(' ', 'T')).toLocaleString('en-IN', {
+                                            day: '2-digit',
+                                            month: 'short',
+                                            year: 'numeric',
+                                            hour: '2-digit',
+                                            minute: '2-digit',
+                                            hour12: true,
+                                            timeZone: 'Asia/Kolkata'
+                                        }) %>
+                                    </span>
+                                </td>
+
+
+                                <!-- Address -->
+                                <td>
+                                    <div class="address-text">
+                                        <%= order.customer_address %>
+                                    </div>
+                                </td>
+
+
+                                <!-- Order Status -->
+                                <td>
+                                    <span class="status-badge
+                                        <%= order.Order_status === 'Placed' ? 'placed' :
+                                            order.Order_status === 'Delivered' ? 'delivered' :
+                                            order.Order_status === 'Cancelled' ? 'cancelled' : 'processing' %>">
+
+                                        <%= order.Order_status %>
+
+                                    </span>
+                                </td>
+
+
+                                <!-- Payment Status -->
+                                <td>
+                                    <span class="payment-badge
+                                        <%= order.Payment_status === 'Paid' ? 'paid' : 'unpaid' %>">
+
+                                        <%= order.Payment_status %>
+
+                                    </span>
+                                </td>
+
+
+                                <!-- Payment ID -->
+                                <td>
+                                    <span class="payment-id">
+                                        <%= order.Payment_id %>
+                                    </span>
+                                </td>
+                                <td>
+                            <a href="/admin/delete_order/<%= order.Order_id %>">
+                                
+                                <i title="Delete order" style="font-size:17px;color:red;" class="fa fa-trash"></i>
+                                
+                            </a>
+
+                            <% if(order.Order_status=="Booked"){ %>
+                                <a href="/admin/confirm_order/<%= order.Order_id %>">
+                                    <button title="Confirm Order" style="background-color:orange;padding:5px;margin:3px;font-size:15px;border:2px solid rgb(243, 131, 4);">
+                                        Confirm Order
+                                    </button>        
+                            </a
+                            <% } else if(order.Order_status=="Confirm") {%>
+                                <a href="/admin/dispatched_order/<%= order.Order_id %>">
+                            <button title="Dispatched Order" style="background-color:rgba(25, 197, 53, 0.822);padding:5px;margin:3px;font-size:15px;border:2px solid green;">
+                                Order Dispatched
+                            </button>        
+                            </a>
+                            <% }else {%>
+
+                            <% } %>
+                     
+                            
+                        </td>
+
+                            </tr>
+
+                        <% }) %>
+
+                    <% } else { %>
+
+                        <tr>
+                            <td colspan="10" class="empty-orders">
+                                <div class="empty-icon">📦</div>
+                                <h3>No Orders Today!</h3>
+                                <p>New orders will appear here.</p>
+                            </td>
+                        </tr>
+
+                    <% } %>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <div class="table-footer">
+            Showing <strong>10</strong> orders for today.
+        </div>
+
+    </div>
+
+</div>
+<%-include('footer.ejs')%>

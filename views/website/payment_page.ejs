@@ -35,14 +35,16 @@ var options = {
             payment_id: response.razorpay_payment_id,
             product_id: "<%= product_id %>",
             product_name: "<%= product_name %>",
-            product_price: <%= payment_amt.Product_New_price %>
+            product_price: <%= payment_amt.Product_New_price %>,
+            product_img: "<%= product_img %>",
+
         })
     });
 
     var data = await result.json();
 
     if (data.success) {
-        window.location.href = "/account";
+        window.location.href = '/account';
     } else {
         alert(data.message);
     }

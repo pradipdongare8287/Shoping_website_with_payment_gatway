@@ -1,0 +1,189 @@
+
+/* Universal CSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body */
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 25px 15px;
+}
+
+/* Registration Container */
+.registration-container {
+    width: 100%;
+    max-width: 460px;
+    padding: 35px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 35px rgba(0,0,0,0.2);
+}
+
+/* Heading */
+.registration-container h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 28px;
+    font-size: 27px;
+    font-weight: bold;
+}
+
+/* Labels */
+.registration-container label {
+    display: block;
+    font-weight: bold;
+    color: #333;
+    font-size: 14px;
+    margin-bottom: 7px;
+}
+
+/* Input, Textarea, Select */
+.registration-container input,
+.registration-container textarea,
+.registration-container select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 18px;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+    outline: none;
+    background: #fff;
+    transition: 0.3s ease;
+}
+
+/* Focus Effect */
+.registration-container input:focus,
+.registration-container textarea:focus,
+.registration-container select:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 7px rgba(102,126,234,0.3);
+}
+
+/* Textarea */
+.registration-container textarea {
+    resize: vertical;
+    min-height: 85px;
+}
+
+/* Warning Message */
+.warning-message {
+    display: inline-block;
+    background-color: rgba(255, 0, 0, 0.12);
+    padding: 8px 12px;
+    border-radius: 20px;
+    color: red;
+    font-size: 12px;
+    margin-top: -8px;
+    margin-bottom: 5px;
+}
+
+/* Common Button */
+.registration-container button {
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: 7px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+/* Register Button */
+.register-btn {
+    background: #667eea;
+    color: white;
+}
+
+.register-btn:hover {
+    background: #4d63d8;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(102,126,234,0.3);
+}
+
+/* Reset Button */
+.reset-btn {
+    margin-top: 12px;
+    background: #e74c3c;
+    color: white;
+}
+
+.reset-btn:hover {
+    background: #c0392b;
+    transform: translateY(-2px);
+}
+
+/* Tablet Responsive */
+@media (max-width: 768px) {
+
+    body {
+        padding: 20px;
+    }
+
+    .registration-container {
+        max-width: 500px;
+        padding: 30px;
+    }
+
+    .registration-container h2 {
+        font-size: 25px;
+    }
+}
+
+/* Mobile Responsive */
+@media (max-width: 480px) {
+
+    body {
+        padding: 15px 10px;
+        align-items: flex-start;
+    }
+
+    .registration-container {
+        width: 100%;
+        padding: 22px 18px;
+        border-radius: 12px;
+    }
+
+    .registration-container h2 {
+        font-size: 23px;
+        margin-bottom: 23px;
+    }
+
+    .registration-container label {
+        font-size: 13px;
+    }
+
+    .registration-container input,
+    .registration-container textarea,
+    .registration-container select {
+        padding: 12px 10px;
+        font-size: 14px;
+    }
+
+    .registration-container button {
+        padding: 12px;
+        font-size: 15px;
+    }
+}
+
+/* Small Mobile */
+@media (max-width: 320px) {
+
+    .registration-container {
+        padding: 18px 13px;
+    }
+
+    .registration-container h2 {
+        font-size: 21px;
+    }
+}

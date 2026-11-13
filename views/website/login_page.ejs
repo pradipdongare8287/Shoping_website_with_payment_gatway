@@ -11,7 +11,7 @@
 
     <div style="width:350px; margin:80px auto; padding:30px; background:white; border-radius:12px; box-shadow:0 5px 20px rgba(0,0,0,0.1);">
 
-        <h2 style="text-align:center; color:#2563eb; margin-bottom:25px;">
+        <h2 style="text-align:center; color:#c912a1; margin-bottom:25px;">
             User Login
         </h2>
 
@@ -43,7 +43,7 @@
 
             <button
                 type="submit"
-                style="width:100%; padding:12px; background:#2563eb; color:white; border:none; border-radius:6px; font-size:16px; cursor:pointer;"
+                style="width:100%; padding:12px; background:#b8058b; color:white; border:none; border-radius:6px; font-size:16px; cursor:pointer;"
             >
                 Login
             </button>
@@ -58,6 +58,19 @@
         </form>
 
     </div>
+    
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function () {
 
+    const params = new URLSearchParams(window.location.search);
+
+    if (params.get('message') === 'login_first') {
+
+        alert('Please Login First to Continue Payment!');
+
+    }
+
+});
+    </script>
 </body>
 </html>
