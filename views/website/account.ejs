@@ -111,10 +111,10 @@
                         <p>Your personal details</p>
                     </div>
 
-                    <a href="/edit-profile" class="edit-btn">
+                    <!-- <a href="/edit-profile" class="edit-btn">
                         <i class="fa-solid fa-pen"></i>
                         Edit Profile
-                    </a>
+                    </a> -->
                 </div>
 
                 <div class="profile-details">
@@ -127,6 +127,11 @@
                     <div class="detail-item">
                         <label>Email Address</label>
                         <h4><%=user.user_email%></h4>
+                    </div>
+
+                    <div class="detail-item">
+                        <label>Delivary Address</label>
+                        <h4><%=user.user_address%></h4>
                     </div>
 
                     <div class="detail-item">
@@ -168,6 +173,8 @@
             <h3><%= order.Product_name %></h3>
 
             <p>Price: ₹<%= order.Product_price %></p>
+            <p>Product Size: <%= order.Product_size %></p>
+
 
             <p>Quantity: <%= order.Product_qty %></p>
 

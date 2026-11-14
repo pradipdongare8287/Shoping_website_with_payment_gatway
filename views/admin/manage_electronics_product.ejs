@@ -4,8 +4,8 @@
     <!-- Table Header -->
     <div class="electronics-table-header">
         <div>
-            <h2>Manage Electronics Products</h2>
-            <p>View, edit and manage all electronics products</p>
+            <h2>Manage Jeans Products</h2>
+            <p>View,and manage all  Jeans products</p>
         </div>
 
         <a href="/admin/add_electronics_product"
@@ -37,7 +37,7 @@
                     <th>Status</th>
                     <th>Rating</th>
                     <th>Price</th>
-                    <th>Warranty</th>
+                    <!-- <th>Warranty</th> -->
                     <th>Action</th>
                 </tr>
             </thead>
@@ -81,17 +81,12 @@
                         </div>
                     </td>
 
-                    <td><%=E_prodcts[i].Eproduct_warranty%></td>
+                    <!-- <td><%=E_prodcts[i].Eproduct_warranty%></td> -->
 
                     <td>
                         <div class="electronics-action-buttons">
 
-                            <a href="/admin/edit_electronics_product/1"
-                               class="electronics-edit-btn"
-                               title="Edit">
-                                <i class="fa-solid fa-pen"></i>
-                            </a>
-
+                            
                             <a href="/admin/delete_electronics_product/<%=E_prodcts[i].Eid%>/<%=E_prodcts[i].Eprodcut_img%>"
                                class="electronics-delete-btn"
                                title="Delete"

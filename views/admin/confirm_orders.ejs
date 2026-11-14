@@ -40,7 +40,9 @@
 
                 <thead>
                     <tr>
+                        <th>Sr.No</th>
                         <th>PRODUCT</th>
+                        <th>PRODUCT SIZE</th>
                         <th>CUSTOMER</th>
                         <th>PRODUCT NAME</th>
                         <th>QTY</th>
@@ -62,6 +64,12 @@
                         <% today_all_confirm_orders.forEach((order,index) => { %>
 
                             <tr>
+                                <!-- Sr no  -->
+                                <td>
+                                    <span class="product-name">
+                                        <%= index+1 %>
+                                    </span>
+                                </td>
 
                                 <!-- Product Image -->
                                 <td>
@@ -71,6 +79,12 @@
                                     </div>
                                 </td>
 
+                                 <!-- Product Size -->
+                                <td>
+                                    <span class="product-name">
+                                        <%= order.Product_size %>
+                                    </span>
+                                </td>
 
                                 <!-- Customer -->
                                 <td>

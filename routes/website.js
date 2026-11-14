@@ -120,9 +120,46 @@ website.post('/login_check', async (req, res) => {
 });
 // ================= TRENDING PRODUCT PAYMENT =================
 
-website.get('/trending_product_payemnt/:id',Check_User_Login, async (req, res) => {
+// website.get('/trending_product_payemnt/:id',Check_User_Login, async (req, res) => {
+
+//     var id = req.params.id;
+
+//     var trending_product = `
+//         SELECT *
+//         FROM trending_products
+//         WHERE tpid = ?
+//     `;
+
+//     var product = await query(trending_product, [id]);
+
+//     res.render('website/payment_page.ejs', {
+//         payment_amt: {
+//             Product_New_price:product[0].TProduct_new_price
+//         },
+//         product_id: product[0].tpid,
+//         product_name: product[0].TProduct_name,
+//         product_img : product[0].TProduct_image
+//     });
+
+// });
+
+
+website.get('/trending_product_payemnt/:id', Check_User_Login, async (req, res) => {
 
     var id = req.params.id;
+
+    // URL madhun quantity ghe
+    var qty = Number(req.query.qty) || 1;
+
+    if (!Number.isInteger(qty) || qty < 1) {
+        return res.status(400).send('Invalid quantity');
+    }
+
+    var size = req.query.size;
+
+    if (!size) {
+        return res.status(400).send('Please select product size');
+    }
 
     var trending_product = `
         SELECT *
@@ -132,16 +169,28 @@ website.get('/trending_product_payemnt/:id',Check_User_Login, async (req, res) =
 
     var product = await query(trending_product, [id]);
 
+    if (!product || product.length === 0) {
+        return res.status(404).send('Product not found');
+    }
+
+    var price = Number(product[0].TProduct_new_price);
+    var total_amount = price * qty;
+
     res.render('website/payment_page.ejs', {
         payment_amt: {
-            Product_New_price: product[0].TProduct_new_price
+            Product_New_price: total_amount,
+            Product_name: product[0].TProduct_name
         },
         product_id: product[0].tpid,
         product_name: product[0].TProduct_name,
-        product_img : product[0].TProduct_image
+        product_img: product[0].TProduct_image,
+        qty: qty,
+        unit_price: price,
+        size: size
     });
 
 });
+
 
 
 // ================= ALL PRODUCTS =================
@@ -160,22 +209,71 @@ website.get('/all_products', async (req, res) => {
 
 
 // ================= ALL PRODUCT PAYMENT =================
-website.get('/all_product_payment/:id',Check_User_Login, async (req, res) => {
+// website.get('/all_product_payment/:id',Check_User_Login, async (req, res) => {
+
+//     var id = req.params.id;
+
+//     var all_proudct = 'select * from add_product where Pid = ?';
+
+//     var product = await query(all_proudct, [id]);
+
+//     res.render('website/payment_page.ejs', { payment_amt: {Product_New_price: product[0].Product_New_price },
+//         product_id: product[0].Pid,
+//          product_name: product[0].Product_name,
+//          product_img:product[0].Product_img
+
+//         });
+
+// });
+
+
+website.get('/all_product_payment/:id', Check_User_Login, async (req, res) => {
 
     var id = req.params.id;
+
+    // URL madhun quantity ghe
+    var qty = Number(req.query.qty) || 1;
+
+    if (!Number.isInteger(qty) || qty < 1) {
+        return res.status(400).send('Invalid quantity');
+    }
+
+    var size = req.query.size;
+
+    if (!size) {
+        return res.status(400).send('Please select product size');
+    }
 
     var all_proudct = 'select * from add_product where Pid = ?';
 
     var product = await query(all_proudct, [id]);
 
-    res.render('website/payment_page.ejs', { payment_amt: {Product_New_price: product[0].Product_New_price },
-        product_id: product[0].Pid,
-         product_name: product[0].Product_name,
-         product_img:product[0].Product_img
+    if (!product || product.length === 0) {
+        return res.status(404).send('Product not found');
+    }
 
-        });
+    var price = Number(product[0].Product_New_price);
+    var total_amount = price * qty;
+
+    res.render('website/payment_page.ejs', {
+
+        payment_amt: {
+            Product_New_price: total_amount,
+            Product_name: product[0].Product_name
+        },
+
+        product_id: product[0].Pid,
+        product_name: product[0].Product_name,
+        product_img: product[0].Product_img,
+
+        qty: qty,
+        unit_price: price,
+        size: size
+
+    });
 
 });
+
 
 
 // ================= FASHION =================
@@ -195,11 +293,48 @@ website.get('/fashion', async (req, res) => {
 
 // ================= FASHION PAYMENT =================
 
-website.get('/fashion_product_paymnet/:id', Check_User_Login,async (req, res) => {
+// website.get('/fashion_product_paymnet/:id', Check_User_Login,async (req, res) => {
+
+//     var id = req.params.id;
+
+//         var purchase_product = `
+//         SELECT *,
+//         fashion_product_new_price AS Product_New_price
+//         FROM fashion_product
+//         WHERE fid = ?
+//     `;
+
+//     var product = await query(purchase_product, [id]);
+
+//     res.render('website/payment_page.ejs', { payment_amt:{Product_New_price: product[0].fashion_product_new_price },
+//         product_id: product[0].fid, 
+//         product_name: product[0].fashion_product_name,
+//         product_img:product[0].fashion_product_img
+
+//     });
+
+
+// });
+
+
+website.get('/fashion_product_paymnet/:id', Check_User_Login, async (req, res) => {
 
     var id = req.params.id;
 
-        var purchase_product = `
+    // URL madhun quantity ghe
+    var qty = Number(req.query.qty) || 1;
+
+    if (!Number.isInteger(qty) || qty < 1) {
+        return res.status(400).send('Invalid quantity');
+    }
+
+    var size = req.query.size;
+
+    if (!size) {
+        return res.status(400).send('Please select product size');
+    }
+
+    var purchase_product = `
         SELECT *,
         fashion_product_new_price AS Product_New_price
         FROM fashion_product
@@ -208,15 +343,32 @@ website.get('/fashion_product_paymnet/:id', Check_User_Login,async (req, res) =>
 
     var product = await query(purchase_product, [id]);
 
-    res.render('website/payment_page.ejs', { payment_amt:{Product_New_price: product[0].fashion_product_new_price },
-        product_id: product[0].fid, 
+    if (!product || product.length === 0) {
+        return res.status(404).send('Product not found');
+    }
+
+    var price = Number(product[0].fashion_product_new_price);
+    var total_amount = price * qty;
+
+    res.render('website/payment_page.ejs', {
+
+        payment_amt: {
+            Product_New_price: total_amount,
+            Product_name: product[0].fashion_product_name
+        },
+
+        product_id: product[0].fid,
         product_name: product[0].fashion_product_name,
-        product_img:product[0].fashion_product_img
+        product_img: product[0].fashion_product_img,
+
+        qty: qty,
+        unit_price: price,
+        size:size
 
     });
 
-
 });
+
 
 
 // ================= ELECTRONICS =================
@@ -236,12 +388,49 @@ website.get('/electronics', async (req, res) => {
 
 // ================= ELECTRONICS PAYMENT =================
 
-website.get('/Pyment_electnocis_product/:id',Check_User_Login, async (req, res) => {
+// website.get('/Pyment_electnocis_product/:id',Check_User_Login, async (req, res) => {
+
+//     var id = req.params.id;
+
+  
+//      var select_purchase_product = `
+//         SELECT *,
+//         Eproduct_new_price AS Product_New_price
+//         FROM electronics_products
+//         WHERE Eid = ?
+//     `;
+
+//     var product = await query(select_purchase_product, [id]);
+
+//      res.render('website/payment_page.ejs', { payment_amt:{Product_New_price: product[0].Eproduct_new_price },
+//         product_id: product[0].Eid, 
+//         product_name: product[0].Eproduct_name,
+//         product_img:product[0].Eprodcut_img
+
+//     });
+    
+
+// });
+
+
+website.get('/Pyment_electnocis_product/:id', Check_User_Login, async (req, res) => {
 
     var id = req.params.id;
 
-  
-     var select_purchase_product = `
+    // URL madhun quantity ghe
+    var qty = Number(req.query.qty) || 1;
+
+    if (!Number.isInteger(qty) || qty < 1) {
+        return res.status(400).send('Invalid quantity');
+    }
+
+    var size = req.query.size;
+
+    if (!size) {
+        return res.status(400).send('Please select product size');
+    }
+
+    var select_purchase_product = `
         SELECT *,
         Eproduct_new_price AS Product_New_price
         FROM electronics_products
@@ -250,13 +439,29 @@ website.get('/Pyment_electnocis_product/:id',Check_User_Login, async (req, res) 
 
     var product = await query(select_purchase_product, [id]);
 
-     res.render('website/payment_page.ejs', { payment_amt:{Product_New_price: product[0].Eproduct_new_price },
-        product_id: product[0].Eid, 
+    if (!product || product.length === 0) {
+        return res.status(404).send('Product not found');
+    }
+
+    var price = Number(product[0].Eproduct_new_price);
+    var total_amount = price * qty;
+
+    res.render('website/payment_page.ejs', {
+
+        payment_amt: {
+            Product_New_price: total_amount,
+            Product_name: product[0].Eproduct_name
+        },
+
+        product_id: product[0].Eid,
         product_name: product[0].Eproduct_name,
-        product_img:product[0].Eprodcut_img
+        product_img: product[0].Eprodcut_img,
+
+        qty: qty,
+        unit_price: price,
+        size:size
 
     });
-    
 
 });
 
@@ -278,11 +483,47 @@ website.get('/beauty', async (req, res) => {
  
 // ================= BEAUTY PAYMENT =================
 
-website.get('/payment_beauyt_product/:id',Check_User_Login, async (req, res) => {
+// website.get('/payment_beauyt_product/:id',Check_User_Login, async (req, res) => {
+
+//     var id = req.params.id;
+
+//      var select_product = `
+//         SELECT *,
+//         product_new_price AS Product_New_price
+//         FROM beauty_product
+//         WHERE pid = ?
+//     `;
+
+//     var product = await query(select_product, [id]);
+//         res.render('website/payment_page.ejs', { payment_amt:{Product_New_price: product[0].product_new_price },
+//         product_id: product[0].pid, 
+//         product_name: product[0].product_name,
+//         product_img:product[0].Prdouct_image
+
+//     });
+
+
+// });
+
+
+website.get('/payment_beauyt_product/:id', Check_User_Login, async (req, res) => {
 
     var id = req.params.id;
 
-     var select_product = `
+    // URL madhun quantity ghe
+    var qty = Number(req.query.qty) || 1;
+
+    if (!Number.isInteger(qty) || qty < 1) {
+        return res.status(400).send('Invalid quantity');
+    }
+
+     var size = req.query.size;
+
+    if (!size) {
+        return res.status(400).send('Please select product size');
+    }
+
+    var select_product = `
         SELECT *,
         product_new_price AS Product_New_price
         FROM beauty_product
@@ -290,15 +531,33 @@ website.get('/payment_beauyt_product/:id',Check_User_Login, async (req, res) => 
     `;
 
     var product = await query(select_product, [id]);
-        res.render('website/payment_page.ejs', { payment_amt:{Product_New_price: product[0].product_new_price },
-        product_id: product[0].pid, 
+
+    if (!product || product.length === 0) {
+        return res.status(404).send('Product not found');
+    }
+
+    var price = Number(product[0].product_new_price);
+    var total_amount = price * qty;
+
+    res.render('website/payment_page.ejs', {
+
+        payment_amt: {
+            Product_New_price: total_amount,
+            Product_name: product[0].product_name
+        },
+
+        product_id: product[0].pid,
         product_name: product[0].product_name,
-        product_img:product[0].Prdouct_image
+        product_img: product[0].Prdouct_image,
+
+        qty: qty,
+        unit_price: price,
+        size:size
 
     });
 
-
 });
+
 
 // ================= Save Order =================
 
@@ -315,7 +574,8 @@ website.get('/payment_beauyt_product/:id',Check_User_Login, async (req, res) => 
 //         product_id,
 //         product_name,
 //         product_price,
-//         payment_id
+//         payment_id,
+//         product_img
 //     } = req.body;
 
 //     var save_order = `
@@ -327,15 +587,22 @@ website.get('/payment_beauyt_product/:id',Check_User_Login, async (req, res) => 
 //             Product_price,
 //             Product_qty,
 //             Payment_id,
-//             // Order_date,
+//             Order_date,
 //             Order_status,
-//             Payment_status
+//             Payment_status,
+//             Product_image
 //         )
-//         VALUES (?, ?, ?, ?, 1, ?, 'Placed', 'Paid')
+//         VALUES (?, ?, ?, ?, 1, ?, ?, 'Booked', 'Paid',?)
 //     `;
-//     let now = new Date();
 
-//     let Order_date = now.toLocaleString('en-IN');
+//   let now = new Date();
+
+// let Order_date = now.getFullYear() + "-" +
+//     String(now.getMonth() + 1).padStart(2, '0') + "-" +
+//     String(now.getDate()).padStart(2, '0') + " " +
+//     String(now.getHours()).padStart(2, '0') + ":" +
+//     String(now.getMinutes()).padStart(2, '0') + ":" +
+//     String(now.getSeconds()).padStart(2, '0');
 
 //     await query(save_order, [
 //         req.user.uid,
@@ -343,14 +610,17 @@ website.get('/payment_beauyt_product/:id',Check_User_Login, async (req, res) => 
 //         product_name,
 //         product_price,
 //         payment_id,
-//         // Order_date
+//         Order_date,
+//         product_img
 //     ]);
-
+//     console.log(product_img)
 //     res.json({
 //         success: true
 //     });
 
+    
 // });
+
 
 website.post('/save_order', async (req, res) => {
 
@@ -365,9 +635,20 @@ website.post('/save_order', async (req, res) => {
         product_id,
         product_name,
         product_price,
+        product_qty,
         payment_id,
-        product_img
+        product_img,
+        product_size
     } = req.body;
+
+    var qty = Number(product_qty);
+
+    if (!Number.isInteger(qty) || qty < 1) {
+        return res.status(400).json({
+            success: false,
+            message: 'Invalid quantity'
+        });
+    }
 
     var save_order = `
         INSERT INTO orders
@@ -381,35 +662,37 @@ website.post('/save_order', async (req, res) => {
             Order_date,
             Order_status,
             Payment_status,
-            Product_image
+            Product_image,
+            Product_size
         )
-        VALUES (?, ?, ?, ?, 1, ?, ?, 'Booked', 'Paid',?)
+        VALUES (?, ?, ?, ?, ?, ?, ?, 'Booked', 'Paid', ?,?)
     `;
 
-  let now = new Date();
+    let now = new Date();
 
-let Order_date = now.getFullYear() + "-" +
-    String(now.getMonth() + 1).padStart(2, '0') + "-" +
-    String(now.getDate()).padStart(2, '0') + " " +
-    String(now.getHours()).padStart(2, '0') + ":" +
-    String(now.getMinutes()).padStart(2, '0') + ":" +
-    String(now.getSeconds()).padStart(2, '0');
+    let Order_date = now.getFullYear() + "-" +
+        String(now.getMonth() + 1).padStart(2, '0') + "-" +
+        String(now.getDate()).padStart(2, '0') + " " +
+        String(now.getHours()).padStart(2, '0') + ":" +
+        String(now.getMinutes()).padStart(2, '0') + ":" +
+        String(now.getSeconds()).padStart(2, '0');
 
     await query(save_order, [
         req.user.uid,
         product_id,
         product_name,
         product_price,
+        qty,
         payment_id,
         Order_date,
-        product_img
+        product_img,
+        product_size
     ]);
-    console.log(product_img)
+
     res.json({
         success: true
     });
 
-    
 });
 
 
@@ -454,6 +737,7 @@ website.get('/account', async (req, res) => {
     var getorders = 'SELECT * FROM orders WHERE Uid = ? ORDER BY Order_date DESC';
     var orders = await query(getorders, [user_id]);
 
+    // console.log(orders)
     res.render('website/account.ejs', {
         user: user[0],
         orders: orders,

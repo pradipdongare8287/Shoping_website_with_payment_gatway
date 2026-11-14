@@ -4,8 +4,8 @@
 <div class="fashion-form-container">
 
     <div class="fashion-form-header">
-        <h2>Add Fashion Product</h2>
-        <p>Enter fashion product details below</p>
+        <h2>Add Shirts's Product</h2>
+        <p>Enter Shirt's product details below</p>
     </div>
 
     <form action="/admin/add_new_fashion_product" method="POST" enctype="multipart/form-data">
@@ -17,7 +17,7 @@
                 <label>Product Status</label>
                 <input type="text" name="fashion_product_status"
                        min="0" step="0.01"
-                       placeholder="Enter product Status" required>
+                       placeholder="Enter product Status" >
             </div>
 
             <!-- Product Image -->
@@ -31,9 +31,11 @@
                 <label>Product Category</label>
                 <select name="fashion_product_category" required>
                     <option value="">Select Category</option>
-                    <option value="Men">Men</option>
-                    <option value="Women">Women</option>
-                    <option value="Kids">Kids</option>
+                    <option value="Checks">Checks</option>
+                    <option value="Lining">Lining</option>
+                    <option value="Jens">Jens</option>
+                    <option value="Plain">Plain</option>
+
                 </select>
             </div>
 
@@ -49,14 +51,14 @@
                 <label>Product Rating</label>
                 <input type="number" name="fashion_product_rating"
                        min="0" max="5" step="0.1"
-                       placeholder="Example: 4.5" required>
+                       placeholder="Example: 4.5" >
             </div>
 
             <!-- Reviews -->
             <div class="fashion-form-group">
                 <label>Product Reviews</label>
                 <input type="number" name="fashion_product_reviews"
-                       min="0" placeholder="Enter review count" required>
+                       min="0" placeholder="Enter review count" >
             </div>
 
             <!-- New Price -->
@@ -78,8 +80,8 @@
         </div>
 
         <div class="fashion-form-buttons">
-            <button type="submit" class="fashion-submit-btn">
-                <i class="fa-solid fa-plus"></i> Add Fashion Product
+            <button type="submit" style="background-color:#202e48;" class="fashion-submit-btn">
+                <i class="fa-solid fa-plus"></i> Add New Shirt / Jens Product
             </button>
 
             <button type="reset" class="fashion-reset-btn">

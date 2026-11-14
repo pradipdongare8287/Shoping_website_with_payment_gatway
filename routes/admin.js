@@ -54,6 +54,9 @@ admin.get('/',Login_check,async(req,res)=>{
     var total_electronic_product = 'select count(*) as electronics_product from electronics_products '
     var total_beauty_product = 'select count(*) as beauty_product from beauty_product '
     var total_home_product = 'select count(*) as home_product from home_products '
+    var today_payment = `SELECT SUM(Product_price) AS Today_Total_Payment FROM orders WHERE DATE(STR_TO_DATE(Order_date, '%Y-%m-%d %H:%i:%s')) = CURDATE() AND Payment_status = 'Paid'`;
+    var total_income = `SELECT SUM(Product_price) AS Total_Income FROM orders WHERE Payment_status = 'Paid'
+`;
 
 
     var order_count = await query(total_order)
@@ -68,7 +71,10 @@ admin.get('/',Login_check,async(req,res)=>{
     var total_electronics_product  = await query(total_electronic_product)
     var total_beauty_product  = await query(total_beauty_product)
     var total_home_product  = await query(total_home_product)
+    var dayliy_payment = await query(today_payment)
+    var all_income = await query(total_income)
 
+    // console.log(total_letest_order)
 
     res.render('admin/dashbord.ejs',
         {order_count:order_count[0],
@@ -82,7 +88,9 @@ admin.get('/',Login_check,async(req,res)=>{
         total_fashion_product:total_fashion_product[0],
         total_electronics_product:total_electronics_product[0],
         total_beauty_product:total_beauty_product[0],
-        total_home_product:total_home_product[0]
+        total_home_product:total_home_product[0],
+        today_payment_count:dayliy_payment[0],
+        total_income:all_income[0]
     })
 
 })
@@ -245,14 +253,14 @@ admin.get('/add_electrounics_product',Login_check,(req,res)=>{
 })
 
 admin.post('/add_new_electronics_product',async(req,res)=>{
-    var {product_status,product_category,product_name,product_brand,product_rating,product_reviews,product_new_price,product_old_price,product_description,product_warranty}=req.body
+    var {product_status,product_category,product_name,product_brand,product_rating,product_reviews,product_new_price,product_old_price,product_description,}=req.body
     var img = Date.now()+req.files.product_img.name
     var imgsavelocation = path.join(__dirname,'../public/images/'+img)
     req.files.product_img.mv(imgsavelocation,(err)=>{})
 
-    var save_electronic_product = 'insert into electronics_products(Eproduct_status,Eproduct_category,Eproduct_name,Eproduct_brand,Eproduct_rating,Eproduct_reviews,Eproduct_new_price,Eproduct_old_price,Eproduct_warranty,Eproduct_description,Eprodcut_img) values(?,?,?,?,?,?,?,?,?,?,?)'
+    var save_electronic_product = 'insert into electronics_products(Eproduct_status,Eproduct_category,Eproduct_name,Eproduct_brand,Eproduct_rating,Eproduct_reviews,Eproduct_new_price,Eproduct_old_price,Eproduct_description,Eprodcut_img) values(?,?,?,?,?,?,?,?,?,?)'
     
-    var save_e_product = await query(save_electronic_product,[product_status,product_category,product_name,product_brand,product_rating,product_reviews,product_new_price,product_old_price,product_warranty,product_description,img])
+    var save_e_product = await query(save_electronic_product,[product_status,product_category,product_name,product_brand,product_rating,product_reviews,product_new_price,product_old_price,product_description,img])
     
     res.redirect('/admin/add_electrounics_product')
 })
@@ -281,13 +289,13 @@ admin.get('/add_beauty_product',Login_check,(req,res)=>{
 
 admin.post('/add_new_beauty_product',async(req,res)=>{
    
-    var {Product_Status,product_category,product_brand,product_rating,product_reviews,product_new_price,product_old_price,product_skin_type,product_quantity,product_description,product_name}=req.body
+    var {Product_Status,product_category,product_brand,product_rating,product_reviews,product_new_price,product_old_price,product_quantity,product_description,product_name}=req.body
     var img = Date.now()+req.files.product_img.name
     var save_img_location = path.join(__dirname,'../public/images/'+img)
     req.files.product_img.mv(save_img_location,(err)=>{})
 
-    var save_beauti_product = 'insert into beauty_product (product_name,product_brand,product_category,Product_Status,product_rating,product_reviews,product_new_price,product_old_price,product_skin_type,product_quantity,product_description,Prdouct_image) values(?,?,?,?,?,?,?,?,?,?,?,?)'
-    var save_query = await query(save_beauti_product,[product_name,product_brand,product_category,Product_Status,product_rating,product_reviews,product_new_price,product_old_price,product_skin_type,product_quantity,product_description,img])
+    var save_beauti_product = 'insert into beauty_product (product_name,product_brand,product_category,Product_Status,product_rating,product_reviews,product_new_price,product_old_price,product_quantity,product_description,Prdouct_image) values(?,?,?,?,?,?,?,?,?,?,?)'
+    var save_query = await query(save_beauti_product,[product_name,product_brand,product_category,Product_Status,product_rating,product_reviews,product_new_price,product_old_price,product_quantity,product_description,img])
     res.redirect('/admin/add_beauty_product')
 })
 
@@ -381,7 +389,7 @@ admin.get('/all_orders',Login_check,async(req,res)=>{
                      INNER JOIN users ON orders.Uid = users.Uid;`
 
     var orders = await query(all_orders)
-    console.log(orders)
+    // console.log(orders)
     res.render('admin/all_orders.ejs',{orders:orders})
 })
 
@@ -555,7 +563,8 @@ admin.get('/create_admin/:id',async(req,res)=>{
 })
 
 admin.get('/today_orders',Login_check,async(req,res)=>{
-    var today_order = ` SELECT
+  var today_order = `
+    SELECT
         orders.Product_image AS Product_image,
         users.user_name AS customer_name,
         users.user_mobile AS customer_mobile,
@@ -567,16 +576,22 @@ admin.get('/today_orders',Login_check,async(req,res)=>{
         orders.Order_status,
         orders.Payment_status,
         orders.Payment_id,
-        orders.Order_id
+        orders.Order_id,
+        orders.Product_size
+
 
     FROM orders
 
     INNER JOIN users
     ON orders.Uid = users.Uid
 
-    WHERE DATE(orders.Order_date) = CURDATE()
+    WHERE
+    STR_TO_DATE(orders.Order_date, '%Y-%m-%d %H:%i:%s') >= CURDATE()
+    AND
+    STR_TO_DATE(orders.Order_date, '%Y-%m-%d %H:%i:%s') < CURDATE() + INTERVAL 1 DAY
 
-    ORDER BY orders.Order_date DESC`
+    ORDER BY orders.Order_date DESC
+`;
 
     var orders = await query(today_order)
      
@@ -587,7 +602,8 @@ admin.get('/today_orders',Login_check,async(req,res)=>{
 
 
 admin.get('/confirm_order',Login_check,async(req,res)=>{
-    var confirm_order = ` SELECT
+      var confirm_order = `
+    SELECT
         orders.Product_image AS Product_image,
         users.user_name AS customer_name,
         users.user_mobile AS customer_mobile,
@@ -599,20 +615,28 @@ admin.get('/confirm_order',Login_check,async(req,res)=>{
         orders.Order_status,
         orders.Payment_status,
         orders.Payment_id,
-        orders.Order_id
+        orders.Order_id,
+        orders.Product_size
 
     FROM orders
 
     INNER JOIN users
     ON orders.Uid = users.Uid
 
-    WHERE DATE(orders.Order_date) = CURDATE() and Order_status = 'Confirm'
+    WHERE
+    STR_TO_DATE(orders.Order_date, '%Y-%m-%d %H:%i:%s') >= CURDATE()
+    AND
+    STR_TO_DATE(orders.Order_date, '%Y-%m-%d %H:%i:%s') < CURDATE() + INTERVAL 1 DAY
 
-    ORDER BY orders.Order_date DESC`
+    and Order_status = 'Confirm'
+
+
+    ORDER BY orders.Order_date DESC
+`;
 
     var orders = await query(confirm_order)
      
-    console.log(orders)
+    // console.log(orders)
     res.render('admin/confirm_orders.ejs',{today_all_confirm_orders:orders})
 })
 
@@ -632,7 +656,8 @@ admin.get('/dispatched_order/:id',async(req,res)=>{
 })
 
 admin.get('/dispatched_order',Login_check,async(req,res)=>{
-      var dispatched_order = ` SELECT
+    var dispatched_order = `
+    SELECT
         orders.Product_image AS Product_image,
         users.user_name AS customer_name,
         users.user_mobile AS customer_mobile,
@@ -644,16 +669,25 @@ admin.get('/dispatched_order',Login_check,async(req,res)=>{
         orders.Order_status,
         orders.Payment_status,
         orders.Payment_id,
-        orders.Order_id
+        orders.Order_id,
+        orders.Product_size
 
     FROM orders
 
     INNER JOIN users
     ON orders.Uid = users.Uid
 
-    WHERE DATE(orders.Order_date) = CURDATE() and Order_status = 'Order Dispatched'
+    WHERE
+    STR_TO_DATE(orders.Order_date, '%Y-%m-%d %H:%i:%s') >= CURDATE()
+    AND
+    STR_TO_DATE(orders.Order_date, '%Y-%m-%d %H:%i:%s') < CURDATE() + INTERVAL 1 DAY
 
-    ORDER BY orders.Order_date DESC`
+    and Order_status = 'Order Dispatched'
+
+
+    ORDER BY orders.Order_date DESC
+`;
+   
 
     var orders = await query(dispatched_order)
      

@@ -40,7 +40,9 @@
 
                 <thead>
                     <tr>
+                        <th>SR.NO</th>
                         <th>PRODUCT</th>
+                        <th>PRODUCT SIZE</th>
                         <th>CUSTOMER</th>
                         <th>PRODUCT NAME</th>
                         <th>QTY</th>
@@ -63,12 +65,19 @@
 
                             <tr>
 
+                                <td>
+                                    <%=index+1%>
+                                </td>
                                 <!-- Product Image -->
                                 <td>
                                     <div class="product-image">
                                         <img src="images/<%= order.Product_image %>"
                                              alt="Product">
                                     </div>
+                                </td>
+
+                                <td>
+                                    <%= order.Product_size %>
                                 </td>
 
 

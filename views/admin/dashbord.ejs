@@ -4,6 +4,29 @@
 <!-- DASHBOARD STATS -->
 <div class="admin-stats-grid" style="background:linear-gradient(to right, #31486d 0%, #12305f 100%);border-radius:10px;padding:10px;">
 
+        <!-- TOTAL INCOME -->
+    <div class="admin-stats-card" style="background-color:#0d8a7e;"
+    onmouseover="this.style.boxShadow='0px 0px 20px 4px #0d8a7e'" 
+    onmouseout="this.style.boxShadow='none'">
+
+            <div class="admin-stats-info">
+
+                <p style="color:rgb(12, 219, 57);font-size:20px;">Total Income ₹</p>
+
+                <h2 class="counter" style="color:rgb(7, 228, 7);">
+                    <span>
+                        <%= total_income.Total_Income %>
+                    </span>
+                </h2>
+
+            </div>
+
+            <div class="admin-stats-icon orders-icon">
+                <i style="color:green;" class="fa-sharp fa-solid fa-wallet"></i>
+            </div>
+
+    </div>
+    
     <!-- TOTAL ORDERS -->
     <div class="admin-stats-card" style="background-color:#0d8a7e;"
     onmouseover="this.style.boxShadow='0px 0px 20px 4px #0d8a7e'" 
@@ -24,6 +47,7 @@
             </div>
 
     </div>
+    
 
     <!-- TOTAL PRODUCTS -->
     <div class="admin-stats-card" style="background-color:#ed9309;"
@@ -117,7 +141,7 @@
     onmouseover="this.style.boxShadow='0px 0px 20px 4px #18beaa'" 
     onmouseout="this.style.boxShadow='none'">
         <div class="admin-stats-info">
-            <b><p style="color:white;">Fashion Products</p></b>
+            <b><p style="color:white;">Shirts Products</p></b>
             <h2 class="counter" style="color:white;"><%=total_fashion_product.fashion_product%></h2>
         </div>
 
@@ -131,7 +155,7 @@
     onmouseover="this.style.boxShadow='0px 0px 20px 4px #536277'" 
     onmouseout="this.style.boxShadow='none'">
         <div class="admin-stats-info">
-            <b><p style="color:white;">Electronics Products</p></b>
+            <b><p style="color:white;">Jeans Products</p></b>
             <h2 class="counter" style="color:white;"><%=total_electronics_product.electronics_product%></h2>
         </div>
 
@@ -145,7 +169,7 @@
     onmouseover="this.style.boxShadow='0px 0px 20px 4px #17f58d'" 
     onmouseout="this.style.boxShadow='none'">
         <div class="admin-stats-info">
-            <b><p style="color:white;">Beauty Products</p></b>
+            <b><p style="color:white;">Linan Products</p></b>
             <h2 class="counter" style="color:white;"><%=total_beauty_product.beauty_product%></h2>
         </div>
 
@@ -154,21 +178,32 @@
         </div>
     </div>
 
-    <!-- HOME PRODUCT -->
-    <div class="admin-stats-card" style="background-color:#79006f;"
-    onmouseover="this.style.boxShadow='0px 0px 20px 4px #79006f'" 
+    
+
+    <!-- TOTAL TODAY ONLINE INCOME  -->
+    <div class="admin-stats-card" style="background-color:#0b1ec7;"
+    onmouseover="this.style.boxShadow='0px 0px 20px 4px #0b1ec7'" 
     onmouseout="this.style.boxShadow='none'">
-        <div class="admin-stats-info">
-            <b><p style="color:white;">Home Products</p></b>
-            <h2 class="counter" style="color:white;"><%=total_home_product.home_product%></h2>
+
+            <div class="admin-stats-info">
+
+                <p style="color:rgb(0, 0, 0);font-size:15px;">Total Today Online Income 
+                    <span style="color:rgb(6, 223, 6);">
+                        ₹
+                    </span>
+                </p>
+
+                <h2 class="counter" style="color:rgb(14, 212, 14);">
+                    <%= today_payment_count.Today_Total_Payment %>  
+                </h2>
+
+            </div>
+
+            <div class="admin-stats-icon orders-icon">
+                <i style="color:rgb(8, 221, 8);font-size:25px;">₹</i>
+            </div>
+
         </div>
-
-        <div class="admin-stats-icon users-icon">
-            <i style="color:blue;" class="fa-solid fa-house"></i>
-        </div>
-    </div>
-
-
 
     
 
@@ -191,7 +226,8 @@
             <% for(var i=0;i<total_letest_order.length;i++) {%>
             <div class="admin-order-item">
                 <div>
-                    <h4>Order Payment Id <%=total_letest_order[i].Payment_id%></h4>
+                    <h4>Product Name :- <%=total_letest_order[i].Product_name%></h4>
+                    <h4>Order Payment Id :- <%=total_letest_order[i].Payment_id%></h4>
                     <p>Product Price: <%=total_letest_order[i].Product_price%></p>
                 </div>
                 <span class="order-status pending" style="color:green;background-color:rgba(27, 241, 27,0.3);"><%=total_letest_order[i].Order_status%></span>

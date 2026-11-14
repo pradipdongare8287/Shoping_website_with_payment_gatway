@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ShopEase Payment</title>
-</head>
-<body>
-
+<!-- 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 <script>
@@ -14,6 +6,7 @@
 var options = {
     key: "rzp_test_TsWz88rJ6b5v9b",
 
+    // Dynamic total amount
     amount: Number(<%= payment_amt.Product_New_price %>) * 100,
 
     currency: "INR",
@@ -24,31 +17,115 @@ var options = {
 
     handler: async function (response) {
 
-    var result = await fetch('/save_order', {
-        method: 'POST',
+        var result = await fetch('/save_order', {
+            method: 'POST',
 
-        headers: {
-            'Content-Type': 'application/json'
-        },
+            headers: {
+                'Content-Type': 'application/json'
+            },
 
-        body: JSON.stringify({
-            payment_id: response.razorpay_payment_id,
-            product_id: "<%= product_id %>",
-            product_name: "<%= product_name %>",
-            product_price: <%= payment_amt.Product_New_price %>,
-            product_img: "<%= product_img %>",
+            body: JSON.stringify({
+                payment_id: response.razorpay_payment_id,
+                product_id: "<%= product_id %>",
+                product_name: "<%= product_name %>",
 
-        })
-    });
+                // Total amount
+                product_price: <%= payment_amt.Product_New_price %>,
 
-    var data = await result.json();
+                // Dynamic quantity
+                product_qty: <%= qty %>,
+                
+                product_size: "<%= size %>",
 
-    if (data.success) {
-        window.location.href = '/account';
-    } else {
-        alert(data.message);
+                product_img: "<%= product_img %>"
+            })
+        });
+
+        var data = await result.json();
+
+        if (data.success) {
+            window.location.href = '/account';
+        } else {
+            alert(data.message);
+        }
     }
-}
+};
+
+var rzp1 = new Razorpay(options);
+
+rzp1.open();
+
+</script> -->
+
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+
+var options = {
+    key: "rzp_test_TsWz88rJ6b5v9b",
+
+    // Dynamic total amount
+    amount: Number(<%= payment_amt.Product_New_price %>) * 100,
+
+    currency: "INR",
+
+    name: "ShopEase",
+
+    description: "<%= payment_amt.Product_name %>",
+
+    // Hide EMI Payment Option
+    config: {
+        display: {
+            hide: [
+                {
+                    method: "emi",
+                  
+                },
+                {
+                method: "paylater"
+                }
+            ],
+            preferences: {
+                show_default_blocks: true
+            }
+        }
+    },
+
+    handler: async function (response) {
+
+        var result = await fetch('/save_order', {
+            method: 'POST',
+
+            headers: {
+                'Content-Type': 'application/json'
+            },
+
+            body: JSON.stringify({
+                payment_id: response.razorpay_payment_id,
+                product_id: "<%= product_id %>",
+                product_name: "<%= product_name %>",
+
+                // Total amount
+                product_price: <%= payment_amt.Product_New_price %>,
+
+                // Dynamic quantity
+                product_qty: <%= qty %>,
+
+                product_size: "<%= size %>",
+
+                product_img: "<%= product_img %>"
+            })
+        });
+
+        var data = await result.json();
+
+        if (data.success) {
+            window.location.href = '/account';
+        } else {
+            alert(data.message);
+        }
+    }
 };
 
 var rzp1 = new Razorpay(options);
@@ -57,5 +134,3 @@ rzp1.open();
 
 </script>
 
-</body>
-</html>

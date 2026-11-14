@@ -11,7 +11,7 @@
 
             <div class="fashion-label">
                 <i class="fa-solid fa-wand-magic-sparkles"></i>
-                NEW FASHION COLLECTION
+                NEW FASHION Shirts COLLECTION
             </div>
 
             <h1>
@@ -47,8 +47,8 @@
                 </div>
 
                 <div>
-                    <h3>30%</h3>
-                    <span>Special Discount</span>
+                    <h3>50K</h3>
+                    <span> Rating</span>
                 </div>
 
             </div>
@@ -64,23 +64,23 @@
 
             <div class="fashion-image-main">
 
-                <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=900&q=85"
+                <img src="https://images.meesho.com/images/products/124128647/u21cy_512.avif?width=360"
                     alt="Fashion Collection">
 
             </div>
 
             <div class="fashion-image-small">
 
-                <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=600&q=85"
+                <img src="https://images.meesho.com/images/products/1089885219/zrglx_512.avif?width=360"
                     alt="Modern Fashion">
 
             </div>
 
             <div class="fashion-floating-discount">
 
-                <span>UP TO</span>
-                <h2>50%</h2>
-                <p>OFF</p>
+                <span></span>
+                <h5>Quality Product</h5>
+                <p></p>
 
             </div>
 
@@ -145,14 +145,14 @@
 
             <a href="#fashion-products" class="fashion-category-card">
 
-                <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=700&q=85"
+                <img src="https://images.meesho.com/images/products/1153733686/tzqaz_512.avif?width=360"
                     alt="Women Fashion">
 
                 <div class="fashion-category-overlay">
 
                     <span>EXPLORE COLLECTION</span>
 
-                    <h2>Women's Fashion</h2>
+                    <h2>Jen's Fashion</h2>
 
                     <div class="fashion-category-link">
                         Shop Now
@@ -168,14 +168,14 @@
 
             <a href="#fashion-products" class="fashion-category-card">
 
-                <img src="https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?auto=format&fit=crop&w=700&q=85"
+                <img src="https://images.meesho.com/images/products/574141251/cx4kn_512.avif?width=360"
                     alt="Kids Fashion">
 
                 <div class="fashion-category-overlay">
 
                     <span>EXPLORE COLLECTION</span>
 
-                    <h2>Kids Fashion</h2>
+                    <h2>Shirt Fashion</h2>
 
                     <div class="fashion-category-link">
                         Shop Now
@@ -193,44 +193,7 @@
 
     <!-- Fashion Promotion -->
 
-    <section class="fashion-promo">
-
-        <div class="fashion-promo-content">
-
-            <span>LIMITED TIME FASHION SALE</span>
-
-            <h2>
-                Your Style.
-                <br>
-                Your Rules.
-            </h2>
-
-            <p>
-                Refresh your wardrobe with stylish outfits
-                at amazing prices.
-            </p>
-
-            <a href="#fashion-products" class="fashion-promo-btn">
-                Grab The Deal
-                <i class="fa-solid fa-arrow-right"></i>
-            </a>
-
-        </div>
-
-        <div class="fashion-promo-image">
-
-            <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=800&q=85"
-                alt="Fashion Sale">
-
-            <div class="fashion-promo-circle">
-                <span>SALE</span>
-                <h2>50%</h2>
-                <span>OFF</span>
-            </div>
-
-        </div>
-
-    </section>
+    
 
 
     <!-- Trending Fashion Products -->
@@ -241,7 +204,7 @@
 
             <div>
                 <span>THE LATEST TRENDS</span>
-                <h2>Trending Fashion</h2>
+                <h2>Trending Fashion Shirt</h2>
             </div>
 
             <a href="/products">
@@ -259,7 +222,7 @@
 
             <%for(var i=0;i<fashion.length;i++){%>
 
-            <div class="fashion-product-card">
+            <!-- <div class="fashion-product-card">
 
                 <div class="fashion-product-image">
 
@@ -309,7 +272,106 @@
 
                 </div>
 
-            </div>
+            </div> -->
+
+
+            <!-- ============================================ -->
+             <div class="all-product-card product-card">
+
+    <div class="all-product-image">
+
+        <span class="product-label">
+            <%=fashion[i].fashion_product_status%>
+        </span>
+
+        <button class="product-wishlist">
+            <i class="fa-regular fa-heart"></i>
+        </button>
+
+        <img src="/images/<%=fashion[i].fashion_product_img%>"
+                        alt="Casual Outfit">
+
+
+        <div class="product-overlay">
+            <a href="/images/<%=fashion[i].fashion_product_img%>" target="_blank">
+                <button>
+                    <i class="fa-solid fa-eye"></i>
+                    Quick View
+                </button>
+            </a>
+        </div>
+
+    </div>
+
+    <div class="all-product-details">
+
+        <span class="product-category">
+            <%=fashion[i].fashion_product_category%> Wear
+        </span>
+
+        <h3><%=fashion[i].fashion_product_name%></h3>
+
+        <div class="fashion-rating">
+            <%for(var a=0 ;a<fashion[i].fashion_product_rating;a++){%>
+                        ★
+            <% } %>
+                        
+            <small>(<%=fashion[i].fashion_product_rating%>)</small>
+        </div>
+
+        <!-- Product Price -->
+        <div class="product-price">
+            <strong>
+                ₹<span class="total-price">
+                    ₹<%=fashion[i].fashion_product_new_price%>
+                </span>
+            </strong>
+
+            <del>₹<%=fashion[i].fashion_product_old_price%></del>
+        </div>
+        <!-- Size Selector -->
+        <div class="size-box">
+            <label>Select Size:</label>
+
+            <select class="product-size">
+                <option value="">Choose Size</option>
+                <option value="S">S</option>
+                <option value="M">M</option>
+                <option value="L">L</option>
+                <option value="XL">XL</option>
+                <option value="XXL">XXL</option>
+                <option value="3XL">3XL</option>
+                <option value="4XL">4XL</option>
+            </select>
+        </div>
+
+        <!-- Quantity -->
+        <div class="quantity-box">
+
+            <button type="button" class="qty-minus">−</button>
+
+            <input type="number"
+                   class="qty-input"
+                   value="1"
+                   readonly>
+
+            <button type="button" class="qty-plus">+</button>
+
+        </div>
+
+        <!-- Buy Now -->
+        
+        <button type="button"
+                class="product-cart-btn buy-now"
+                data-price="<%= fashion[i].fashion_product_new_price %>"
+            data-url="/fashion_product_paymnet/<%=fashion[i].fid%>">
+            <i class="fa-solid fa-cart-shopping"></i>
+            Buy Now 
+        </button>
+
+    </div>
+
+</div>
 
             <% } %>
           
@@ -319,33 +381,6 @@
     </section>
 
 
-    <!-- Fashion Newsletter -->
-
-    <section class="fashion-newsletter">
-
-        <div class="fashion-newsletter-icon">
-            <i class="fa-solid fa-envelope-open-text"></i>
-        </div>
-
-        <h2>Stay Ahead Of Fashion</h2>
-
-        <p>
-            Subscribe to get the latest fashion trends,
-            exclusive offers and new arrivals.
-        </p>
-
-        <form class="fashion-newsletter-form">
-
-            <input type="email" placeholder="Enter your email address">
-
-            <button type="button">
-                Subscribe
-                <i class="fa-solid fa-arrow-right"></i>
-            </button>
-
-        </form>
-
-    </section>
 
 
 

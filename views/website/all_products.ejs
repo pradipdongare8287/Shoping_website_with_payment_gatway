@@ -22,31 +22,7 @@
     </div>
 
 
-    <!-- Product Filters -->
-    <div class="products-filter">
-
-        <div class="filter-categories">
-
-            <button class="filter-btn active">All Products</button>
-            <button class="filter-btn">Fashion</button>
-            <button class="filter-btn">Electronics</button>
-            <button class="filter-btn">Beauty</button>
-            <button class="filter-btn">Home & Living</button>
-
-        </div>
-
-        <div class="sort-box">
-
-            <select>
-                <option>Sort By: Featured</option>
-                <option>Price: Low to High</option>
-                <option>Price: High to Low</option>
-                <option>Newest Products</option>
-            </select>
-
-        </div>
-
-    </div>
+ 
 
 
     <!-- Products Grid -->
@@ -55,61 +31,110 @@
 
         
         <!-- Product 1 -->
-        <%for (var i=0;i<product.length;i++){ %>
-            <div class="all-product-card">
+     
+            
+<% for (var i = 0; i < product.length; i++) { %>
 
-            <div class="all-product-image">
+<div class="all-product-card product-card">
 
-                <span class="product-label"><%=product[i].Product_status%></span>
-                
-                <button class="product-wishlist">
-                    <i class="fa-regular fa-heart"></i>
+    <div class="all-product-image">
+
+        <span class="product-label">
+            <%= product[i].Product_status %>
+        </span>
+
+        <button class="product-wishlist">
+            <i class="fa-regular fa-heart"></i>
+        </button>
+
+        <img src="/images/<%= product[i].Product_img %>"
+             alt="Sport Shoes">
+
+        <div class="product-overlay">
+            <a href="/images/<%= product[i].Product_img %>" target="_self">
+                <button>
+                    <i class="fa-solid fa-eye"></i>
+                    Quick View
                 </button>
+            </a>
+        </div>
 
-                <img
-                    src="/images/<%=product[i].Product_img%>"
-                    alt="Sport Shoes">
+    </div>
 
-                <div class="product-overlay">
-                    <a href="/images/<%=product[i].Product_img%>" target="_self">
-                        <button>
-                        <i class="fa-solid fa-eye"></i>
-                        Quick View
-                    </button>
-                    </a>
-                </div>
+    <div class="all-product-details">
 
-            </div>
+        <span class="product-category">
+            <%= product[i].Product_category %>
+        </span>
 
-            <div class="all-product-details">
+        <h3><%= product[i].Product_name %></h3>
 
-                <span class="product-category"><%=product[i].Product_category%></span>
+        <div class="product-rating">
+            <% for (var a = 0; a < product[i].Product_rating; a++) { %>
+                <span>★</span>
+            <% } %>
+            <small><%= product[i].Product_rating %></small>
+        </div>
 
-                <h3><%=product[i].Product_name%></h3>
+        <!-- Product Price -->
+        <div class="product-price">
+            <strong>
+                ₹<span class="total-price">
+                    <%= product[i].Product_New_price %>
+                </span>
+            </strong>
 
-                <div class="product-rating">
-                    <% for(var a=0;a<product[i].Product_rating;a++){ %>
-                    <span>★</span>
-                    <% } %>
-                    <small><%=product[i].Product_rating%></small>
-                </div>
+            <del>₹<%= product[i].Product_Old_price %></del>
+        </div>
 
-                <div class="product-price">
-                    <strong>₹<%=product[i].Product_New_price%></strong>
-                    <del>₹<%=product[i].Product_Old_price%></del>
-                </div>
+        <!-- Size Selector -->
+        <div class="size-box">
+            <label>Select Size:</label>
 
-                <a href="/all_product_payment/<%=product[i].Pid%>">
-                    <button class="product-cart-btn">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    Buy Now
-                </button>
-                </a>
+            <select class="product-size">
+                <option value="">Choose Size</option>
+                <option value="S">S</option>
+                <option value="M">M</option>
+                <option value="L">L</option>
+                <option value="XL">XL</option>
+                <option value="XXL">XXL</option>
+                <option value="3XL">3XL</option>
+                <option value="4XL">4XL</option>
+            </select>
+        </div>
 
-            </div>
+        <!-- Quantity -->
+        <div class="quantity-box">
+
+            <button type="button" class="qty-minus">−</button>
+
+            <input type="number"
+                   class="qty-input"
+                   value="1"
+                   readonly>
+
+            <button type="button" class="qty-plus">+</button>
 
         </div>
-            <% } %>
+
+        <!-- Buy Now -->
+        <button type="button"
+                class="product-cart-btn buy-now"
+                data-price="<%= product[i].Product_New_price %>"
+            data-url="/all_product_payment/<%= product[i].Pid %>">
+            <i class="fa-solid fa-cart-shopping"></i>
+            Buy Now 
+        </button>
+
+        
+    </div>
+    <!-- class="product-cart-btn buy-now" -->
+
+</div>
+
+<% } %>
+
+            
 
     </div>
 

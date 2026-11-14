@@ -2,107 +2,21 @@
 
 
 
-<section class="electronics-page">
-
-    <!-- Hero Section -->
-    <section class="electronics-hero">
-
-        <div class="hero-content">
-            <span class="hero-tag">⚡ NEXT-GEN TECHNOLOGY</span>
-
-            <h1>
-                Upgrade Your <br>
-                <span>Digital Lifestyle</span>
-            </h1>
-
-            <p>
-                Discover the latest electronics, smart gadgets,
-                premium headphones and powerful devices.
-            </p>
-
-            <a href="#products" class="hero-btn">
-                Explore Products →
-            </a>
-        </div>
-
-        <div class="hero-image">
-            <img
-                src="https://images.unsplash.com/photo-1498049794561-7780e7231661?auto=format&fit=crop&w=900&q=85"
-                alt="Electronics Products"
-            >
-        </div>
-
-    </section>
-
-
-    <!-- Categories -->
-    <section class="electronics-categories">
-
-        <div class="section-heading">
-            <span>EXPLORE COLLECTION</span>
-            <h2>Shop By Category</h2>
-        </div>
-
-        <div class="category-grid">
-
-            <a href="#products" class="category-card">
-                <div class="category-icon">📱</div>
-                <h3>Smartphones</h3>
-                <p>Latest mobile devices</p>
-            </a>
-
-            <a href="#products" class="category-card">
-                <div class="category-icon">💻</div>
-                <h3>Laptops</h3>
-                <p>Powerful performance</p>
-            </a>
-
-            <a href="#products" class="category-card">
-                <div class="category-icon">🎧</div>
-                <h3>Headphones</h3>
-                <p>Premium sound quality</p>
-            </a>
-
-            <a href="#products" class="category-card">
-                <div class="category-icon">⌚</div>
-                <h3>Smart Watches</h3>
-                <p>Smart everyday living</p>
-            </a>
-
-        </div>
-
-    </section>
-
-
-    <!-- Offer Banner -->
-    <section class="electronics-offer">
-
-        <div>
-            <span>LIMITED TIME OFFER</span>
-            <h2>Big Deals. Better Tech.</h2>
-            <p>Upgrade your gadgets and enjoy exciting offers.</p>
-        </div>
-
-        <a href="#products" class="offer-btn">
-            Shop Now →
-        </a>
-
-    </section>
 
 
     <!-- Products -->
     <section class="electronics-products" id="products">
 
         <div class="section-heading">
-            <span>OUR COLLECTION</span>
-            <h2>Trending Electronics</h2>
-            <p>Explore our popular electronic products</p>
+            <span>OUR Jens COLLECTION</span>
+            <h2>Trending Jens</h2>
+            <p>Explore our popular Jens products</p>
         </div>
 
         <div class="product-grid">
 
 <% for(var i=0;i<all_products.length;i++){ %>
-            <div class="product-card">
+            <!-- <div class="product-card">
 
                 <span class="product-badge"><%=all_products[i].Eproduct_status%></span>
 
@@ -129,14 +43,99 @@
                         <del>₹<%=all_products[i].Eproduct_old_price%></del>
                     </div>
 
-                    <a href="/Pyment_electnocis_product/<%=all_products[i].Eid%>">
-                        <button class="product-btn" type="button">
-                        Buy Now
-                    </button>
-                    </a>
-                </div>
+                      <div class="quantity-box">
 
-            </div>
+                            <button type="button" class="qty-minus">−</button>
+
+                            <input type="number"
+                                class="qty-input"
+                                value="1"
+                                readonly>
+
+                            <button type="button" class="qty-plus">+</button>
+
+                        </div>
+
+                        Buy Now 
+                        <button type="button"
+                                class="product-cart-btn buy-now"
+                                data-price="<%=all_products[i].Eproduct_new_price%>"
+                            data-url="/Pyment_electnocis_product/<%=all_products[i].Eid%>">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                            Buy Now 
+                        </button>
+                    </div>
+
+            </div> -->
+
+<div class="product-card">
+
+    <span class="product-badge"><%=all_products[i].Eproduct_status%></span>
+
+    <div class="product-image">
+        <img
+            src="/images/<%=all_products[i].Eprodcut_img%>"
+            alt="Smartphone"
+        >
+    </div>
+
+    <div class="product-info">
+        <span class="product-category"><%=all_products[i].Eproduct_category%></span>
+        <h3><%=all_products[i].Eproduct_name%></h3>
+
+        <div class="product-rating">
+            <% for(var a=0;a<all_products[i].Eproduct_rating;a++){ %>
+                ★
+            <% } %>
+            <small>(<%=all_products[i].Eproduct_rating%>)</small>
+        </div>
+
+        <div class="product-price">
+            ₹<span class="total-price"><%=all_products[i].Eproduct_new_price%></span>
+            <del>₹<%=all_products[i].Eproduct_old_price%></del>
+        </div>
+
+        <!-- Size Selector -->
+         <div class="size-box">
+            <label>Select Size:</label>
+            <select class="product-size">
+                <option value="">Choose Size</option>
+                <option value="28">28</option>
+                <option value="30">30</option>
+                <option value="32">32</option>
+                <option value="34">34</option>
+                <option value="36">36</option>
+            </select>
+        </div>
+
+
+        <div class="quantity-box">
+
+            <button type="button" class="qty-minus">−</button>
+
+            <input type="number"
+                class="qty-input"
+                value="1"
+                readonly>
+
+            <button type="button" class="qty-plus">+</button>
+
+        </div>
+
+        <button type="button"
+                class="product-cart-btn buy-now"
+                data-id="<%=all_products[i].Eid%>"
+                data-price="<%=all_products[i].Eproduct_new_price%>"
+                data-url="/Pyment_electnocis_product/<%=all_products[i].Eid%>">
+
+            <i class="fa-solid fa-cart-shopping"></i>
+            Buy Now
+
+        </button>
+    </div>
+
+</div>
+
             <% } %>
 
         </div>
