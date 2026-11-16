@@ -163,7 +163,7 @@ admin.get('/delete_admin/:id/:img', async (req, res) => {
         res.redirect('/admin/check_admin_user');
 
     } catch (error) {
-        console.log('Delete Admin Error:', error);
+        // console.log('Delete Admin Error:', error);
         res.status(500).send('Admin Delete Failed');
     }
 
@@ -221,7 +221,7 @@ admin.post('/add_new_product', async (req, res) => {
         res.redirect('/admin/add_product');
 
     } catch (error) {
-        console.log('Product Upload Error:', error);
+        // console.log('Product Upload Error:', error);
         res.status(500).send('Product Upload Failed');
     }
 
@@ -245,7 +245,7 @@ admin.get('/delete_product/:id/:img', async (req, res) => {
             `ecommerce/products/${old}`
         );
 
-        console.log('Cloudinary Image Delete:', delete_image.result);
+        // console.log('Cloudinary Image Delete:', delete_image.result);
 
         // Delete Product from MySQL
         var delete_product = 'DELETE FROM add_product WHERE Pid = ?';
@@ -255,7 +255,7 @@ admin.get('/delete_product/:id/:img', async (req, res) => {
         res.redirect('/admin/all_products');
 
     } catch (error) {
-        console.log('Delete Product Error:', error);
+        // console.log('Delete Product Error:', error);
         res.status(500).send('Product Delete Failed');
 
     }
@@ -322,7 +322,7 @@ admin.post('/save_trending_product', async (req, res) => {
 
     } catch (error) {
 
-        console.log('Trending Product Upload Error:', error);
+        // console.log('Trending Product Upload Error:', error);
         res.status(500).send('Trending Product Upload Failed');
 
     }
@@ -348,7 +348,7 @@ admin.get('/delete_trending_product/:id/:img', async (req, res) => {
             `ecommerce/trending_products/${img}`
         );
 
-        console.log('Trending Image Delete:', delete_image.result);
+        // console.log('Trending Image Delete:', delete_image.result);
 
         // Delete Trending Product from MySQL
         var delete_trending_product =
@@ -360,7 +360,7 @@ admin.get('/delete_trending_product/:id/:img', async (req, res) => {
 
     } catch (error) {
 
-        console.log('Trending Product Delete Error:', error);
+        // console.log('Trending Product Delete Error:', error);
         res.status(500).send('Trending Product Delete Failed');
 
     }
@@ -427,7 +427,7 @@ admin.post('/add_new_fashion_product', async (req, res) => {
 
     } catch (error) {
 
-        console.log('Fashion Product Upload Error:', error);
+        // console.log('Fashion Product Upload Error:', error);
         res.status(500).send('Fashion Product Upload Failed');
 
     }
@@ -449,7 +449,7 @@ admin.get('/delete_fashion_product/:id/:img', async (req, res) => {
             `ecommerce/fashion_products/${old_img}`
         );
 
-        console.log('Fashion Image Delete:', delete_image.result);
+        // console.log('Fashion Image Delete:', delete_image.result);
 
         // Delete Fashion Product from MySQL
         var delete_fashion_product =
@@ -461,7 +461,7 @@ admin.get('/delete_fashion_product/:id/:img', async (req, res) => {
 
     } catch (error) {
 
-        console.log('Fashion Product Delete Error:', error);
+        // console.log('Fashion Product Delete Error:', error);
         res.status(500).send('Fashion Product Delete Failed');
 
     }
@@ -539,7 +539,7 @@ admin.post('/add_new_electronics_product', async (req, res) => {
 
     } catch (error) {
 
-        console.log('Electronics Product Upload Error:', error);
+        // console.log('Electronics Product Upload Error:', error);
         res.status(500).send('Electronics Product Upload Failed');
 
     }
@@ -565,7 +565,7 @@ admin.get('/delete_electronics_product/:id/:img', async (req, res) => {
             `ecommerce/electronics_products/${img}`
         );
 
-        console.log('Electronics Image Delete:', delete_image.result);
+        // console.log('Electronics Image Delete:', delete_image.result);
 
         // Delete Product from MySQL
         var delete_electronic =
@@ -577,7 +577,7 @@ admin.get('/delete_electronics_product/:id/:img', async (req, res) => {
 
     } catch (error) {
 
-        console.log('Electronics Product Delete Error:', error);
+        // console.log('Electronics Product Delete Error:', error);
         res.status(500).send('Electronics Product Delete Failed');
 
     }
@@ -648,7 +648,7 @@ admin.post('/add_new_beauty_product', async (req, res) => {
 
     } catch (error) {
 
-        console.log('Beauty Product Upload Error:', error);
+        // console.log('Beauty Product Upload Error:', error);
         res.status(500).send('Beauty Product Upload Failed');
 
     }
@@ -673,7 +673,7 @@ admin.get('/delete_beauty_product/:id/:img', async (req, res) => {
             `ecommerce/beauty_products/${img}`
         );
 
-        console.log('Beauty Image Delete:', delete_image.result);
+        // console.log('Beauty Image Delete:', delete_image.result);
 
         // Delete Product from MySQL
         var delete_product = `DELETE FROM beauty_product WHERE pid = ?`;
@@ -684,7 +684,7 @@ admin.get('/delete_beauty_product/:id/:img', async (req, res) => {
 
     } catch (error) {
 
-        console.log('Beauty Product Delete Error:', error);
+        // console.log('Beauty Product Delete Error:', error);
         res.status(500).send('Beauty Product Delete Failed');
 
     }
@@ -764,7 +764,7 @@ admin.post('/add_category_product', async (req, res) => {
 
     } catch (error) {
 
-        console.log('Category Product Upload Error:', error);
+        // console.log('Category Product Upload Error:', error);
         res.status(500).send('Category Product Upload Failed');
 
     }
@@ -789,7 +789,7 @@ admin.get('/delete_category_product/:id/:img', async (req, res) => {
             `ecommerce/category_products/${img}`
         );
 
-        console.log('Category Image Delete:', delete_image.result);
+        // console.log('Category Image Delete:', delete_image.result);
 
         // Delete Product from MySQL
         var delete_product = 'DELETE FROM category_product WHERE cpid = ?';
@@ -800,7 +800,7 @@ admin.get('/delete_category_product/:id/:img', async (req, res) => {
 
     } catch (error) {
 
-        console.log('Category Product Delete Error:', error);
+        // console.log('Category Product Delete Error:', error);
         res.status(500).send('Category Product Delete Failed');
 
     }
