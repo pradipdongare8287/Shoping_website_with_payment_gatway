@@ -17,9 +17,8 @@
 
                 <select name="product_status" id="product_status" >
                     <option value="">Select Status</option>
-                    <option value="Sale">Sale</option>
+                    <option value="Fast Sale">Fast Sale</option>
                     <option value="New">New</option>
-                    <option value="Discount">Discount</option>
                     <option value="Hot">Hot</option>
                 </select>
             </div>
@@ -44,11 +43,16 @@
                         required>
 
                     <option value="">Select Category</option>
-                    <option value="Aarmani">Aarmani</option>
-                    <option value="Electronics">Checks</option>
-                    <option value="Checks">Lining</option>
-                    <option value="Plain">Plain</option>
-                    <option value="Jens">Jens</option>
+                    <option value="Checks Shirt">Checks Shirt</option>
+                    <option value="Lining Shirt">Lining Shirt</option>
+                    <option value="Plain Shirt">Plain Shirt</option>
+                    <option value="Spatch Shirt">Spatch Shirt</option>
+                    <option value="Paper Cottan">Paper Cottan</option>
+                    <option value="Full Size Jens">Full Size Jens</option>
+                    <option value="Full Size Jens">Cut Size Jens</option>
+                    <option value="Black Aarmani">Black Aarmani</option>
+                    
+
                 </select>
             </div>
 
@@ -112,6 +116,19 @@
                        min="0"
                        step="0.01"
                        placeholder="Enter old price"
+                       required>
+            </div>
+
+            <!-- Product Qty -->
+            <div class="form-group">
+                <label for="Produt_qty">Product Qty</label>
+
+                <input type="number"
+                       name="Product_qty"
+                       id="Produt_qty"
+                       min="0"
+                       step="0.01"
+                       placeholder="Enter Product Qty"
                        required>
             </div>
 

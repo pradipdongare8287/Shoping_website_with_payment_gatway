@@ -7,7 +7,7 @@
     <title><%=user_name%> User Dashboard</title>
 
     <link rel="stylesheet" href="/admin/style.css">
-    <link rel="icon" type="image/png" href="/images/<%=user_Photo%>">
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/sdz5u7v8/image/upload/ecommerce/admin_users/<%= user_Photo %>">
     <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
@@ -212,7 +212,7 @@
         <!-- SIDEBAR FOOTER -->
         <div class="sidebar-footer">
 
-            <img src="/images/<%=user_Photo%>" alt="User Photo">
+            <img src="https://res.cloudinary.com/sdz5u7v8/image/upload/ecommerce/admin_users/<%= user_Photo %>" alt="User Photo">
 
             <div class="user-info">
                 <h4><%=user_name%></h4>
@@ -260,7 +260,7 @@
     </div>
 
     <div class="profile-dropdown" style="background:none;" >
-        <img src="/images/<%=user_Photo%>" alt="User Photo" onclick="toggleLogout()">
+        <img src="https://res.cloudinary.com/sdz5u7v8/image/upload/ecommerce/admin_users/<%= user_Photo %>" alt="User Photo" onclick="toggleLogout()">
 
         <div id="logoutMenu" class="logout-menu">
             <a href="/admin/logout" style="" title="Logout" onclick="return confirm('Are You Sure Log Out Mr/Ms <%=user_name%>')">

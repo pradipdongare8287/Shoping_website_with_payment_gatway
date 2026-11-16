@@ -15,73 +15,18 @@
         <div class="beauty-product-grid">
 
             <!-- Product 1 -->
-             <% for(var i =0;i<beauty.length;i++){ %>
-            <!-- <div class="beauty-product-card">
-
-                <span class="beauty-product-badge"><%=beauty[i].Product_Status%></span>
-
-                <div class="beauty-product-image">
-                    <img
-                        src="/images/<%=beauty[i].Prdouct_image%>"
-                        alt="Skincare Serum"
-                    >
-                </div>
-
-                <div class="beauty-product-info">
-
-                    <span class="beauty-product-category"><%=beauty[i].product_category%></span>
-
-                    <h3><%=beauty[i].product_name%></h3>
-
-                    <div class="beauty-rating">
-                        ★★★★★ 
-                        <small>(<%=beauty[i].product_rating%>)</small>
-                    </div>
-
-                    <div class="beauty-product-price">
-                        ₹<%=beauty[i].product_new_price%>
-                        <del>₹<%=beauty[i].product_old_price%></del>
-                    </div>
-
-                   
-
-                   <div class="quantity-box">
-
-                        <button type="button" class="qty-minus">−</button>
-
-                                <input type="number"
-                                    class="qty-input"
-                                    value="1"
-                                    readonly>
-
-                        <button type="button" class="qty-plus">+</button>
-
-                    </div>
-
-                <button type="button"
-                        class="product-cart-btn buy-now"
-                        data-id="<%=beauty[i].pid%>%>"
-                        data-price="<%=beauty[i].product_new_price%>"
-                        data-url="payment_beauyt_product/<%=beauty[i].pid%>">
-
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    Buy Now
-
-                </button>
-
-                </div>
-
-            </div> -->
-            
+             <% for(var i =0;i<beauty.length;i++){ %>      
 <div class="beauty-product-card product-card">
 
     <span class="beauty-product-badge"><%=beauty[i].Product_Status%></span>
 
     <div class="beauty-product-image">
-        <img
-            src="/images/<%=beauty[i].Prdouct_image%>"
-            alt="Skincare Serum"
-        >
+        <a href="https://res.cloudinary.com/sdz5u7v8/image/upload/ecommerce/beauty_products/<%=beauty[i].Prdouct_image%>" target="_blank">
+            <img
+                src="https://res.cloudinary.com/sdz5u7v8/image/upload/ecommerce/beauty_products/<%=beauty[i].Prdouct_image%>"
+                alt="Skincare Serum"
+            >
+        </a>
     </div>
 
     <div class="beauty-product-info">
@@ -114,6 +59,24 @@
                 <option value="4XL">4XL</option>
             </select>
         </div>
+        <!-- Available Stock -->
+        <div class="available-stock">
+
+                <% if (beauty[i].Product_stock > 0) { %>
+
+                    <span style="color: green; font-weight: bold;">
+                        Available Stock: <%= beauty[i].Product_stock %>
+                    </span>
+
+                <% } else { %>
+
+                    <span style="color: red; font-weight: bold;">
+                        Product Not Available
+                    </span>
+
+                <% } %>
+
+        </div>
         <div class="quantity-box">
 
             <button type="button" class="qty-minus">−</button>
@@ -121,22 +84,37 @@
             <input type="number"
                 class="qty-input"
                 value="1"
+                data-stock="<%= beauty[i].Product_stock %>"
                 readonly>
 
             <button type="button" class="qty-plus">+</button>
 
         </div>
 
-        <button type="button"
-                class="product-cart-btn buy-now"
-                data-id="<%=beauty[i].pid%>"
-                data-price="<%=beauty[i].product_new_price%>"
-                data-url="/payment_beauyt_product/<%=beauty[i].pid%>">
+        <% if (beauty[i].Product_stock > 0) { %>
 
-            <i class="fa-solid fa-cart-shopping"></i>
-            Buy Now
+    <button type="button"
+            class="product-cart-btn buy-now"
+            data-price="<%=beauty[i].product_new_price%>"
+            data-stock="<%= beauty[i].Product_stock %>"
+            data-url="/payment_beauyt_product/<%=beauty[i].pid%>">
 
-        </button>
+        <i class="fa-solid fa-cart-shopping"></i>
+        Buy Now
+
+    </button>
+
+<% } else { %>
+
+    <button type="button" class="product-cart-btn" disabled
+            style="background: #999; cursor: not-allowed;">
+
+        Product Not Available
+
+    </button>
+
+<% } %>
+        
 
     </div>
 

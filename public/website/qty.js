@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         const price = Number(buyBtn.dataset.price);
+        const stock = Number(qtyInput.dataset.stock);
 
         // Decrement
         minus.addEventListener('click', function () {
@@ -29,40 +30,44 @@ document.addEventListener('DOMContentLoaded', function () {
 
         });
 
-        // Increment
+        // Increment with Stock Limit
         plus.addEventListener('click', function () {
 
             let qty = Number(qtyInput.value);
 
-            qty++;
-
-            qtyInput.value = qty;
-            totalPrice.innerText = (price * qty).toFixed(2);
+            if (qty < stock) {
+                qty++;
+                qtyInput.value = qty;
+                totalPrice.innerText = (price * qty).toFixed(2);
+            } else {
+                
+            }
 
         });
 
         // Buy Now - Dynamic Payment Route
         buyBtn.addEventListener('click', function () {
 
-    const qty = Number(qtyInput.value);
-    const paymentUrl = buyBtn.dataset.url;
+            const qty = Number(qtyInput.value);
+            const paymentUrl = buyBtn.dataset.url;
 
-    const sizeSelect = card.querySelector('.product-size');
-    const selectedSize = sizeSelect ? sizeSelect.value : '';
+            const sizeSelect = card.querySelector('.product-size');
+            const selectedSize = sizeSelect ? sizeSelect.value : '';
 
-    if (!selectedSize) {
-        alert('Please select product size');
-        return;
-    }
+            if (!selectedSize) {
+                alert('Please select product size');
+                return;
+            }
 
-    window.location.href =
-        `${paymentUrl}?qty=${qty}&size=${encodeURIComponent(selectedSize)}`;
+            window.location.href =
+                `${paymentUrl}?qty=${qty}&size=${encodeURIComponent(selectedSize)}`;
 
-});
+        });
 
     });
 
 });
+
 
 
 // all_product_payment

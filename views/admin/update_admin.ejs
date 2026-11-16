@@ -17,14 +17,18 @@
                 </div>
 
                 <div class="admin-image-box">
-                    <img src="/images/<%=admin.Admin_photo%>" id="adminPreview2" alt="<%=admin.Admin_name%>">
+                    <img
+                        src="https://res.cloudinary.com/sdz5u7v8/image/upload/ecommerce/admin_users/<%= admin.Admin_photo %>"
+                        id="adminPreview2"
+                        alt="<%= admin.Admin_name %>">
 
-                    <label for="admin_img2">Admin Old  Photo</label>
-                    <input type="hidden" name="admin_old_img" value="<%=admin.Admin_photo%>" id="admin_img" >
+                    <label for="admin_img2">Admin Old Photo</label>
 
-
-
-
+                    <input
+                        type="hidden"
+                        name="admin_old_img"
+                        value="<%= admin.Admin_photo %>"
+                        id="admin_img">
                 </div>
 
         </div>
@@ -105,6 +109,25 @@
     });
 
 
+
+document.querySelector('input[name="admin_img"]').addEventListener('change', function () {
+
+    var file = this.files[0];
+
+    if (!file) return;
+
+    var maxSize = 300 * 1024;
+
+    if (file.size > maxSize) {
+
+        alert('Please select an image below 300 KB.');
+
+        this.value = '';
+    }
+
+});
 </script>
+
+
 
 <%-include('footer.ejs')%>

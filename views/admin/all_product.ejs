@@ -26,6 +26,7 @@
                     <th>Sr.No</th>
                     <th>Status</th>
                     <th>Image</th>
+                    <th>QTY</th>
                     <th>Category</th>
                     <th>Product Name</th>
                     <th>Rating</th>
@@ -48,10 +49,14 @@
                     </td>
 
                     <td>
-                        <img src="/images/<%=products[i].Product_img%>"
-                             class="product-table-img"
-                             alt="Product">
+                        <a href="https://res.cloudinary.com/sdz5u7v8/image/upload/ecommerce/products/<%= products[i].Product_img %>" target="_blank">
+                            <img
+                                src="https://res.cloudinary.com/sdz5u7v8/image/upload/ecommerce/products/<%= products[i].Product_img %>"
+                                class="product-table-img"
+                                alt="Product">
+                        </a>
                     </td>
+                    <td><%=products[i].Product_stock%></td>
 
                     <td><%=products[i].Product_category%></td>
 
@@ -77,7 +82,7 @@
                     <td>
                         <div class="product-action-buttons">
 
-                            <a href="/admin/delete_product/<%=products[i].Pid %>"
+                            <a href="/admin/delete_product/<%=products[i].Pid %>/<%=products[i].Product_img%>"
                                class="delete-product-btn"
                                title="Delete">
                                 <i class="fa-solid fa-trash"></i>

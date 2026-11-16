@@ -4,7 +4,7 @@
 <div class="fashion-form-container">
 
     <div class="fashion-form-header">
-        <h2>Add Shirts's Product</h2>
+        <h2>Add New Shirts's Product</h2>
         <p>Enter Shirt's product details below</p>
     </div>
 
@@ -13,7 +13,7 @@
         <div class="fashion-form-grid">
 
             <!-- Product Status -->
-            <div class="fashion-form-group">
+            <div class="form-group">
                 <label>Product Status</label>
                 <input type="text" name="fashion_product_status"
                        min="0" step="0.01"
@@ -21,33 +21,35 @@
             </div>
 
             <!-- Product Image -->
-            <div class="fashion-form-group">
+            <div class="form-group">
                 <label>Product Image</label>
                 <input type="file" name="fashion_product_img" accept="image/*" required>
             </div>
 
             <!-- Category -->
-            <div class="fashion-form-group">
+            <div class="form-group">
                 <label>Product Category</label>
                 <select name="fashion_product_category" required>
                     <option value="">Select Category</option>
                     <option value="Checks">Checks</option>
                     <option value="Lining">Lining</option>
-                    <option value="Jens">Jens</option>
+                    <option value="Spatch">Spatch</option>
                     <option value="Plain">Plain</option>
+                    <option value="Paper Cottan">Paper Cottan</option>
+
 
                 </select>
             </div>
 
             <!-- Product Name -->
-            <div class="fashion-form-group">
+            <div class="form-group">
                 <label>Product Name</label>
                 <input type="text" name="fashion_product_name"
                        placeholder="Enter product name" required>
             </div>
 
             <!-- Rating -->
-            <div class="fashion-form-group">
+            <div class="form-group">
                 <label>Product Rating</label>
                 <input type="number" name="fashion_product_rating"
                        min="0" max="5" step="0.1"
@@ -55,14 +57,14 @@
             </div>
 
             <!-- Reviews -->
-            <div class="fashion-form-group">
+            <div class="form-group">
                 <label>Product Reviews</label>
                 <input type="number" name="fashion_product_reviews"
                        min="0" placeholder="Enter review count" >
             </div>
 
             <!-- New Price -->
-            <div class="fashion-form-group">
+            <div class="form-group">
                 <label>Product New Price</label>
                 <input type="number" name="fashion_product_new_price"
                        min="0" step="0.01"
@@ -70,22 +72,34 @@
             </div>
 
             <!-- Old Price -->
-            <div class="fashion-form-group">
+            <div class="form-group">
                 <label>Product Old Price</label>
                 <input type="number" name="fashion_product_old_price"
                        min="0" step="0.01"
                        placeholder="Enter old price" required>
+            </div>
+            <!-- Product Qty -->
+            <div class="form-group">
+                <label for="Produt_qty">Product Qty</label>
+
+                <input type="number"
+                       name="Product_qty"
+                       id="Produt_qty"
+                       min="0"
+                       step="0.01"
+                       placeholder="Enter Product Qty"
+                       required>
             </div>
 
         </div>
 
         <div class="fashion-form-buttons">
             <button type="submit" style="background-color:#202e48;" class="fashion-submit-btn">
-                <i class="fa-solid fa-plus"></i> Add New Shirt / Jens Product
+                <i class="fa-solid fa-plus"></i> Add New Shirt Product
             </button>
 
             <button type="reset" class="fashion-reset-btn">
-                Reset
+                Reset Fill Shirt Product
             </button>
         </div>
 

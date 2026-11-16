@@ -196,8 +196,14 @@
             <p>Order Status: <%= order.Order_status %></p>
 
             <p>Payment Status: <%= order.Payment_status %></p>
-            <a href="images/<%= order.Product_image %>" target="_blank">
-                <img style="height:120px;width:130px;" src="images/<%= order.Product_image %>"/>
+            <a href="https://res.cloudinary.com/sdz5u7v8/image/upload/<%= order.Product_folder %>/<%= order.Product_image %>" target="_blank">
+
+                <img
+                    style="height:120px;width:130px;object-fit:contain;"
+                    src="https://res.cloudinary.com/sdz5u7v8/image/upload/<%= order.Product_folder %>/<%= order.Product_image %>"
+                    alt="<%= order.Product_name %>"
+                >
+
             </a>
 
             <p style="margin:15px;">Order Status: <% if(order.Order_status=='Booked'){ %>

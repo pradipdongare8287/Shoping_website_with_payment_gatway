@@ -6,13 +6,13 @@
     <!-- HEADER -->
     <div class="product-table-header">
         <div>
-            <h2>All Trending Products</h2>
+            <h2>All Trending Products Here</h2>
             
         </div>
 
         <a href="/admin/add_trending_product" class="add-product-btn">
             <i class="fa-solid fa-plus"></i>
-            Add Product
+            Add Trending Product
         </a>
     </div>
 
@@ -26,6 +26,7 @@
                     <th>Sr.No</th>
                     <th>Discount</th>
                     <th>Image</th>
+                    <th>Qty</th>
                     <th>Category</th>
                     <th>Product Name</th>
                     <th>Rating</th>
@@ -48,10 +49,14 @@
                     </td>
 
                     <td>
-                        <img src="/images/<%=tproducts[i].TProduct_image%>"
-                             class="product-table-img"
-                             alt="Product">
+                        <a href="https://res.cloudinary.com/sdz5u7v8/image/upload/ecommerce/trending_products/<%= tproducts[i].TProduct_image %>" target="_blank">
+                            <img
+                                src="https://res.cloudinary.com/sdz5u7v8/image/upload/ecommerce/trending_products/<%= tproducts[i].TProduct_image %>"
+                                class="product-table-img"
+                                alt="Product">
+                        </a>
                     </td>
+                    <td><%=tproducts[i].Product_stock%></td>
 
                     <td><%=tproducts[i].TProduct_category%></td>
 
@@ -76,13 +81,13 @@
 
                     <td>
                         <div class="product-action-buttons">
-                            <a href="/admin/edit_product/1"
+                            <!-- <a href="/admin/edit_product/1"
                                class="edit-product-btn"
                                title="Edit">
                                 <i class="fa-solid fa-pen"></i>
-                            </a>
+                            </a> -->
 
-                            <a href="/admin/delete_trending_product/<%=tproducts[i].tpid %>"
+                            <a href="/admin/delete_trending_product/<%=tproducts[i].tpid %>/<%=tproducts[i].TProduct_image%>"
                                class="delete-product-btn"
                                title="Delete">
                                 <i class="fa-solid fa-trash"></i>

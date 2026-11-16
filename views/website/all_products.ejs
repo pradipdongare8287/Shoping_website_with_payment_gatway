@@ -47,11 +47,11 @@
             <i class="fa-regular fa-heart"></i>
         </button>
 
-        <img src="/images/<%= product[i].Product_img %>"
+        <img src="https://res.cloudinary.com/sdz5u7v8/image/upload/ecommerce/products/<%= product[i].Product_img %>"
              alt="Sport Shoes">
 
         <div class="product-overlay">
-            <a href="/images/<%= product[i].Product_img %>" target="_self">
+            <a href="https://res.cloudinary.com/sdz5u7v8/image/upload/ecommerce/products/<%= product[i].Product_img %>" target="_self">
                 <button>
                     <i class="fa-solid fa-eye"></i>
                     Quick View
@@ -87,6 +87,25 @@
             <del>₹<%= product[i].Product_Old_price %></del>
         </div>
 
+        <!-- Available Stock -->
+            <div class="available-stock">
+
+                <% if (product[i].Product_stock > 0) { %>
+
+                    <span style="color: green; font-weight: bold;">
+                        Available Stock: <%= product[i].Product_stock %>
+                    </span>
+
+                <% } else { %>
+
+                    <span style="color: red; font-weight: bold;">
+                        Product Not Available
+                    </span>
+
+                <% } %>
+
+            </div>
+
         <!-- Size Selector -->
         <div class="size-box">
             <label>Select Size:</label>
@@ -109,22 +128,40 @@
             <button type="button" class="qty-minus">−</button>
 
             <input type="number"
-                   class="qty-input"
-                   value="1"
-                   readonly>
+                    class="qty-input"
+                    value="1"
+                    data-stock="<%= product[i].Product_stock %>"
+                    readonly>
 
             <button type="button" class="qty-plus">+</button>
 
         </div>
-
         <!-- Buy Now -->
-        <button type="button"
-                class="product-cart-btn buy-now"
-                data-price="<%= product[i].Product_New_price %>"
+<% if (product[i].Product_stock > 0) { %>
+
+    <button type="button"
+            class="product-cart-btn buy-now"
+            data-price="<%= product[i].Product_New_price %>"
+            data-stock="<%= product[i].Product_stock %>"
             data-url="/all_product_payment/<%= product[i].Pid %>">
-            <i class="fa-solid fa-cart-shopping"></i>
-            Buy Now 
-        </button>
+
+        <i class="fa-solid fa-cart-shopping"></i>
+        Buy Now
+
+    </button>
+
+<% } else { %>
+
+    <button type="button" class="product-cart-btn" disabled
+            style="background: #999; cursor: not-allowed;">
+
+        Product Not Available
+
+    </button>
+
+<% } %>
+
+ 
 
         
     </div>

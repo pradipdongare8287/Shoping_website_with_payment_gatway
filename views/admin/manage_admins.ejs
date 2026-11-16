@@ -22,7 +22,13 @@
                 <td><%= index + 1 %></td>
 
                 <td>
-                    <img style="height:55px;width:55px;" src="/images/<%= admin.Admin_photo %>" class="admin-img">
+                    <a href="https://res.cloudinary.com/sdz5u7v8/image/upload/ecommerce/admin_users/<%= admin.Admin_photo %>" target="_blank">
+                        <img
+                            style="height:55px;width:55px;object-fit:cover;border-radius:50%;"
+                            src="https://res.cloudinary.com/sdz5u7v8/image/upload/ecommerce/admin_users/<%= admin.Admin_photo %>"
+                            class="admin-img"
+                            alt="Admin Photo">
+                    </a>
                 </td>
 
                 <td><%= admin.Admin_name %></td>
@@ -37,10 +43,10 @@
                 </td>
 
                 <td>
-                    <a href="/admin/create_owner/<%= admin.Aid %>" style="background-color:green;" class="edit-btn">
+                    <a href="/admin/create_owner/<%= admin.Aid %>"  onclick="return confirm('Are You Sure <%= admin.Admin_name %> Create Owner ')" style="background-color:green;" class="edit-btn">
                       Create Owner
                     </a>
-                    <a href="/admin/delete_admin/<%= admin.Aid %>/<%= admin.Admin_photo %>" class="delete-btn">Delete Employee</a>
+                    <a href="/admin/delete_admin/<%= admin.Aid %>/<%= admin.Admin_photo %>" onclick="return confirm('Are You Sure Delete <%= admin.Admin_name %> Employee ')" class="delete-btn">Delete Employee</a>
                 </td>
             </tr>
         <% }) %>

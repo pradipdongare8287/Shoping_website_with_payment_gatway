@@ -110,28 +110,17 @@
                        required>
             </div>
 
-            <!-- Skin Type -->
-            <!-- <div class="beauty-form-group">
-                <label>Size</label>
-                <select name="product_skin_type" required>
-                    <option value="">Select Skin Type</option>
-                    <option value="All Skin Types">ALL Size Availabe</option>
-                    <option value="Normal Skin"></option>
-                    <option value="Dry Skin">Dry Skin</option>
-                    <option value="Oily Skin">Oily Skin</option>
-                    <option value="Combination Skin">Combination Skin</option>
-                    <option value="Sensitive Skin">Sensitive Skin</option>
-                </select>
-            </div> -->
-
             <!-- Quantity -->
-            <div class="beauty-form-group">
-                <label>Product Quantity</label>
-                <input type="text"
-                       name="product_quantity"
-                       placeholder="Example: 100ml, 50g, 1 Piece"
+             <div class="beauty-form-group">
+                <label>Product Qty</label>
+                <input type="number"
+                       name="Product_qty"
+                       min="0"
+                       step="0.01"
+                       placeholder="Enter Product Qty"
                        required>
             </div>
+            
 
             <!-- Description -->
             <div class="beauty-form-group beauty-full-width">

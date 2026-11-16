@@ -70,9 +70,14 @@
                                 </td>
                                 <!-- Product Image -->
                                 <td>
-                                    <div class="product-image">
-                                        <img src="images/<%= order.Product_image %>"
-                                             alt="Product">
+                                    <div class="product-image" style="width:auto;height:auto;">
+                                        <a href="https://res.cloudinary.com/sdz5u7v8/image/upload/<%= order.Product_folder %>/<%= order.Product_image %>" target="_blank">
+                                            <img
+                                                src="https://res.cloudinary.com/sdz5u7v8/image/upload/<%= order.Product_folder %>/<%= order.Product_image %>"
+                                                alt="<%= order.Product_name %>"
+                                                style="height:100px;width:130px;object-fit:contain;"
+                                            >
+                                        </a>
                                     </div>
                                 </td>
 
@@ -217,7 +222,7 @@
         </div>
 
         <div class="table-footer">
-            Showing <strong>10</strong> orders for today.
+            Showing <strong><%=today_all_orders.length %></strong> orders for today.
         </div>
 
     </div>

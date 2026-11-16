@@ -2,7 +2,8 @@ const express = require('express')
 const server = express()
 const myslq = require('mysql2')
 const cookie = require('cookie-parser')
-
+const util = require('util');
+require('dotenv').config();
 
 var website = require('./routes/website.js')
 var admin  = require('./routes/admin.js')

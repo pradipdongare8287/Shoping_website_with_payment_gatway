@@ -16,67 +16,18 @@
         <div class="product-grid">
 
 <% for(var i=0;i<all_products.length;i++){ %>
-            <!-- <div class="product-card">
-
-                <span class="product-badge"><%=all_products[i].Eproduct_status%></span>
-
-                <div class="product-image">
-                    <img
-                        src="/images/<%=all_products[i].Eprodcut_img%>"
-                        alt="Smartphone"
-                    >
-                </div>
-
-                <div class="product-info">
-                    <span class="product-category"><%=all_products[i].Eproduct_category%></span>
-                    <h3><%=all_products[i].Eproduct_name%></h3>
-
-                    <div class="product-rating">
-                        <% for(var a=0;a<all_products[i].Eproduct_rating;a++){ %>
-                        ★
-                        <% } %>
-                        <small>(<%=all_products[i].Eproduct_rating%>)</small>
-                    </div>
-
-                    <div class="product-price">
-                        ₹<%=all_products[i].Eproduct_new_price%>
-                        <del>₹<%=all_products[i].Eproduct_old_price%></del>
-                    </div>
-
-                      <div class="quantity-box">
-
-                            <button type="button" class="qty-minus">−</button>
-
-                            <input type="number"
-                                class="qty-input"
-                                value="1"
-                                readonly>
-
-                            <button type="button" class="qty-plus">+</button>
-
-                        </div>
-
-                        Buy Now 
-                        <button type="button"
-                                class="product-cart-btn buy-now"
-                                data-price="<%=all_products[i].Eproduct_new_price%>"
-                            data-url="/Pyment_electnocis_product/<%=all_products[i].Eid%>">
-                            <i class="fa-solid fa-cart-shopping"></i>
-                            Buy Now 
-                        </button>
-                    </div>
-
-            </div> -->
-
+           
 <div class="product-card">
 
     <span class="product-badge"><%=all_products[i].Eproduct_status%></span>
 
     <div class="product-image">
-        <img
-            src="/images/<%=all_products[i].Eprodcut_img%>"
-            alt="Smartphone"
-        >
+        <a href="https://res.cloudinary.com/sdz5u7v8/image/upload/ecommerce/electronics_products/<%=all_products[i].Eprodcut_img%>" target="_blank">
+            <img
+                    src="https://res.cloudinary.com/sdz5u7v8/image/upload/ecommerce/electronics_products/<%=all_products[i].Eprodcut_img%>"
+                    alt="<%=all_products[i].Eproduct_name%>"
+                >
+        </a>
     </div>
 
     <div class="product-info">
@@ -108,37 +59,74 @@
             </select>
         </div>
 
+         <!-- Available Stock -->
+            <div class="available-stock">
+
+                <% if (all_products[i].Product_stock > 0) { %>
+
+                    <span style="color: green; font-weight: bold;">
+                        Available Stock: <%= all_products[i].Product_stock %>
+                    </span>
+
+                <% } else { %>
+
+                    <span style="color: red; font-weight: bold;">
+                        Product Not Available
+                    </span>
+
+                <% } %>
+
+            </div>
+
 
         <div class="quantity-box">
 
             <button type="button" class="qty-minus">−</button>
 
-            <input type="number"
-                class="qty-input"
-                value="1"
-                readonly>
+             <input type="number"
+            class="qty-input"
+            value="1"
+            min="1"
+            data-stock="<%= all_products[i].Product_stock %>"
+            readonly>
 
             <button type="button" class="qty-plus">+</button>
 
         </div>
 
-        <button type="button"
-                class="product-cart-btn buy-now"
-                data-id="<%=all_products[i].Eid%>"
-                data-price="<%=all_products[i].Eproduct_new_price%>"
-                data-url="/Pyment_electnocis_product/<%=all_products[i].Eid%>">
+                  <!-- Buy Now -->
+<% if (all_products[i].Product_stock > 0) { %>
 
-            <i class="fa-solid fa-cart-shopping"></i>
-            Buy Now
+    <button type="button"
+            class="product-cart-btn buy-now"
+            data-price="<%=all_products[i].Eproduct_new_price%>"
+            data-stock="<%=all_products[i].Product_stock%>"
+            data-url="/Pyment_electnocis_product/<%=all_products[i].Eid%>">
 
-        </button>
+        <i class="fa-solid fa-cart-shopping"></i>
+        Buy Now
+
+    </button>
+
+<% } else { %>
+
+    <button type="button" class="product-cart-btn" disabled
+            style="background: #999; cursor: not-allowed;">
+
+        Product Not Available
+
+    </button>
+
+<% } %>
+
+        
     </div>
 
 </div>
 
             <% } %>
 
-        </div>
+        
 
     </section>
 

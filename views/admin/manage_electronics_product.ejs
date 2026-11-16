@@ -11,7 +11,7 @@
         <a href="/admin/add_electronics_product"
            class="electronics-add-btn">
             <i class="fa-solid fa-plus"></i>
-            Add Product
+            Add New Jens Product Product
         </a>
     </div>
 
@@ -31,7 +31,8 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Product</th>
+                    <th>Product Image</th>
+                    <th>Product QTY</th>
                     <th>Category</th>
                     <th>Brand</th>
                     <th>Status</th>
@@ -51,12 +52,17 @@
 
                     <td>
                         <div class="electronics-product-info">
-                            <img src="/images/<%=E_prodcts[i].Eprodcut_img%>"
-                                 alt="Product Image">
+                            <a href="https://res.cloudinary.com/sdz5u7v8/image/upload/ecommerce/electronics_products/<%= E_prodcts[i].Eprodcut_img %>" target="_blank">
+                                <img
+                                    src="https://res.cloudinary.com/sdz5u7v8/image/upload/ecommerce/electronics_products/<%= E_prodcts[i].Eprodcut_img %>"
+                                   >
+                            </a>
 
-                            <span><%=E_prodcts[i].Eproduct_name%></span>
+                            <span><%= E_prodcts[i].Eproduct_name %></span>
                         </div>
                     </td>
+                    <td><%=E_prodcts[i].Product_stock%></td>
+                    
 
                     <td><%=E_prodcts[i].Eproduct_category%></td>
                     <td><%=E_prodcts[i].Eproduct_brand%></td>

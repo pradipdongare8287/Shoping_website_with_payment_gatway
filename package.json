@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "cloudinary": "^2.11.0",
     "cookie-parser": "^1.4.7",
     "dotenv": "^18.0.10",
     "ejs": "^7.0.2",
@@ -7,7 +8,9 @@
     "express-fileupload": "^1.5.2",
     "express-session": "^1.19.0",
     "jsonwebtoken": "^9.0.3",
-    "mysql2": "^3.24.6"
+    "mysql2": "^3.24.6",
+    "node-cron": "^4.6.0",
+    "razorpay": "^2.9.8"
   },
   "name": "payment-gatway-advance-ecomrece-project",
   "version": "1.0.0",

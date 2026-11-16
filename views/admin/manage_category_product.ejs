@@ -32,7 +32,7 @@
                     <td><%= i + 1 %></td>
 
                     <td>
-                        <img src="/images/<%= products[i].Product_image %>"
+                        <img src="https://res.cloudinary.com/sdz5u7v8/image/upload/ecommerce/category_products/<%= products[i].Product_image %>"
                              class="category-product-img"
                              alt="Product Image">
                     </td>
@@ -48,11 +48,11 @@
                     <td>
                         <div class="category-action-buttons">
 
-                            <a href="#"
+                            <!-- <a href="#"
                                class="category-edit-btn"
                                title="Edit">
                                 <i class="fa-solid fa-pen-to-square"></i>
-                            </a>
+                            </a> -->
 
                             <a href="/admin/delete_category_product/<%= products[i].cpid %>/<%= products[i].Product_image %>"
                                class="category-delete-btn"

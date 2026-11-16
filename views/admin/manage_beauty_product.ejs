@@ -4,14 +4,16 @@
     <!-- Table Header -->
     <div class="beauty-table-header">
         <div>
-            <h2>Manage Jeans Products</h2>
-            <p>View and manage all Jeans products</p>
+            <h2 style="color:blue;">Manage Linan Products</h2>
+            <p>View and manage all Linan products</p>
         </div>
 
-        <a href="/admin/add_beauty_product"
+        <a  href="/admin/add_beauty_product"
            class="beauty-add-btn">
             <i class="fa-solid fa-plus"></i>
-            Add Product
+            
+                Add Product
+            
         </a>
     </div>
 
@@ -32,14 +34,13 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Product</th>
+                    <th>Product Image</th>
+                    <th>Product Qty</th>
                     <th>Category</th>
                     <th>Brand</th>
                     <th>Status</th>
                     <th>Rating</th>
                     <th>Price</th>
-                    <th>Product Type</th>
-                    <th>Quantity</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -53,12 +54,17 @@
 
                     <td>
                         <div class="beauty-product-info">
-                            <img src="/images/<%=product[i].Prdouct_image%>"
-                                 alt="Product Image">
+                            <a href="https://res.cloudinary.com/sdz5u7v8/image/upload/ecommerce/beauty_products/<%= product[i].Prdouct_image %>" target="_blank">
+                                <img
+                                    src="https://res.cloudinary.com/sdz5u7v8/image/upload/ecommerce/beauty_products/<%= product[i].Prdouct_image %>"
+                                    >
+                            </a>
 
-                            <span><%=product[i].product_name%></span>
+                            <span><%= product[i].product_name %></span>
                         </div>
                     </td>
+                    <td><%=product[i].Product_stock%></td>
+                    
 
                     <td><%=product[i].product_category%></td>
                     <td><%=product[i].product_brand%></td>
@@ -85,8 +91,7 @@
                         </div>
                     </td>
 
-                    <td><%=product[i].product_skin_type%></td>
-                    <td><%=product[i].product_quantity%></td>
+
 
                     <td>
                         <div class="beauty-action-buttons">

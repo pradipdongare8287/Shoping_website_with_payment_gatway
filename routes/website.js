@@ -1,10 +1,9 @@
 const express = require('express');
 const website = express();
-
+const util = require('util');
 const cookie = require('cookie-parser');
 const session = require('express-session');
 const jwt = require('jsonwebtoken');
-
 var query = require('../database');
 const admin = require('./admin');
 
@@ -120,30 +119,6 @@ website.post('/login_check', async (req, res) => {
 });
 // ================= TRENDING PRODUCT PAYMENT =================
 
-// website.get('/trending_product_payemnt/:id',Check_User_Login, async (req, res) => {
-
-//     var id = req.params.id;
-
-//     var trending_product = `
-//         SELECT *
-//         FROM trending_products
-//         WHERE tpid = ?
-//     `;
-
-//     var product = await query(trending_product, [id]);
-
-//     res.render('website/payment_page.ejs', {
-//         payment_amt: {
-//             Product_New_price:product[0].TProduct_new_price
-//         },
-//         product_id: product[0].tpid,
-//         product_name: product[0].TProduct_name,
-//         product_img : product[0].TProduct_image
-//     });
-
-// });
-
-
 website.get('/trending_product_payemnt/:id', Check_User_Login, async (req, res) => {
 
     var id = req.params.id;
@@ -184,6 +159,8 @@ website.get('/trending_product_payemnt/:id', Check_User_Login, async (req, res) 
         product_id: product[0].tpid,
         product_name: product[0].TProduct_name,
         product_img: product[0].TProduct_image,
+        product_folder: 'ecommerce/trending_products',
+        product_type: 'trending',
         qty: qty,
         unit_price: price,
         size: size
@@ -209,23 +186,6 @@ website.get('/all_products', async (req, res) => {
 
 
 // ================= ALL PRODUCT PAYMENT =================
-// website.get('/all_product_payment/:id',Check_User_Login, async (req, res) => {
-
-//     var id = req.params.id;
-
-//     var all_proudct = 'select * from add_product where Pid = ?';
-
-//     var product = await query(all_proudct, [id]);
-
-//     res.render('website/payment_page.ejs', { payment_amt: {Product_New_price: product[0].Product_New_price },
-//         product_id: product[0].Pid,
-//          product_name: product[0].Product_name,
-//          product_img:product[0].Product_img
-
-//         });
-
-// });
-
 
 website.get('/all_product_payment/:id', Check_User_Login, async (req, res) => {
 
@@ -265,6 +225,8 @@ website.get('/all_product_payment/:id', Check_User_Login, async (req, res) => {
         product_id: product[0].Pid,
         product_name: product[0].Product_name,
         product_img: product[0].Product_img,
+        product_folder: 'ecommerce/products',
+        product_type: 'all_product',
 
         qty: qty,
         unit_price: price,
@@ -293,28 +255,6 @@ website.get('/fashion', async (req, res) => {
 
 // ================= FASHION PAYMENT =================
 
-// website.get('/fashion_product_paymnet/:id', Check_User_Login,async (req, res) => {
-
-//     var id = req.params.id;
-
-//         var purchase_product = `
-//         SELECT *,
-//         fashion_product_new_price AS Product_New_price
-//         FROM fashion_product
-//         WHERE fid = ?
-//     `;
-
-//     var product = await query(purchase_product, [id]);
-
-//     res.render('website/payment_page.ejs', { payment_amt:{Product_New_price: product[0].fashion_product_new_price },
-//         product_id: product[0].fid, 
-//         product_name: product[0].fashion_product_name,
-//         product_img:product[0].fashion_product_img
-
-//     });
-
-
-// });
 
 
 website.get('/fashion_product_paymnet/:id', Check_User_Login, async (req, res) => {
@@ -360,6 +300,8 @@ website.get('/fashion_product_paymnet/:id', Check_User_Login, async (req, res) =
         product_id: product[0].fid,
         product_name: product[0].fashion_product_name,
         product_img: product[0].fashion_product_img,
+        product_folder: 'ecommerce/fashion_products',
+        product_type: 'fashion',
 
         qty: qty,
         unit_price: price,
@@ -388,29 +330,6 @@ website.get('/electronics', async (req, res) => {
 
 // ================= ELECTRONICS PAYMENT =================
 
-// website.get('/Pyment_electnocis_product/:id',Check_User_Login, async (req, res) => {
-
-//     var id = req.params.id;
-
-  
-//      var select_purchase_product = `
-//         SELECT *,
-//         Eproduct_new_price AS Product_New_price
-//         FROM electronics_products
-//         WHERE Eid = ?
-//     `;
-
-//     var product = await query(select_purchase_product, [id]);
-
-//      res.render('website/payment_page.ejs', { payment_amt:{Product_New_price: product[0].Eproduct_new_price },
-//         product_id: product[0].Eid, 
-//         product_name: product[0].Eproduct_name,
-//         product_img:product[0].Eprodcut_img
-
-//     });
-    
-
-// });
 
 
 website.get('/Pyment_electnocis_product/:id', Check_User_Login, async (req, res) => {
@@ -456,6 +375,8 @@ website.get('/Pyment_electnocis_product/:id', Check_User_Login, async (req, res)
         product_id: product[0].Eid,
         product_name: product[0].Eproduct_name,
         product_img: product[0].Eprodcut_img,
+        product_folder: 'ecommerce/electronics_products',
+        product_type: 'electronics',
 
         qty: qty,
         unit_price: price,
@@ -482,28 +403,6 @@ website.get('/beauty', async (req, res) => {
 
  
 // ================= BEAUTY PAYMENT =================
-
-// website.get('/payment_beauyt_product/:id',Check_User_Login, async (req, res) => {
-
-//     var id = req.params.id;
-
-//      var select_product = `
-//         SELECT *,
-//         product_new_price AS Product_New_price
-//         FROM beauty_product
-//         WHERE pid = ?
-//     `;
-
-//     var product = await query(select_product, [id]);
-//         res.render('website/payment_page.ejs', { payment_amt:{Product_New_price: product[0].product_new_price },
-//         product_id: product[0].pid, 
-//         product_name: product[0].product_name,
-//         product_img:product[0].Prdouct_image
-
-//     });
-
-
-// });
 
 
 website.get('/payment_beauyt_product/:id', Check_User_Login, async (req, res) => {
@@ -549,6 +448,8 @@ website.get('/payment_beauyt_product/:id', Check_User_Login, async (req, res) =>
         product_id: product[0].pid,
         product_name: product[0].product_name,
         product_img: product[0].Prdouct_image,
+        product_folder: 'ecommerce/beauty_products',
+        	product_type: 'beauty',
 
         qty: qty,
         unit_price: price,
@@ -574,9 +475,21 @@ website.get('/payment_beauyt_product/:id', Check_User_Login, async (req, res) =>
 //         product_id,
 //         product_name,
 //         product_price,
+//         product_qty,
 //         payment_id,
-//         product_img
+//         product_img,
+//         product_size,
+//         product_folder
 //     } = req.body;
+
+//     var qty = Number(product_qty);
+
+//     if (!Number.isInteger(qty) || qty < 1) {
+//         return res.status(400).json({
+//             success: false,
+//             message: 'Invalid quantity'
+//         });
+//     }
 
 //     var save_order = `
 //         INSERT INTO orders
@@ -590,35 +503,39 @@ website.get('/payment_beauyt_product/:id', Check_User_Login, async (req, res) =>
 //             Order_date,
 //             Order_status,
 //             Payment_status,
-//             Product_image
+//             Product_image,
+//             Product_size,
+//             Product_folder
 //         )
-//         VALUES (?, ?, ?, ?, 1, ?, ?, 'Booked', 'Paid',?)
+//         VALUES (?, ?, ?, ?, ?, ?, ?, 'Booked', 'Paid', ?,?,?)
 //     `;
 
-//   let now = new Date();
+//     let now = new Date();
 
-// let Order_date = now.getFullYear() + "-" +
-//     String(now.getMonth() + 1).padStart(2, '0') + "-" +
-//     String(now.getDate()).padStart(2, '0') + " " +
-//     String(now.getHours()).padStart(2, '0') + ":" +
-//     String(now.getMinutes()).padStart(2, '0') + ":" +
-//     String(now.getSeconds()).padStart(2, '0');
+//     let Order_date = now.getFullYear() + "-" +
+//         String(now.getMonth() + 1).padStart(2, '0') + "-" +
+//         String(now.getDate()).padStart(2, '0') + " " +
+//         String(now.getHours()).padStart(2, '0') + ":" +
+//         String(now.getMinutes()).padStart(2, '0') + ":" +
+//         String(now.getSeconds()).padStart(2, '0');
 
 //     await query(save_order, [
 //         req.user.uid,
 //         product_id,
 //         product_name,
 //         product_price,
+//         qty,
 //         payment_id,
 //         Order_date,
-//         product_img
+//         product_img,
+//         product_size,
+//         product_folder
 //     ]);
-//     console.log(product_img)
+
 //     res.json({
 //         success: true
 //     });
 
-    
 // });
 
 
@@ -638,60 +555,177 @@ website.post('/save_order', async (req, res) => {
         product_qty,
         payment_id,
         product_img,
-        product_size
+        product_size,
+        product_folder,
+        product_type
     } = req.body;
 
     var qty = Number(product_qty);
 
-    if (!Number.isInteger(qty) || qty < 1) {
+    if (!Number.isInteger(qty) || qty < 1 || !payment_id) {
         return res.status(400).json({
             success: false,
-            message: 'Invalid quantity'
+            message: 'Invalid quantity or payment ID'
         });
     }
 
-    var save_order = `
-        INSERT INTO orders
-        (
-            Uid,
-            Product_id,
-            Product_name,
-            Product_price,
-            Product_qty,
-            Payment_id,
+    // Product Type nusar table select karne
+    var product_tables = {
+        all_product: {
+            table: 'add_product',
+            id: 'Pid'
+        },
+        trending: {
+            table: 'trending_products',
+            id: 'tpid'
+        },
+        fashion: {
+            table: 'fashion_product',
+            id: 'fid'
+        },
+        electronics: {
+            table: 'electronics_products',
+            id: 'Eid'
+        },
+        beauty: {
+            table: 'beauty_product',
+            id: 'pid'
+        }
+    };
+
+    var selected_product = product_tables[product_type];
+
+    if (!selected_product) {
+        return res.status(400).json({
+            success: false,
+            message: 'Invalid product type'
+        });
+    }
+
+    var connection;
+
+    try {
+
+        connection = await query.getConnection();
+
+        var dbQuery = util.promisify(connection.query).bind(connection);
+        var beginTransaction = util.promisify(connection.beginTransaction).bind(connection);
+        var commit = util.promisify(connection.commit).bind(connection);
+        var rollback = util.promisify(connection.rollback).bind(connection);
+
+        await beginTransaction();
+
+        // Payment ID already saved aahe ka?
+        var existing_order = await dbQuery(
+            'SELECT Payment_id FROM orders WHERE Payment_id = ?',
+            [payment_id]
+        );
+
+        if (existing_order.length > 0) {
+            await rollback();
+
+            return res.json({
+                success: true,
+                message: 'Order already saved'
+            });
+        }
+
+        // Stock kami karne
+        var update_stock = `
+            UPDATE ${selected_product.table}
+            SET Product_stock = Product_stock - ?
+            WHERE ${selected_product.id} = ?
+            AND Product_stock >= ?
+        `;
+
+        var stock_result = await dbQuery(update_stock, [
+            qty,
+            product_id,
+            qty
+        ]);
+
+        if (stock_result.affectedRows === 0) {
+
+            await rollback();
+
+            return res.status(400).json({
+                success: false,
+                message: 'Insufficient stock. Product is not available.'
+            });
+        }
+
+        // Order save karne
+        var save_order = `
+            INSERT INTO orders
+            (
+                Uid,
+                Product_id,
+                Product_name,
+                Product_price,
+                Product_qty,
+                Payment_id,
+                Order_date,
+                Order_status,
+                Payment_status,
+                Product_image,
+                Product_size,
+                Product_folder
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, 'Booked', 'Paid', ?, ?, ?)
+        `;
+
+        var now = new Date();
+
+        var Order_date = now.getFullYear() + "-" +
+            String(now.getMonth() + 1).padStart(2, '0') + "-" +
+            String(now.getDate()).padStart(2, '0') + " " +
+            String(now.getHours()).padStart(2, '0') + ":" +
+            String(now.getMinutes()).padStart(2, '0') + ":" +
+            String(now.getSeconds()).padStart(2, '0');
+
+        await dbQuery(save_order, [
+            req.user.uid,
+            product_id,
+            product_name,
+            product_price,
+            qty,
+            payment_id,
             Order_date,
-            Order_status,
-            Payment_status,
-            Product_image,
-            Product_size
-        )
-        VALUES (?, ?, ?, ?, ?, ?, ?, 'Booked', 'Paid', ?,?)
-    `;
+            product_img,
+            product_size,
+            product_folder
+        ]);
 
-    let now = new Date();
+        await commit();
 
-    let Order_date = now.getFullYear() + "-" +
-        String(now.getMonth() + 1).padStart(2, '0') + "-" +
-        String(now.getDate()).padStart(2, '0') + " " +
-        String(now.getHours()).padStart(2, '0') + ":" +
-        String(now.getMinutes()).padStart(2, '0') + ":" +
-        String(now.getSeconds()).padStart(2, '0');
+        return res.json({
+            success: true
+        });
 
-    await query(save_order, [
-        req.user.uid,
-        product_id,
-        product_name,
-        product_price,
-        qty,
-        payment_id,
-        Order_date,
-        product_img,
-        product_size
-    ]);
+    } catch (error) {
 
-    res.json({
-        success: true
-    });
+        console.log('Save Order Error:', error);
+
+        if (connection) {
+            try {
+                await util.promisify(connection.rollback).bind(connection)();
+            } catch (rollbackError) {
+                console.log('Rollback Error:', rollbackError);
+            }
+        }
+
+        return res.status(500).json({
+            success: false,
+            message: 'Order could not be saved'
+        });
+
+    } finally {
+
+        if (connection) {
+            connection.release();
+        }
+
+    }
 
 });
 

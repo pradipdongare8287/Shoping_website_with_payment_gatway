@@ -6,13 +6,13 @@
     <!-- HEADER -->
     <div class="product-table-header">
         <div>
-            <h2>All Shirt's Products</h2>
+            <h2>All Shirt's Products Here</h2>
             
         </div>
 
-        <a href="/admin/add_product" class="add-product-btn">
+        <a href="/admin/add_fashion_product" class="add-product-btn">
             <i class="fa-solid fa-plus"></i>
-            Add Product
+            Add New Shirt Product
         </a>
     </div>
 
@@ -26,6 +26,7 @@
                     <th>Sr.No</th>
                     <th>Status</th>
                     <th>Image</th>
+                    <th>Qty</th>
                     <th>Category</th>
                     <th>Product Name</th>
                     <th>Rating</th>
@@ -48,16 +49,24 @@
                     </td>
 
                     <td>
-                        <img src="/images/<%=fashion_product[i].fashion_product_img%>"
-                             class="product-table-img"
-                             alt="Product">
+                        <a href="https://res.cloudinary.com/sdz5u7v8/image/upload/ecommerce/fashion_products/<%= fashion_product[i].fashion_product_img %>" target="_blank">
+                            <img
+                                src="https://res.cloudinary.com/sdz5u7v8/image/upload/ecommerce/fashion_products/<%= fashion_product[i].fashion_product_img %>"
+                                class="product-table-img"
+                                alt="<%=fashion_product[i].fashion_product_name%>">
+                        </a>
+                    </td>
+
+                    <td>
+                        <%=fashion_product[i].Product_stock%>
                     </td>
 
                     <td>
                         <%=fashion_product[i].fashion_product_category%>
                     </td>
+                    
 
-                    <td class="product-name">
+                    <td class="">
                         <%=fashion_product[i].fashion_product_name%>
                        
                     </td>
@@ -81,13 +90,13 @@
 
                     <td>
                         <div class="product-action-buttons">
-                            <a href="/admin/edit_product/1"
+                            <!-- <a href="/admin/edit_product/1"
                                class="edit-product-btn"
                                title="Edit">
                                 <i class="fa-solid fa-pen"></i>
-                            </a>
+                            </a> -->
 
-                            <a href="/admin/delete_fashion_product/<%=fashion_product[i].fid%>"
+                            <a href="/admin/delete_fashion_product/<%=fashion_product[i].fid%>/<%=fashion_product[i].fashion_product_img%>"
                                class="delete-product-btn"
                                title="Delete">
                                 <i class="fa-solid fa-trash"></i>

@@ -100,8 +100,9 @@
             
             <a class="category-card">
                 <div class="category-image">
-                    <img src="/images/<%=category.Product_image%>"
-                        alt="Fashion">
+                    <img
+                        src="https://res.cloudinary.com/sdz5u7v8/image/upload/ecommerce/category_products/<%= category.Product_image %>"
+                        alt="<%=category.Product_name%>">
                 </div>
                 <h3><%=category.Product_category%></h3>
                 <p><%=category.Product_name%></p>
@@ -143,8 +144,10 @@
             <i class="fa-regular fa-heart"></i>
         </button>
 
-        <img src="/images/<%= product[i].TProduct_image %>"
+        <a href="https://res.cloudinary.com/sdz5u7v8/image/upload/ecommerce/trending_products/<%= product[i].TProduct_image %>" target="_blank">
+            <img src="https://res.cloudinary.com/sdz5u7v8/image/upload/ecommerce/trending_products/<%= product[i].TProduct_image %>"
             alt="Product">
+        </a>
     </div>
 
     <div class="product-info">
@@ -185,31 +188,66 @@
             </select>
         </div>
 
+        <!-- Available Stock -->
+            <div class="available-stock">
+
+                <% if (product[i].Product_stock > 0) { %>
+
+                    <span style="color: green; font-weight: bold;">
+                        Available Stock: <%= product[i].Product_stock %>
+                    </span>
+
+                <% } else { %>
+
+                    <span style="color: red; font-weight: bold;">
+                        Product Not Available
+                    </span>
+
+                <% } %>
+
+            </div>
+            
         <!-- Quantity Selector -->
         <div class="quantity-box">
 
             <button type="button" class="qty-minus">−</button>
 
-            <input type="number"
-                class="qty-input"
-                value="1"
-                min="1"
-                readonly>
+                    <input type="number"
+            class="qty-input"
+            value="1"
+            min="1"
+            data-stock="<%= product[i].Product_stock %>"
+            readonly>
 
             <button type="button" class="qty-plus">+</button>
 
         </div>
+        
 
-        <!-- Buy Now -->
-        <button type="button"
+          <!-- Buy Now -->
+<% if (product[i].Product_stock > 0) { %>
+
+    <button type="button"
             class="product-cart-btn buy-now"
             data-price="<%= product[i].TProduct_new_price %>"
+            data-stock="<%= product[i].Product_stock %>"
             data-url="/trending_product_payemnt/<%= product[i].tpid %>">
 
-            <i class="fa-solid fa-cart-shopping"></i>
-            Buy Now
+        <i class="fa-solid fa-cart-shopping"></i>
+        Buy Now
 
-        </button>
+    </button>
+
+<% } else { %>
+
+    <button type="button" class="product-cart-btn" disabled
+            style="background: #999; cursor: not-allowed;">
+
+        Product Not Available
+
+    </button>
+
+<% } %>
 
     </div>
 

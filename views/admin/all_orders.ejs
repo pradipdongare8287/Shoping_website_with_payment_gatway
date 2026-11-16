@@ -35,11 +35,14 @@
                     <tr>
                         <td><%= index+1 %></td>
                         <td>
-                            <a href="images/<%= order.Product_image %>" target="_blank">
-                                <img style="height:100px;width:130px;" src="images/<%= order.Product_image %>"/>
+                            <a href="https://res.cloudinary.com/sdz5u7v8/image/upload/<%= order.Product_folder %>/<%= order.Product_image %>" target="_blank">
+                                <img
+                                    style="height:100px;width:130px;object-fit:contain;"
+                                    src="https://res.cloudinary.com/sdz5u7v8/image/upload/<%= order.Product_folder %>/<%= order.Product_image %>"
+                                    alt="<%= order.Product_name %>"
+                                />
                             </a>
                         </td>
-
                         <td style="font-size:17px;"><%= order.Product_size %></td>
 
 
