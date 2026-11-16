@@ -45,6 +45,10 @@ var options = {
 
     handler: async function (response) {
 
+    try {
+
+        console.log("Payment Successful:", response.razorpay_payment_id);
+
         var result = await fetch('/save_order', {
             method: 'POST',
 
@@ -56,30 +60,37 @@ var options = {
                 payment_id: response.razorpay_payment_id,
                 product_id: "<%= product_id %>",
                 product_name: "<%= product_name %>",
-
-                // Total amount
                 product_price: <%= payment_amt.Product_New_price %>,
-
-                // Dynamic quantity
                 product_qty: <%= qty %>,
-
                 product_size: "<%= size %>",
-
                 product_img: "<%= product_img %>",
                 product_folder: "<%= product_folder %>",
                 product_type: "<%= product_type %>"
-
             })
         });
 
         var data = await result.json();
 
-        if (data.success) {
-            window.location.href = '/account';
+        console.log("Save Order Response:", data);
+
+        if (result.ok && data.success) {
+
+            window.location.replace('/account');
+
         } else {
-            alert(data.message);
+
+            alert(data.message || 'Order could not be saved');
+
         }
+
+    } catch (error) {
+
+        console.error("Payment Handler Error:", error);
+
+        alert("Something went wrong. Please check your order.");
+
     }
+}
 };
 
 var rzp1 = new Razorpay(options);

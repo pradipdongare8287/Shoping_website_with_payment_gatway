@@ -111,7 +111,7 @@
                         <p>Your personal details</p>
                     </div>
 
-                    <!-- <a href="/edit-profile" class="edit-btn">
+                    <!-- <a href="/edit_profile" class="edit-btn">
                         <i class="fa-solid fa-pen"></i>
                         Edit Profile
                     </a> -->
@@ -179,7 +179,7 @@
             <p>Quantity: <%= order.Product_qty %></p>
 
             <p>
-                Order Date:
+                <!-- Order Date:
                 <%= new Date(String(order.Order_date).replace(' ', 'T')).toLocaleString('en-IN', {
                     day: '2-digit',
                     month: '2-digit',
@@ -189,8 +189,34 @@
                     second: '2-digit',
                     hour12: true,
                     timeZone: 'Asia/Kolkata'
-                }) %>
+                }) %> -->
+                 <%
+    var orderDate = String(order.Order_date);
+    var parts = orderDate.split(/[- :T]/);
+
+    var year = parts[0];
+    var month = parts[1];
+    var day = parts[2];
+
+    var hour = Number(parts[3]);
+    var minute = parts[4];
+    var second = parts[5];
+
+    var ampm = hour >= 12 ? 'PM' : 'AM';
+
+    var displayHour = hour % 12 || 12;
+
+    var formattedDate =
+        day + '/' + month + '/' + year + ' ' +
+        String(displayHour).padStart(2, '0') + ':' +
+        minute + ':' + second + ' ' + ampm;
+%>
+
+<p>
+    Order Date: <%= formattedDate %>
+</p>
             </p>
+            
                     
 
             <p>Order Status: <%= order.Order_status %></p>

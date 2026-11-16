@@ -34,6 +34,9 @@ const util = require('util');
 
 
 // const mysql = require('mysql2');
+
+
+
 require('dotenv').config();
 
 
@@ -75,6 +78,10 @@ database.getConnection((error, connection) => {
     // console.log('Clever Cloud Database Connected Successfully!');
     connection.release();
 });
+
+query.getConnection = async () => {
+    return await promisePool.getConnection();
+};
 
 module.exports = query;
 

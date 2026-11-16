@@ -608,12 +608,12 @@ website.post('/save_order', async (req, res) => {
 
         connection = await query.getConnection();
 
-        var dbQuery = util.promisify(connection.query).bind(connection);
-        var beginTransaction = util.promisify(connection.beginTransaction).bind(connection);
-        var commit = util.promisify(connection.commit).bind(connection);
-        var rollback = util.promisify(connection.rollback).bind(connection);
+        var dbQuery = async (sql, values = []) => {
+                var [result] = await connection.query(sql, values);
+                return result;
+            };
 
-        await beginTransaction();
+        await connection.beginTransaction();
 
         // Payment ID already saved aahe ka?
         var existing_order = await dbQuery(
@@ -622,7 +622,7 @@ website.post('/save_order', async (req, res) => {
         );
 
         if (existing_order.length > 0) {
-            await rollback();
+           await connection.rollback();
 
             return res.json({
                 success: true,
@@ -646,7 +646,7 @@ website.post('/save_order', async (req, res) => {
 
         if (stock_result.affectedRows === 0) {
 
-            await rollback();
+            await connection.rollback();
 
             return res.status(400).json({
                 success: false,
@@ -696,7 +696,7 @@ website.post('/save_order', async (req, res) => {
             product_folder
         ]);
 
-        await commit();
+        await connection.commit();
 
         return res.json({
             success: true
@@ -707,12 +707,12 @@ website.post('/save_order', async (req, res) => {
         console.log('Save Order Error:', error);
 
         if (connection) {
-            try {
-                await util.promisify(connection.rollback).bind(connection)();
-            } catch (rollbackError) {
-                console.log('Rollback Error:', rollbackError);
-            }
-        }
+    try {
+        await connection.rollback();
+    } catch (rollbackError) {
+        console.log('Rollback Error:', rollbackError);
+    }
+}
 
         return res.status(500).json({
             success: false,
@@ -743,6 +743,13 @@ website.get('/home_and_leaving', async (req, res) => {
     });
 
 });
+
+// website.get('/edit_profile',async(req,res)=>{
+//     var id = req.user.uid;
+//     var find_user = 'select * from users where Uid =?'
+//     var select_user = await query(find_user,[id])
+//     res.render('website/update_user.ejs',{user:select_user})
+// })
 
 
 // ================= CONTACT =================wishlist
