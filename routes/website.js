@@ -7,6 +7,13 @@ const jwt = require('jsonwebtoken');
 var query = require('../database');
 const admin = require('./admin');
 
+const Razorpay = require('razorpay');
+
+const razorpay = new Razorpay({
+    key_id: process.env.key_id,
+    key_secret: process.env.key_secret
+});
+
 var key = 'users';
 
 website.use(express.urlencoded({ extended: true }));
@@ -132,6 +139,9 @@ website.get('/trending_product_payemnt/:id', Check_User_Login, async (req, res) 
 
     var size = req.query.size;
 
+    var color = req.query.color;
+
+    
     if (!size) {
         return res.status(400).send('Please select product size');
     }
@@ -163,7 +173,8 @@ website.get('/trending_product_payemnt/:id', Check_User_Login, async (req, res) 
         product_type: 'trending',
         qty: qty,
         unit_price: price,
-        size: size
+        size: size,
+        color: color
     });
 
 });
@@ -200,6 +211,9 @@ website.get('/all_product_payment/:id', Check_User_Login, async (req, res) => {
 
     var size = req.query.size;
 
+    var color = req.query.color;
+
+
     if (!size) {
         return res.status(400).send('Please select product size');
     }
@@ -230,7 +244,8 @@ website.get('/all_product_payment/:id', Check_User_Login, async (req, res) => {
 
         qty: qty,
         unit_price: price,
-        size: size
+        size: size,
+        color:color
 
     });
 
@@ -269,6 +284,9 @@ website.get('/fashion_product_paymnet/:id', Check_User_Login, async (req, res) =
     }
 
     var size = req.query.size;
+    var color = req.query.color;
+
+    
 
     if (!size) {
         return res.status(400).send('Please select product size');
@@ -305,7 +323,8 @@ website.get('/fashion_product_paymnet/:id', Check_User_Login, async (req, res) =
 
         qty: qty,
         unit_price: price,
-        size:size
+        size:size,
+        color:color
 
     });
 
@@ -344,6 +363,10 @@ website.get('/Pyment_electnocis_product/:id', Check_User_Login, async (req, res)
     }
 
     var size = req.query.size;
+    var color = req.query.color;
+    
+
+
 
     if (!size) {
         return res.status(400).send('Please select product size');
@@ -380,7 +403,8 @@ website.get('/Pyment_electnocis_product/:id', Check_User_Login, async (req, res)
 
         qty: qty,
         unit_price: price,
-        size:size
+        size:size,
+        color:color
 
     });
 
@@ -417,10 +441,8 @@ website.get('/payment_beauyt_product/:id', Check_User_Login, async (req, res) =>
     }
 
      var size = req.query.size;
-
-    if (!size) {
-        return res.status(400).send('Please select product size');
-    }
+     var color = req.query.color;
+    
 
     var select_product = `
         SELECT *,
@@ -453,7 +475,8 @@ website.get('/payment_beauyt_product/:id', Check_User_Login, async (req, res) =>
 
         qty: qty,
         unit_price: price,
-        size:size
+        size:size,
+        color:color
 
     });
 
@@ -557,7 +580,8 @@ website.post('/save_order', async (req, res) => {
         product_img,
         product_size,
         product_folder,
-        product_type
+        product_type,
+        product_color
     } = req.body;
 
     var qty = Number(product_qty);
@@ -605,6 +629,7 @@ website.post('/save_order', async (req, res) => {
     var connection;
 
     try {
+        
 
         connection = await query.getConnection();
 
@@ -614,6 +639,7 @@ website.post('/save_order', async (req, res) => {
             };
 
         await connection.beginTransaction();
+       
 
         // Payment ID already saved aahe ka?
         var existing_order = await dbQuery(
@@ -629,6 +655,8 @@ website.post('/save_order', async (req, res) => {
                 message: 'Order already saved'
             });
         }
+
+        
 
         // Stock kami karne
         var update_stock = `
@@ -654,6 +682,46 @@ website.post('/save_order', async (req, res) => {
             });
         }
 
+        // Razorpay Payment Status Check & Capture
+
+var payment = await razorpay.payments.fetch(payment_id);
+if (!payment.amount || payment.amount <= 0) {
+    await connection.rollback();
+
+    return res.status(400).json({
+        success: false,
+        message: 'Invalid payment amount'
+    });
+}
+
+if (payment.currency !== 'INR') {
+    await connection.rollback();
+
+    return res.status(400).json({
+        success: false,
+        message: 'Invalid payment currency'
+    });
+}
+
+if (payment.status === 'authorized') {
+
+    await razorpay.payments.capture(
+        payment_id,
+        payment.amount,
+        payment.currency
+    );
+
+} else if (payment.status !== 'captured') {
+
+    await connection.rollback();
+
+    return res.status(400).json({
+        success: false,
+        message: 'Payment is not authorized or captured'
+    });
+
+}
+
         // Order save karne
         var save_order = `
             INSERT INTO orders
@@ -669,9 +737,10 @@ website.post('/save_order', async (req, res) => {
                 Payment_status,
                 Product_image,
                 Product_size,
-                Product_folder
+                Product_folder,
+                Product_color
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?, 'Booked', 'Paid', ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, 'Booked', 'Paid', ?, ?, ?,?)
         `;
 
         var now = new Date();
@@ -693,7 +762,8 @@ website.post('/save_order', async (req, res) => {
             Order_date,
             product_img,
             product_size,
-            product_folder
+            product_folder,
+            product_color
         ]);
 
         await connection.commit();
@@ -772,6 +842,9 @@ website.get('/account', async (req, res) => {
     var getuser = 'SELECT * FROM users WHERE Uid = ?';
     var user = await query(getuser, [user_id]);
 
+    // console.log("Login User ID:", user_id);
+// console.log("Database User Result:", user);
+
     var total_orders = `SELECT COUNT(*) AS Total_Orders FROM orders WHERE Uid = ?;`
     var all_orders = await query(total_orders,[user_id])
 
@@ -779,10 +852,12 @@ website.get('/account', async (req, res) => {
     var orders = await query(getorders, [user_id]);
 
     // console.log(orders)
+    // console.log('Account User:', user[0]);
     res.render('website/account.ejs', {
         user: user[0],
         orders: orders,
         all_orders:all_orders[0]
+
     });
 
 });

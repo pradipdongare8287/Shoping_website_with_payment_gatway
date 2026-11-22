@@ -41,6 +41,8 @@
                     <th>Status</th>
                     <th>Rating</th>
                     <th>Price</th>
+                    <th>Product Color</th>
+                    <th>Product Size</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -91,6 +93,42 @@
                         </div>
                     </td>
 
+                    <td>
+                        <% 
+                            var colors = [];
+                            try {
+                                colors = JSON.parse(product[i].Product_color || '[]');
+                            } catch (e) {
+                                colors = [];
+                            }
+                        %>
+
+                        <% colors.forEach(function(color) { %>
+
+                            <span style="display:inline-block; background:#e8e8e8; color:#222; padding:4px 9px; margin:3px; border-radius:6px; font-size:12px;">
+                                <%= color %>
+                            </span>
+
+                        <% }) %>
+                    </td>
+                    <td>
+                        <% 
+                            var colors = [];
+                            try {
+                                colors = JSON.parse(product[i].Product_size || '[]');
+                            } catch (e) {
+                                colors = [];
+                            }
+                        %>
+
+                        <% colors.forEach(function(color) { %>
+
+                            <span style="display:inline-block; background:#e8e8e8; color:#222; padding:4px 9px; margin:3px; border-radius:6px; font-size:12px;">
+                                <%= color %>
+                            </span>
+
+                        <% }) %>
+                    </td>
 
 
                     <td>

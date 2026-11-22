@@ -1,7 +1,7 @@
 const mysql = require('mysql2');
 const util = require('util');
 
-
+require('dotenv').config();
 // const mysql = require('mysql2')
 // const util = require('util')
 
@@ -14,22 +14,24 @@ const util = require('util');
 
 
 
-// var database = mysql.createPool({
-//     host: 'localhost',
-//     user: 'root',
-//     password: 'root',
-//     database: 'shoping_website',
-//     waitForConnections: true,
-//     connectionLimit: 10,
-//     queueLimit: 0
-// });
+var database = mysql.createPool({
+    host: 'localhost',
+    user: 'root',
+    password: 'root',
+    database: 'shoping_website',
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0
+});
 
-// var query = util.promisify(database.query).bind(database);
+var query = util.promisify(database.query).bind(database);
 
-// // Transaction साठी स्वतंत्र Connection
-// query.getConnection = util.promisify(database.getConnection).bind(database);
-
-// module.exports = query;
+// Transaction साठी स्वतंत्र Connection
+query.getConnection = async () => {
+    var connection = await util.promisify(database.getConnection).bind(database)();
+    return connection.promise();
+};
+module.exports = query;
 
 
 
@@ -37,51 +39,51 @@ const util = require('util');
 
 
 
-require('dotenv').config();
 
 
-const database = mysql.createPool({
-    host: process.env.DB_HOST,
-    port: 3306,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
 
-    waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0,
+// const database = mysql.createPool({
+//     host: process.env.DB_HOST,
+//     port: 3306,
+//     user: process.env.DB_USER,
+//     password: process.env.DB_PASSWORD,
+//     database: process.env.DB_NAME,
 
-    enableKeepAlive: true,
-    keepAliveInitialDelay: 0
-});
+//     waitForConnections: true,
+//     connectionLimit: 10,
+//     queueLimit: 0,
 
-// Promise Based Query
-const promisePool = database.promise();
+//     enableKeepAlive: true,
+//     keepAliveInitialDelay: 0
+// });
 
-const query = async (sql, values = []) => {
-    try {
-        const [result] = await promisePool.query(sql, values);
-        return result;
-    } catch (error) {
-        console.error('MySQL Query Error:', error.code || error.message);
-        throw error;
-    }
-};
+// // Promise Based Query
+// const promisePool = database.promise();
 
-// Check Database Connection
-database.getConnection((error, connection) => {
-    if (error) {
-        console.error('Database Connection Failed:', error.code || error.message);
-        return;
-    }
+// const query = async (sql, values = []) => {
+//     try {
+//         const [result] = await promisePool.query(sql, values);
+//         return result;
+//     } catch (error) {
+//         console.error('MySQL Query Error:', error.code || error.message);
+//         throw error;
+//     }
+// };
 
-    // console.log('Clever Cloud Database Connected Successfully!');
-    connection.release();
-});
+// // Check Database Connection
+// database.getConnection((error, connection) => {
+//     if (error) {
+//         console.error('Database Connection Failed:', error.code || error.message);
+//         return;
+//     }
 
-query.getConnection = async () => {
-    return await promisePool.getConnection();
-};
+//     // console.log('Clever Cloud Database Connected Successfully!');
+//     connection.release();
+// });
+
+// query.getConnection = async () => {
+//     return await promisePool.getConnection();
+// };
 
 module.exports = query;
 

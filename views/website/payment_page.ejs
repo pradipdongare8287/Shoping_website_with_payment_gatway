@@ -6,9 +6,7 @@
 <script>
 // console.log("KEY:", "<%= process.env.key_id %>")
 var options = {
-    key:"<%= process.env.key_id %>",
-// rzp_test_TsWz88rJ6b5v9b test key
-// <%= process.env.key_id %>
+    key: "<%= process.env.key_id %>",
     // Dynamic total amount
     amount: Number(<%= payment_amt.Product_New_price %>) * 100,
     
@@ -63,6 +61,7 @@ var options = {
                 product_price: <%= payment_amt.Product_New_price %>,
                 product_qty: <%= qty %>,
                 product_size: "<%= size %>",
+                product_color: "<%= color %>",
                 product_img: "<%= product_img %>",
                 product_folder: "<%= product_folder %>",
                 product_type: "<%= product_type %>"
@@ -99,3 +98,4 @@ rzp1.open();
 
 </script>
 
+<!-- https://business.phonepe.com/dashboard/complete-kyc-v2 -->

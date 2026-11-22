@@ -8,25 +8,77 @@ const fs = require('fs')
 var query = require('../database')
 require('dotenv').config();
 const cloudinary = require('../config/cloudinary');
+const jwt = require('jsonwebtoken');
 
 // =====================MIDELWARES=====================
 
 admin.use(express.static('public'))
 admin.use(fileupload())
 admin.use(express.urlencoded({extended:true}))
-
+admin.use(cookie());
 
 //================Login_check==========================
 
-function Login_check(req,res,next){
-    if (req.session.admin_id && req.session.user_email){
-        next()
+// function Login_check(req,res,next){
+//     if (req.session.admin_id && req.session.user_email){
+//         next()
+//     }
+//     else{
+//         res.redirect('/admin/login')
+//     }
+// }
+
+function Login_check(req, res, next) {
+
+    // 1. Session already exists
+    if (req.session.admin_id && req.session.user_email) {
+        return next();
     }
-    else{
-        res.redirect('/admin/login')
+
+    // 2. Check JWT Cookie
+    var token = req.cookies.admin_token;
+
+    if (!token) {
+        return res.redirect('/admin/login');
+    }
+
+    try {
+        var decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+        // 3. Restore Session from JWT
+        req.session.admin_id = decoded.admin_id;
+        req.session.Owner = decoded.role === 'Owner' ? 'Owner' : '';
+
+        // 4. Fetch Admin details from Database
+        var admin_data = query(
+            'SELECT * FROM admin_users WHERE Aid = ?',
+            [decoded.admin_id]
+        );
+
+        admin_data.then((result) => {
+
+            if (!result[0]) {
+                res.clearCookie('admin_token');
+                return res.redirect('/admin/login');
+            }
+
+            req.session.user_email = result[0].Admin_email;
+            req.session.user_name = result[0].Admin_name;
+            req.session.user_Photo = result[0].Admin_photo;
+
+            next();
+
+        }).catch((error) => {
+            // console.log(error);
+            res.redirect('/admin/login');
+        });
+
+    } catch (error) {
+        res.clearCookie('admin_token');
+        res.redirect('/admin/login');
     }
 }
-
+ 
 // ===============Header DATA==========================
 
 admin.use((req, res, next) => {
@@ -74,6 +126,7 @@ admin.get('/',Login_check,async(req,res)=>{
     var total_home_product  = await query(total_home_product)
     var dayliy_payment = await query(today_payment)
     var all_income = await query(total_income)
+    // console.log(total_letest_order)
 
     // console.log(total_letest_order)
 
@@ -102,34 +155,100 @@ admin.get('/login',(req,res)=>{
     res.render('admin/login_page.ejs')
 })
 
-admin.post('/admin_login_check',async(req,res)=>{
-    var {admin_email,admin_password} = req.body
-    var check_admin = 'SELECT * FROM admin_users WHERE Admin_email = ?  and Admin_password = ? AND Admin_role = "Admin"'
-    var admin = await query(check_admin,[admin_email,admin_password])
+// admin.post('/admin_login_check',async(req,res)=>{
+//     var {admin_email,admin_password} = req.body
+//     var check_admin = 'SELECT * FROM admin_users WHERE Admin_email = ?  and Admin_password = ? AND Admin_role = "Admin"'
+//     var admin = await query(check_admin,[admin_email,admin_password])
 
-    var Owner_login = 'select * from admin_users where Admin_email = ? and Admin_password = ? AND Admin_role = "Owner"'
-    var Owner = await query(Owner_login,[admin_email,admin_password])
+//     var Owner_login = 'select * from admin_users where Admin_email = ? and Admin_password = ? AND Admin_role = "Owner"'
+//     var Owner = await query(Owner_login,[admin_email,admin_password])
 
-    if(admin[0]){
-        req.session.user_email = admin[0].Admin_email
-        req.session.user_name = admin[0].Admin_name
-        req.session.user_Photo = admin[0].Admin_photo
-        req.session.admin_id = admin[0].Aid
-        req.session.Owner = ''
-        res.redirect('/admin/')
+//     if(admin[0]){
+//         req.session.user_email = admin[0].Admin_email
+//         req.session.user_name = admin[0].Admin_name
+//         req.session.user_Photo = admin[0].Admin_photo
+//         req.session.admin_id = admin[0].Aid
+//         req.session.Owner = ''
+//         res.redirect('/admin/')
+//     }
+//     else if(Owner[0]){
+//         req.session.user_email = Owner[0].Admin_email
+//         req.session.user_name = Owner[0].Admin_name
+//         req.session.user_Photo = Owner[0].Admin_photo
+//         req.session.admin_id = Owner[0].Aid
+//         req.session.Owner = 'Owner'
+//         res.redirect('/admin/')
+//     }
+//     else{
+//         res.redirect('/admin/login')
+//     }
+// })
+
+admin.post('/admin_login_check', async (req, res) => {
+    var { admin_email, admin_password } = req.body;
+
+    var check_admin = 'SELECT * FROM admin_users WHERE Admin_email = ? and Admin_password = ? AND Admin_role = "Admin"';
+    var admin = await query(check_admin, [admin_email, admin_password]);
+
+    var Owner_login = 'select * from admin_users where Admin_email = ? and Admin_password = ? AND Admin_role = "Owner"';
+    var Owner = await query(Owner_login, [admin_email, admin_password]);
+
+    if (admin[0]) {
+
+        // Session (जुना code तसाच)
+        req.session.user_email = admin[0].Admin_email;
+        req.session.user_name = admin[0].Admin_name;
+        req.session.user_Photo = admin[0].Admin_photo;
+        req.session.admin_id = admin[0].Aid;
+        req.session.Owner = '';
+
+        // JWT Token
+        var token = jwt.sign(
+            {
+                admin_id: admin[0].Aid,
+                role: 'Admin'
+            },
+            process.env.JWT_SECRET,
+            { expiresIn: '7d' }
+        );
+
+        res.cookie('admin_token', token, {
+            httpOnly: true,
+            maxAge: 7 * 24 * 60 * 60 * 1000
+        });
+
+        res.redirect('/admin/');
     }
-    else if(Owner[0]){
-        req.session.user_email = Owner[0].Admin_email
-        req.session.user_name = Owner[0].Admin_name
-        req.session.user_Photo = Owner[0].Admin_photo
-        req.session.admin_id = Owner[0].Aid
-        req.session.Owner = 'Owner'
-        res.redirect('/admin/')
+    else if (Owner[0]) {
+
+        // Session (जुना code तसाच)
+        req.session.user_email = Owner[0].Admin_email;
+        req.session.user_name = Owner[0].Admin_name;
+        req.session.user_Photo = Owner[0].Admin_photo;
+        req.session.admin_id = Owner[0].Aid;
+        req.session.Owner = 'Owner';
+
+        // JWT Token
+        var token = jwt.sign(
+            {
+                admin_id: Owner[0].Aid,
+                role: 'Owner'
+            },
+            process.env.JWT_SECRET,
+            { expiresIn: '7d' }
+        );
+
+        res.cookie('admin_token', token, {
+            httpOnly: true,
+            maxAge: 7 * 24 * 60 * 60 * 1000
+        });
+
+        res.redirect('/admin/');
     }
-    else{
-        res.redirect('/admin/login')
+    else {
+        res.redirect('/admin/login');
     }
-})
+});
 
 admin.get('/check_admin_user',async(req,res)=>{
     var select_admin = 'SELECT * FROM admin_users where  Admin_role = "Admin"'
@@ -183,8 +302,12 @@ admin.post('/add_new_product', async (req, res) => {
             product_reviews,
             new_price,
             old_price,
-            Product_qty
+            Product_qty,
+            product_color,
+            product_size
         } = req.body;
+
+
         // Check Image
         if (!req.files || !req.files.product_img) {
             return res.send('Please select product image');
@@ -204,9 +327,21 @@ admin.post('/add_new_product', async (req, res) => {
             INSERT INTO add_product
             (Product_name, Product_category, Product_status,
             Product_New_price, Product_Old_price,
-            Product_review, Product_rating, Product_img,Product_stock)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)
+            Product_review, Product_rating, Product_img,Product_stock,Product_color,Product_size)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?,?)
         `;
+        var size_data = JSON.stringify(
+            Array.isArray(product_size)
+                ? product_size
+                : (product_size ? [product_size] : [])
+        );
+
+        var color_data = JSON.stringify(
+            Array.isArray(product_color)
+                ? product_color
+                : (product_color ? [product_color] : [])
+        );
+
         var add_produt = await query(add_product_query, [
             product_name,
             product_category,
@@ -216,12 +351,14 @@ admin.post('/add_new_product', async (req, res) => {
             product_reviews,
             product_rating,
             img,
-            Product_qty
+            Product_qty,
+            color_data,
+            size_data
         ]);
         res.redirect('/admin/add_product');
 
     } catch (error) {
-        // console.log('Product Upload Error:', error);
+        console.log('Product Upload Error:', error);
         res.status(500).send('Product Upload Failed');
     }
 
@@ -277,7 +414,9 @@ admin.post('/save_trending_product', async (req, res) => {
             product_reviews,
             new_price,
             old_price,
-            Product_qty
+            Product_qty,
+            product_color,
+            product_size
         } = req.body;
 
         // Check Image
@@ -302,9 +441,18 @@ admin.post('/save_trending_product', async (req, res) => {
             INSERT INTO trending_products
             (TProduct_name, TProduct_category, TProduct_discount,
             TProduct_rating, TProduct_review, TProduct_new_price,
-            TProduct_old_price, TProduct_image,Product_stock)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)
+            TProduct_old_price, TProduct_image,Product_stock,TProduct_color,Product_size)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?,?)
         `;
+        var size_data = JSON.stringify(
+            Array.isArray(product_size)
+                ? product_size
+                : (product_size ? [product_size] : [])
+        );
+
+        var color_data = JSON.stringify(
+    Array.isArray(product_color) ? product_color : (product_color ? [product_color] : [])
+        );
 
         var save_product = await query(save_trending_product, [
             product_name,
@@ -315,13 +463,16 @@ admin.post('/save_trending_product', async (req, res) => {
             new_price,
             old_price,
             trending_product_img,
-            Product_qty
+            Product_qty,
+            color_data,
+            size_data
         ]);
 
         res.redirect('/admin/add_trending_product');
 
     } catch (error) {
 
+        // console.log('Trending Product Upload Error:', error);
         // console.log('Trending Product Upload Error:', error);
         res.status(500).send('Trending Product Upload Failed');
 
@@ -383,7 +534,9 @@ admin.post('/add_new_fashion_product', async (req, res) => {
             fashion_product_reviews,
             fashion_product_new_price,
             fashion_product_old_price,
-            Product_qty
+            Product_qty,
+            product_color,
+            product_size
         } = req.body;
 
         // Check Image
@@ -406,10 +559,23 @@ admin.post('/add_new_fashion_product', async (req, res) => {
             INSERT INTO fashion_product
             (fashion_product_name, fashion_product_category,
             fashion_product_status, fashion_product_rating,
-            fashion_product_reviews, fashin_product_new_price,
-            fashion_product_old_price, fashion_product_img,Product_stock)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)
+            fashion_product_reviews, fashion_product_new_price,
+            fashion_product_old_price, fashion_product_img,Product_stock,Product_color,Product_size)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?,?)
         `;
+
+        var size_data = JSON.stringify(
+    Array.isArray(product_size)
+        ? product_size
+        : (product_size ? [product_size] : [])
+        );
+        
+
+        var color_data = JSON.stringify(
+    Array.isArray(product_color)
+        ? product_color
+        : (product_color ? [product_color] : [])
+        );
 
         var fashion_product = await query(Save_fashion_product, [
             fashion_product_name,
@@ -420,15 +586,17 @@ admin.post('/add_new_fashion_product', async (req, res) => {
             fashion_product_new_price,
             fashion_product_old_price,
             img,
-            Product_qty
+            Product_qty,
+            color_data,
+            size_data
         ]);
 
         res.redirect('/admin/add_fashion_product');
 
     } catch (error) {
 
-        // console.log('Fashion Product Upload Error:', error);
-        res.status(500).send('Fashion Product Upload Failed');
+        console.log('Fashion Product Upload Error:', error);
+        res.status(500).send('Fashion Product Upload Failed',error);
 
     }
 
@@ -491,7 +659,9 @@ admin.post('/add_new_electronics_product', async (req, res) => {
             product_new_price,
             product_old_price,
             product_description,
-            Product_qty
+            Product_qty,
+            product_color,
+            product_size
         } = req.body;
 
         // Check Image
@@ -517,9 +687,21 @@ admin.post('/add_new_electronics_product', async (req, res) => {
             (Eproduct_status, Eproduct_category, Eproduct_name,
             Eproduct_brand, Eproduct_rating, Eproduct_reviews,
             Eproduct_new_price, Eproduct_old_price,
-            Eproduct_description, Eprodcut_img ,Product_stock)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)
+            Eproduct_description, Eprodcut_img ,Product_stock,Product_color,Product_size)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?)
         `;
+
+        var size_data = JSON.stringify(
+    Array.isArray(product_size)
+        ? product_size
+        : (product_size ? [product_size] : [])
+            );
+
+        var color_data = JSON.stringify(
+    Array.isArray(product_color)
+        ? product_color
+        : (product_color ? [product_color] : [])
+            );
 
         var save_e_product = await query(save_electronic_product, [
             product_status,
@@ -532,7 +714,9 @@ admin.post('/add_new_electronics_product', async (req, res) => {
             product_old_price,
             product_description,
             img,
-            Product_qty
+            Product_qty,
+            color_data,
+            size_data
         ]);
 
         res.redirect('/admin/add_electrounics_product');
@@ -601,7 +785,9 @@ admin.post('/add_new_beauty_product', async (req, res) => {
             product_quantity,
             product_description,
             product_name,
-            Product_qty
+            Product_qty,
+            product_color,
+            product_size
         } = req.body;
 
         // Check Image
@@ -626,9 +812,21 @@ admin.post('/add_new_beauty_product', async (req, res) => {
             (product_name, product_brand, product_category, Product_Status,
             product_rating, product_reviews, product_new_price,
             product_old_price, product_quantity, product_description,
-            Prdouct_image,Product_stock)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)
+            Prdouct_image,Product_stock,Product_color,Product_size)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?)
         `;
+
+        var size_data = JSON.stringify(
+    Array.isArray(product_size)
+        ? product_size
+        : (product_size ? [product_size] : [])
+            );
+
+            var color_data = JSON.stringify(
+    Array.isArray(product_color)
+        ? product_color
+        : (product_color ? [product_color] : [])
+            );
 
         var save_query = await query(save_beauti_product, [
             product_name,
@@ -642,7 +840,9 @@ admin.post('/add_new_beauty_product', async (req, res) => {
             product_quantity,
             product_description,
             img,
-            Product_qty
+            Product_qty,
+            color_data,
+            size_data
         ]);
         res.redirect('/admin/add_beauty_product');
 
@@ -1119,7 +1319,8 @@ admin.get('/today_orders',Login_check,async(req,res)=>{
         orders.Order_id,
         orders.Product_size,
         orders.Product_folder,
-        orders.Product_image
+        orders.Product_image,
+        orders.Product_color
 
 
 
@@ -1162,7 +1363,11 @@ admin.get('/confirm_order',Login_check,async(req,res)=>{
         orders.Order_id,
         orders.Product_size,
         orders.Product_folder,
-        orders.Product_image
+        orders.Product_image,
+        orders.Product_color
+
+        
+
 
 
     FROM orders
@@ -1219,7 +1424,8 @@ admin.get('/dispatched_order',Login_check,async(req,res)=>{
         orders.Order_id,
         orders.Product_size,
         orders.Product_folder,
-        orders.Product_image
+        orders.Product_image,
+        orders.Product_color
 
     FROM orders
 

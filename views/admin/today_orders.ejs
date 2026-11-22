@@ -43,10 +43,11 @@
                         <th>SR.NO</th>
                         <th>PRODUCT</th>
                         <th>PRODUCT SIZE</th>
-                        <th>CUSTOMER</th>
+                        <th>PRODUCT Color</th>
                         <th>PRODUCT NAME</th>
+                        <th>CUSTOMER</th>
                         <th>QTY</th>
-                        <th>PRICE</th>
+                        <th>Paid Amount</th>
                         <th>ORDER DATE</th>
                         <th>ADDRESS</th>
                         <th>ORDER STATUS</th>
@@ -84,15 +85,12 @@
                                 <td>
                                     <%= order.Product_size %>
                                 </td>
-
-
-                                <!-- Customer -->
                                 <td>
-                                    <div class="customer-info">
-                                        <strong><%= order.customer_name %></strong>
-                                        <small><%= order.customer_mobile %></small>
-                                    </div>
+                                    <%= order.Product_color %> 
                                 </td>
+
+
+                            
 
 
                                 <!-- Product Name -->
@@ -100,6 +98,14 @@
                                     <span class="product-name">
                                         <%= order.Product_name %>
                                     </span>
+                                </td>
+
+                                <!-- Customer -->
+                                <td>
+                                    <div class="customer-info">
+                                        <strong><%= order.customer_name %></strong>
+                                        <small><%= order.customer_mobile %></small>
+                                    </div>
                                 </td>
 
 

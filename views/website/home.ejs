@@ -78,7 +78,41 @@
         </span>
 
         <h3><%= product[i].TProduct_name %></h3>
+        <!-- Product Colour Selector -->
+            <div class="product-color-box">
 
+                <label>Select Colour:</label>
+
+                <div class="product-colors">
+
+                    <% 
+                        var colors = [];
+                        try {
+                            colors = JSON.parse(product[i].TProduct_color || '[]');
+                        } catch (e) {
+                            colors = [];
+                        }
+                    %>
+
+                    <% colors.forEach(function(color) { %>
+
+                        <button type="button"
+                                class="color-option"
+                                data-color="<%= color %>"
+                                style="padding:5px 12px; margin:4px; border:1px solid #ccc; border-radius:5px; cursor:pointer;">
+                            <%= color %>
+                        </button>
+
+                    <% }) %>
+
+                </div>
+
+                <p class="selected-color">
+                    Selected Colour: <span class="color-name">None</span>
+                </p>
+
+            </div>
+            
         <div class="rating">
             <% for (var a = 0; a < product[i].TProduct_rating; a++) { %>
                 ★
@@ -94,18 +128,26 @@
         </div>
 
         <!-- Size Selector -->
+
         <div class="size-box">
             <label>Select Size:</label>
 
             <select class="product-size">
                 <option value="">Choose Size</option>
-                <option value="S">S</option>
-                <option value="M">M</option>
-                <option value="L">L</option>
-                <option value="XL">XL</option>
-                <option value="XXL">XXL</option>
-                <option value="3XL">3XL</option>
-                <option value="4XL">4XL</option>
+
+                <% 
+                    var sizes = [];
+                    try {
+                        sizes = JSON.parse(product[i].Product_size || '[]');
+                    } catch (e) {
+                        sizes = [];
+                    }
+                %>
+
+                <% sizes.forEach(function(size) { %>
+                    <option value="<%= size %>"><%= size %></option>
+                <% }) %>
+
             </select>
         </div>
 

@@ -24,10 +24,12 @@
         <div class="account-sidebar">
 
             <div class="profile-box">
-                <div class="profile-avatar">
+                <!-- <div class="profile-avatar">
                     <i class="fa-solid fa-user"></i>
+                </div> -->
+                <div class="profile-avatar">
+                        <%= user.user_name.charAt(0).toUpperCase() %>
                 </div>
-
                 <h3><%=user.user_name%></h3>
                 <p><%=user.user_email%></p>
             </div>
@@ -157,9 +159,9 @@
                         <p>Your latest shopping activity</p>
                     </div>
 
-                    <a href="/my-orders" class="view-all">
+                    <!-- <a href="/my-orders" class="view-all">
                         View All <i class="fa-solid fa-arrow-right"></i>
-                    </a>
+                    </a> -->
                 </div>
 
                 <h2>My Orders</h2>
@@ -174,9 +176,12 @@
 
             <p>Price: ₹<%= order.Product_price %></p>
             <p>Product Size: <%= order.Product_size %></p>
+            
 
 
-            <p>Quantity: <%= order.Product_qty %></p>
+            <p><strong>Quantity: <%= order.Product_qty %></strong></p>
+            <p><strong>Color: <%= order.Product_color %></strong></p>
+
 
             <p>
                 <!-- Order Date:

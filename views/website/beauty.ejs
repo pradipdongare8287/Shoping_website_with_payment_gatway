@@ -44,19 +44,61 @@
             ₹<span class="total-price"><%=beauty[i].product_new_price%></span>
             <del>₹<%=beauty[i].product_old_price%></del>
         </div>
+         <!-- Product Colour Selector -->
+            <div class="product-color-box">
+
+                <label>Select Colour:</label>
+
+                <div class="product-colors">
+
+                    <% 
+                        var colors = [];
+                        try {
+                            colors = JSON.parse(beauty[i].Product_color || '[]');
+                        } catch (e) {
+                            colors = [];
+                        }
+                    %>
+
+                    <% colors.forEach(function(color) { %>
+
+                        <button type="button"
+                                class="color-option"
+                                data-color="<%= color %>"
+                                style="padding:5px 12px; margin:4px; border:1px solid #ccc; border-radius:5px; cursor:pointer;">
+                            <%= color %>
+                        </button>
+
+                    <% }) %>
+
+                </div>
+
+                <p class="selected-color">
+                    Selected Colour: <span class="color-name">None</span>
+                </p>
+
+            </div>
 
         <!-- Size Selector -->
          <div class="size-box">
             <label>Select Size:</label>
+
             <select class="product-size">
                 <option value="">Choose Size</option>
-                <option value="S">S</option>
-                <option value="M">M</option>
-                <option value="L">L</option>
-                <option value="XL">XL</option>
-                <option value="XXL">XXL</option>
-                <option value="3XL">3XL</option>
-                <option value="4XL">4XL</option>
+
+                <% 
+                    var sizes = [];
+                    try {
+                        sizes = JSON.parse(beauty[i].Product_size || '[]');
+                    } catch (e) {
+                        sizes = [];
+                    }
+                %>
+
+                <% sizes.forEach(function(size) { %>
+                    <option value="<%= size %>"><%= size %></option>
+                <% }) %>
+
             </select>
         </div>
         <!-- Available Stock -->

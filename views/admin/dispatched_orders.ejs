@@ -43,8 +43,9 @@
                         <th>SR.NO</th>
                         <th>PRODUCT</th>
                         <th>PRODUCT SIZE</th>
-                        <th>CUSTOMER</th>
+                        <th>PRODUCT Color</th>
                         <th>PRODUCT NAME</th>
+                        <th>CUSTOMER</th>
                         <th>QTY</th>
                         <th>PRICE</th>
                         <th>ORDER DATE</th>
@@ -73,14 +74,29 @@
                                 <!-- Product Image -->
                                 <td>
                                     <div class="product-image">
-                                        <img src="https://res.cloudinary.com/sdz5u7v8/image/upload/<%= order.Product_folder %>/<%= order.Product_image %>"
+                                        <a href="https://res.cloudinary.com/sdz5u7v8/image/upload/<%= order.Product_folder %>/<%= order.Product_image %>">
+                                            <img src="https://res.cloudinary.com/sdz5u7v8/image/upload/<%= order.Product_folder %>/<%= order.Product_image %>"
                                              alt="<%= order.customer_name %>">
+                                        </a>
                                     </div>
                                 </td>
                                 <!-- Product Name -->
                                 <td>
                                     <span class="product-name">
                                         <%= order.Product_size %>
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span class="product-name">
+                                        <%= order.Product_color %>
+                                    </span>
+                                </td>
+
+                                 <!-- Product Name -->
+                                <td>
+                                    <span class="product-name">
+                                        <%= order.Product_name %>
                                     </span>
                                 </td>
 
@@ -93,12 +109,7 @@
                                 </td>
 
 
-                                <!-- Product Name -->
-                                <td>
-                                    <span class="product-name">
-                                        <%= order.Product_name %>
-                                    </span>
-                                </td>
+                               
 
 
                                 <!-- Quantity -->

@@ -53,14 +53,48 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const sizeSelect = card.querySelector('.product-size');
             const selectedSize = sizeSelect ? sizeSelect.value : '';
+            const selectedColor = card.dataset.selectedColor || '';
 
             if (!selectedSize) {
                 alert('Please select product size');
                 return;
             }
-
+                  
             window.location.href =
-                `${paymentUrl}?qty=${qty}&size=${encodeURIComponent(selectedSize)}`;
+    `${paymentUrl}?qty=${qty}&size=${encodeURIComponent(selectedSize)}&color=${encodeURIComponent(selectedColor)}`;
+        });
+
+    });
+
+});
+
+
+document.querySelectorAll('.product-card').forEach(function(card) {
+
+    var color_buttons = card.querySelectorAll('.color-option');
+    var color_name = card.querySelector('.color-name');
+
+    color_buttons.forEach(function(button) {
+
+        button.addEventListener('click', function() {
+
+            // Remove previous selected colour
+            color_buttons.forEach(function(btn) {
+                btn.style.background = '';
+                btn.style.color = '';
+                btn.style.border = '1px solid #ccc';
+            });
+
+            // Select clicked colour
+            button.style.background = '#222';
+            button.style.color = '#fff';
+            button.style.border = '1px solid #222';
+
+            // Show selected colour
+            color_name.innerText = button.dataset.color;
+
+            // Store selected colour in product card
+            card.dataset.selectedColor = button.dataset.color;
 
         });
 
