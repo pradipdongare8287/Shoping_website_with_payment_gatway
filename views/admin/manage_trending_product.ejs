@@ -6,7 +6,7 @@
     <!-- HEADER -->
     <div class="product-table-header">
         <div>
-            <h2>All Trending Products Here</h2>
+            <h2>सर्व अरमानी पँट</h2>
             
         </div>
 
@@ -33,7 +33,7 @@
                     <th>Reviews</th>
                     <th>New Price</th>
                     <th>Old Price</th>
-                    <th>Product Colors</th>
+                    
                     <th>Product Size</th>
 
                     <th>Action</th>
@@ -99,24 +99,7 @@
 
                         <% }) %>
                     </td>
-                    <td>
-                        <% 
-                            var colors = [];
-                            try {
-                                colors = JSON.parse(tproducts[i].Product_size || '[]');
-                            } catch (e) {
-                                colors = [];
-                            }
-                        %>
-
-                        <% colors.forEach(function(color) { %>
-
-                            <span style="display:inline-block; background:#e8e8e8; color:#222; padding:4px 9px; margin:3px; border-radius:6px; font-size:12px;">
-                                <%= color %>
-                            </span>
-
-                        <% }) %>
-                    </td>
+                    
 
                     <td>
                         <div class="product-action-buttons">

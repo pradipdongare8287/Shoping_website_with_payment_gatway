@@ -4,14 +4,14 @@
     <!-- Table Header -->
     <div class="electronics-table-header">
         <div>
-            <h2>Manage Jeans Products</h2>
+            <h2>सर्व जीन्स</h2>
             <p>View,and manage all  Jeans products</p>
         </div>
 
         <a href="/admin/add_electronics_product"
            class="electronics-add-btn">
             <i class="fa-solid fa-plus"></i>
-            Add New Jens Product Product
+            Add New Jens
         </a>
     </div>
 
@@ -38,7 +38,7 @@
                     <th>Status</th>
                     <th>Rating</th>
                     <th>Price</th>
-                    <th>Product Colors</th>
+                    
                     <th>Product Size</th>
                     <th>Action</th>
                 </tr>
@@ -88,24 +88,7 @@
                         </div>
                     </td>
 
-                    <td>
-                        <% 
-                            var colors = [];
-                            try {
-                                colors = JSON.parse(E_prodcts[i].Product_color || '[]');
-                            } catch (e) {
-                                colors = [];
-                            }
-                        %>
-
-                        <% colors.forEach(function(color) { %>
-
-                            <span style="display:inline-block; background:#e8e8e8; color:#222; padding:4px 9px; margin:3px; border-radius:6px; font-size:12px;">
-                                <%= color %>
-                            </span>
-
-                        <% }) %>
-                    </td>
+                    
                     <td>
                         <% 
                             var colors = [];

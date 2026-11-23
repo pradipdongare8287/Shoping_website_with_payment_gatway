@@ -9,10 +9,7 @@ const admin = require('./admin');
 
 const Razorpay = require('razorpay');
 
-const razorpay = new Razorpay({
-    key_id: process.env.key_id,
-    key_secret: process.env.key_secret
-});
+
 
 var key = 'users';
 
@@ -79,15 +76,14 @@ website.use((req, res, next) => {
 
 website.get('/', async (req, res) => {
 
-    var trending_product = 'select * from trending_products';
-    var select_category_product = 'select * from category_product'
+    
 
-    var product = await query(trending_product);
-    var categrory_product = await query(select_category_product);
+     var Other_products = 'select * from add_product';
 
+    var product = await query(Other_products);
 
-    res.render('website/home.ejs', {
-        product: product,categrory_product:categrory_product
+    res.render('website/all_products.ejs', {
+        product: product
     });
 
 });
@@ -161,7 +157,7 @@ website.get('/trending_product_payemnt/:id', Check_User_Login, async (req, res) 
     var price = Number(product[0].TProduct_new_price);
     var total_amount = price * qty;
 
-    res.render('website/payment_page.ejs', {
+    res.render('website/order_confirm.ejs', {
         payment_amt: {
             Product_New_price: total_amount,
             Product_name: product[0].TProduct_name
@@ -185,12 +181,15 @@ website.get('/trending_product_payemnt/:id', Check_User_Login, async (req, res) 
 
 website.get('/all_products', async (req, res) => {
 
-    var Other_products = 'select * from add_product';
+    var trending_product = 'select * from trending_products';
+    var select_category_product = 'select * from category_product'
 
-    var product = await query(Other_products);
+    var product = await query(trending_product);
+    var categrory_product = await query(select_category_product);
 
-    res.render('website/all_products.ejs', {
-        product: product
+
+    res.render('website/home.ejs', {
+        product: product,categrory_product:categrory_product
     });
 
 });
@@ -229,7 +228,7 @@ website.get('/all_product_payment/:id', Check_User_Login, async (req, res) => {
     var price = Number(product[0].Product_New_price);
     var total_amount = price * qty;
 
-    res.render('website/payment_page.ejs', {
+    res.render('website/order_confirm.ejs', {
 
         payment_amt: {
             Product_New_price: total_amount,
@@ -308,7 +307,7 @@ website.get('/fashion_product_paymnet/:id', Check_User_Login, async (req, res) =
     var price = Number(product[0].fashion_product_new_price);
     var total_amount = price * qty;
 
-    res.render('website/payment_page.ejs', {
+    res.render('website/order_confirm.ejs', {
 
         payment_amt: {
             Product_New_price: total_amount,
@@ -388,7 +387,7 @@ website.get('/Pyment_electnocis_product/:id', Check_User_Login, async (req, res)
     var price = Number(product[0].Eproduct_new_price);
     var total_amount = price * qty;
 
-    res.render('website/payment_page.ejs', {
+    res.render('website/order_confirm.ejs', {
 
         payment_amt: {
             Product_New_price: total_amount,
@@ -460,7 +459,7 @@ website.get('/payment_beauyt_product/:id', Check_User_Login, async (req, res) =>
     var price = Number(product[0].product_new_price);
     var total_amount = price * qty;
 
-    res.render('website/payment_page.ejs', {
+    res.render('website/order_confirm.ejs', {
 
         payment_amt: {
             Product_New_price: total_amount,
@@ -640,24 +639,6 @@ website.post('/save_order', async (req, res) => {
 
         await connection.beginTransaction();
        
-
-        // Payment ID already saved aahe ka?
-        var existing_order = await dbQuery(
-            'SELECT Payment_id FROM orders WHERE Payment_id = ?',
-            [payment_id]
-        );
-
-        if (existing_order.length > 0) {
-           await connection.rollback();
-
-            return res.json({
-                success: true,
-                message: 'Order already saved'
-            });
-        }
-
-        
-
         // Stock kami karne
         var update_stock = `
             UPDATE ${selected_product.table}
@@ -682,45 +663,7 @@ website.post('/save_order', async (req, res) => {
             });
         }
 
-        // Razorpay Payment Status Check & Capture
 
-var payment = await razorpay.payments.fetch(payment_id);
-if (!payment.amount || payment.amount <= 0) {
-    await connection.rollback();
-
-    return res.status(400).json({
-        success: false,
-        message: 'Invalid payment amount'
-    });
-}
-
-if (payment.currency !== 'INR') {
-    await connection.rollback();
-
-    return res.status(400).json({
-        success: false,
-        message: 'Invalid payment currency'
-    });
-}
-
-if (payment.status === 'authorized') {
-
-    await razorpay.payments.capture(
-        payment_id,
-        payment.amount,
-        payment.currency
-    );
-
-} else if (payment.status !== 'captured') {
-
-    await connection.rollback();
-
-    return res.status(400).json({
-        success: false,
-        message: 'Payment is not authorized or captured'
-    });
-
-}
 
         // Order save karne
         var save_order = `
@@ -740,7 +683,7 @@ if (payment.status === 'authorized') {
                 Product_folder,
                 Product_color
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?, 'Booked', 'Paid', ?, ?, ?,?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, 'Booked', 'UNPAID', ?, ?, ?,?)
         `;
 
         var now = new Date();
@@ -792,7 +735,7 @@ if (payment.status === 'authorized') {
     } finally {
 
         if (connection) {
-            connection.release();
+            
         }
 
     }

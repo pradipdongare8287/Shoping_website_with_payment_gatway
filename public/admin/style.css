@@ -5112,4 +5112,12 @@ tbody td {
         opacity: 0;
     }
 }
-
+.call-btn {
+    display: inline-block;
+    background: #25a244;
+    color: white;
+    padding: 8px 8px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+}

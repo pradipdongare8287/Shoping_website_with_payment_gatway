@@ -1,0 +1,158 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Your Order | JS JENS</title>
+</head>
+<body style="margin:0; padding:0; font-family:Arial, Helvetica, sans-serif; background:#f4f6f9; color:#222; min-height:100vh;">
+
+    <div style="width:100%; padding:40px 15px; box-sizing:border-box;">
+        <!-- Main Order Card -->
+        <div style="max-width:500px; margin:0 auto; background:#ffffff; border-radius:18px; padding:25px; box-sizing:border-box; box-shadow:0 8px 30px rgba(0,0,0,0.08);">
+            <!-- Header -->
+            <div style="text-align:center; margin-bottom:25px;">
+                <div style="display:inline-block; background:#e8f8ee; color:#16803c; padding:8px 15px; border-radius:30px; font-size:12px; font-weight:bold; letter-spacing:1px; margin-bottom:12px;">
+                    ORDER CONFIRMATION
+                </div>
+                <h1 style="font-size:26px; margin:5px 0 8px; color:#111;">
+                    Confirm Your Order
+                </h1>
+                <p style="font-size:14px; color:#777; margin:0;">
+                    Please review your product details before confirming.
+                </p>
+            </div>
+            <!-- Product Image -->
+            <div style="background:#f8f8f8; border-radius:15px; padding:15px; text-align:center; margin-bottom:20px;">
+                <img src="https://res.cloudinary.com/sdz5u7v8/image/upload/<%= product_folder %>/<%= product_img %>"
+                     alt="<%= product_name %>"
+                     style="width:100%; max-width:280px; height:280px; object-fit:contain; border-radius:12px; display:block; margin:auto;">
+            </div>
+            <!-- Product Name -->
+            <h2 style="font-size:21px; color:#222; margin:0 0 20px; text-align:center;">
+                <%= product_name %>
+            </h2>
+            <!-- Product Details -->
+            <div style="border:1px solid #eeeeee; border-radius:12px; overflow:hidden; margin-bottom:20px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; padding:14px 15px; border-bottom:1px solid #eeeeee;">
+                    <span style="font-size:14px; color:#777;">Unit Price</span>
+                    <span style="font-size:15px; font-weight:bold; color:#222;">₹<%= unit_price %></span>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; padding:14px 15px; border-bottom:1px solid #eeeeee;">
+                    <span style="font-size:14px; color:#777;">Quantity</span>
+                    <span style="font-size:15px; font-weight:bold; color:#222;"><%= qty %></span>
+                </div>
+
+                <div style="display:flex; justify-content:space-between; align-items:center; padding:14px 15px; border-bottom:1px solid #eeeeee;">
+                    <span style="font-size:14px; color:#777;">Size</span>
+                    <span style="font-size:15px; font-weight:bold; color:#222;"><%= size %></span>
+                </div>
+
+                
+
+            </div>
+
+            <!-- Total Amount -->
+            <div style="background:#f0f7ff; border:1px solid #dcecff; border-radius:12px; padding:18px; margin-bottom:20px; display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-size:15px; font-weight:bold; color:#444;">Total Amount</span>
+
+                <span style="font-size:24px; font-weight:bold; color:#1769aa;">
+                    ₹<%= payment_amt.Product_New_price %>
+                </span>
+            </div>
+
+            <!-- Payment Method -->
+            <div style="display:flex; align-items:center; gap:10px; background:#f9f9f9; padding:14px; border-radius:10px; margin-bottom:22px;">
+
+                <div style="width:38px; height:38px; background:#e8f8ee; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:18px;">
+                    💵
+                </div>
+
+                <div>
+                    <p style="font-size:13px; color:#777; margin:0 0 4px;">Payment Method</p>
+                    <p style="font-size:15px; font-weight:bold; color:#222; margin:0;">ऑर्डर बुक केल्याच्या नंतर आपल्याला फोन केला जाईल मग शॉपला  पेमेंट करावे लागेल</p>
+                </div>
+
+            </div>
+
+            <!-- Confirm Button -->
+            <button type="button" id="confirm_order"
+                style="width:100%; padding:16px; border:none; border-radius:10px; background:#111; color:#fff; font-size:16px; font-weight:bold; cursor:pointer; letter-spacing:0.5px;">
+                Confirm Order →
+            </button>
+
+            <!-- Footer Note -->
+            <p style="text-align:center; color:#888; font-size:12px; line-height:1.6; margin:18px 0 0;">
+                Please check your order details carefully before placing your order.
+        </p>
+
+        </div>
+
+    </div>
+
+    <script>
+
+    document.getElementById('confirm_order').addEventListener('click', async function () {
+
+        var btn = this;
+
+        btn.disabled = true;
+        btn.innerText = 'Processing Order...';
+        btn.style.opacity = '0.7';
+        btn.style.cursor = 'not-allowed';
+
+        try {
+
+            var result = await fetch('/save_order', {
+                method: 'POST',
+
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+
+                body: JSON.stringify({
+                    payment_id: "UNPAID",
+                    product_id: "<%= product_id %>",
+                    product_name: "<%= product_name %>",
+                    product_price: <%= payment_amt.Product_New_price %>,
+                    product_qty: <%= qty %>,
+                    product_size: "<%= size %>",
+                    product_color: "<%= color %>",
+                    product_img: "<%= product_img %>",
+                    product_folder: "<%= product_folder %>",
+                    product_type: "<%= product_type %>"
+                })
+            });
+
+            var data = await result.json();
+
+            if (result.ok && data.success) {
+                window.location.replace('/account');
+            } else {
+                alert(data.message || 'Order could not be saved');
+                btn.disabled = false;
+                btn.innerText = 'Confirm Order →';
+                btn.style.opacity = '1';
+                btn.style.cursor = 'pointer';
+            }
+
+        } 
+        catch (error) {
+
+            console.error("Order Error:", error);
+            alert("Something went wrong. Please try again.");
+
+            btn.disabled = false;
+            btn.innerText = 'Confirm Order →';
+            btn.style.opacity = '1';
+            btn.style.cursor = 'pointer';
+
+        }
+
+    });
+
+    </script>
+
+</body>
+</html>

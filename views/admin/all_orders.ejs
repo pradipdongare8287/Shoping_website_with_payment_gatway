@@ -48,7 +48,12 @@
 
                         <td><%= order.customer_name %></td>
 
-                        <td><%= order.customer_mobile %></td>
+                        <td>
+                            <a href="tel:+<%= order.customer_mobile %>" class="call-btn">
+                                <i class="fa-solid fa-phone"></i> Call Now
+                            </a>
+                            <%= order.customer_mobile %>
+                        </td>
 
                         <td><%= order.Product_name %></td>
 
