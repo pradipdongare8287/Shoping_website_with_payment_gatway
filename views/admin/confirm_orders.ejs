@@ -43,7 +43,7 @@
                         <th>Sr.No</th>
                         <th>PRODUCT</th>
                         <th>PRODUCT SIZE</th>
-                        <th>PRODUCT Color</th>
+                        
                         <th>PRODUCT NAME</th>
                         <th>CUSTOMER</th>
                         <th>QTY</th>
@@ -52,7 +52,7 @@
                         <th>ADDRESS</th>
                         <th>ORDER STATUS</th>
                         <th>PAYMENT</th>
-                        <th>PAYMENT ID</th>
+                        <!-- <th>PAYMENT ID</th> -->
                         <th>Action</th>
 
                     </tr>
@@ -86,11 +86,7 @@
                                         <%= order.Product_size %>
                                     </span>
                                 </td>
-                                <td>
-                                    <span class="product-name">
-                                        <%= order.Product_color %>
-                                    </span>
-                                </td>
+                                
 
                                 
 
@@ -106,6 +102,9 @@
                                 <td>
                                     <div class="customer-info">
                                         <strong><%= order.customer_name %></strong>
+                                        <a href="tel:+91<%= order.customer_mobile %>" class="call-btn">
+                                            <i class="fa-solid fa-phone"></i> Call Now
+                                        </a>
                                         <small><%= order.customer_mobile %></small>
                                     </div>
                                 </td>
@@ -192,15 +191,22 @@
 
 
                                 <!-- Payment ID -->
-                                <td>
-                                    <span class="payment-id">
-                                        <%= order.Payment_id %>
-                                    </span>
-                                </td>
+                                <!-- <td>
+                                    <a href="/admin/update_payment_status/<%= order.Order_id %>">
+                                    <button onclick="saveScrollPosition()" style="padding:3px;font-size:14px;width:60px;background-color:green;">
+                                        PAID
+                                    </button><br/>
+                                    </a>
+                                    <a href="/admin/unpaid_payment_status/<%= order.Order_id %>">
+                                    <button onclick="saveScrollPosition()" style="padding:3px;font-size:14px;width:60px;background-color:rgba(214, 44, 14, 0.788);margin-top:12px;">
+                                        UNPAID
+                                    </button>
+                                    </a>
+                                </td> -->
                                 <td>
                             
                             <a href="/admin/dispatched_order/<%= order.Order_id %>">
-                            <button title="Dispatched Order" style="background-color:rgba(25, 197, 53, 0.822);padding:5px;margin:3px;font-size:15px;border:2px solid green;">
+                            <button title="Dispatched Order" onclick="saveScrollPosition()" style="background-color:rgba(25, 197, 53, 0.822);padding:5px;margin:3px;font-size:15px;border:2px solid green;">
                                 Order Dispatched
                             </button>        
                             </a>
@@ -229,10 +235,26 @@
         </div>
 
         <div class="table-footer">
-            Showing <strong><%= today_all_confirm_orders.length %></strong> orders for today.
+            Showing <strong><%= today_all_confirm_orders.length %></strong> Confirm orders for today.
         </div>
 
     </div>
 
+    
+
 </div>
+<script>
+    function saveScrollPosition() {
+        sessionStorage.setItem('orderScrollPosition', window.scrollY);
+    }
+
+    window.addEventListener('load', function () {
+        var scrollPosition = sessionStorage.getItem('orderScrollPosition');
+
+        if (scrollPosition !== null) {
+            window.scrollTo(0, parseInt(scrollPosition));
+            sessionStorage.removeItem('orderScrollPosition');
+        }
+    });
+</script>
 <%-include('footer.ejs')%>

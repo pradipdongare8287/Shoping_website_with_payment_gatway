@@ -178,9 +178,23 @@
             <button type="button" class="qty-plus">+</button>
 
         </div>
-        <!-- Buy Now -->
+        
 <% if (product[i].Product_stock > 0) { %>
+    <!-- Cart button -->
+     <button type="button"
+            style="margin-bottom:7px;"
+            class="product-cart-btn add-to-cart"
+            data-id="<%= product[i].Pid %>"
+            data-price="<%= product[i].Product_New_price %>"
+            data-stock="<%= product[i].Product_stock %>"
+            data-type="all_product">
 
+        <i class="fa-solid fa-cart-plus"></i>
+        Add to Cart
+
+    </button>
+
+    <!-- Buy Now -->
     <button type="button"
             class="product-cart-btn buy-now"
             data-price="<%= product[i].Product_New_price %>"
@@ -212,6 +226,7 @@
 </div>
 
 <% } %>
+
 
             
 

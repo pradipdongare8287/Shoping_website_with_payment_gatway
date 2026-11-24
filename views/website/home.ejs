@@ -113,18 +113,18 @@
 
             </div> -->
             
-        <div class="rating">
+        <!-- <div class="rating">
             <% for (var a = 0; a < product[i].TProduct_rating; a++) { %>
                 ★
             <% } %>
             <span>(<%= product[i].TProduct_rating %>)</span>
-        </div>
+        </div> -->
 
         <div class="price">
             <strong>
                 ₹<span class="total-price"><%= product[i].TProduct_new_price %></span>
             </strong>
-            <del>₹<%= product[i].TProduct_old_price %></del>
+            <!-- <del>₹<%= product[i].TProduct_old_price %></del> -->
         </div>
 
         <!-- Size Selector -->
@@ -189,6 +189,21 @@
 
           <!-- Buy Now -->
 <% if (product[i].Product_stock > 0) { %>
+
+        <!-- Cart button -->
+     <button type="button"
+            style="margin-bottom:7px;"
+            class="product-cart-btn add-to-cart"
+            data-id="<%= product[i].tpid %>"
+            data-price="<%= product[i].TProduct_new_price %>"
+            data-stock="<%= product[i].Product_stock %>"
+            data-type="trending">
+
+        <i class="fa-solid fa-cart-plus"></i>
+        Add to Cart
+
+    </button>
+
 
     <button type="button"
             class="product-cart-btn buy-now"

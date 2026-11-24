@@ -43,7 +43,7 @@
                         <th>SR.NO</th>
                         <th>PRODUCT</th>
                         <th>PRODUCT SIZE</th>
-                        <th>PRODUCT Color</th>
+                        
                         <th>PRODUCT NAME</th>
                         <th>CUSTOMER</th>
                         <th>QTY</th>
@@ -52,7 +52,7 @@
                         <th>ADDRESS</th>
                         <th>ORDER STATUS</th>
                         <th>PAYMENT</th>
-                        <th>PAYMENT ID</th>
+                        <th>UPDATE PAYMENT STATUS</th>
                         <th>Action</th>
 
                     </tr>
@@ -85,9 +85,7 @@
                                 <td>
                                     <%= order.Product_size %>
                                 </td>
-                                <td>
-                                    <%= order.Product_color %> 
-                                </td>
+                                
 
 
                             
@@ -104,10 +102,18 @@
                                 <td>
                                     <div class="customer-info">
                                         <strong><%= order.customer_name %></strong>
-                                        <small><%= order.customer_mobile %></small>
+                                        <a href="tel:+91<%= order.customer_mobile %>" class="call-btn">
+                                        <i class="fa-solid fa-phone"></i> Call Now <%= order.customer_name %>
+                                        </a>
+                                        <%= order.customer_mobile %>
                                     </div>
                                 </td>
-
+                                <!-- <td>
+                                    <a href="tel:+<%= order.customer_mobile %>" class="call-btn">
+                                        <i class="fa-solid fa-phone"></i> Call Now
+                                    </a>
+                                    <%= order.customer_mobile %>
+                                </td> -->
 
                                 <!-- Quantity -->
                                 <td>
@@ -178,46 +184,63 @@
 
                                 <!-- Payment Status -->
                                 <td>
-                                    <span class="payment-badge
-                                        <%= order.Payment_status === 'Paid' ? 'paid' : 'unpaid' %>">
+                                    
+                                    <% if(order.Payment_status=='PAID') {%>
+                                        <span class="payment-badge" style="background-color:rgba(15, 211, 15,0.5);">
 
-                                        <%= order.Payment_status %>
+                                        PAID
 
                                     </span>
+                                    <% } else { %>
+
+                                        <span class="payment-badge" style="background-color:rgba(214, 50, 9,0.5);">
+
+                                        UNPAID
+
+                                    </span>
+
+                                        <% } %>
                                 </td>
 
 
                                 <!-- Payment ID -->
                                 <td>
-                                    <span class="payment-id">
-                                        <%= order.Payment_id %>
-                                    </span>
+                                    <a href="/admin/update_payment_status/<%= order.Order_id %>">
+                                    <button onclick="saveScrollPosition()" style="padding:3px;font-size:14px;width:60px;background-color:green;">
+                                        PAID
+                                    </button><br/>
+                                    </a>
+                                    <a href="/admin/unpaid_payment_status/<%= order.Order_id %>">
+                                    <button onclick="saveScrollPosition()" style="padding:3px;font-size:14px;width:60px;background-color:rgba(214, 44, 14, 0.788);margin-top:12px;">
+                                        UNPAID
+                                    </button>
+                                    </a>
                                 </td>
-                                <td>
-                            <a href="/admin/delete_order/<%= order.Order_id %>">
-                                
-                                <i title="Delete order" style="font-size:17px;color:red;" class="fa fa-trash"></i>
-                                
-                            </a>
+                            <td>
+                                <a href="/admin/delete_order/<%= order.Order_id %>">
+                                    
+                                    <i title="Delete order" onclick="saveScrollPosition()" style="font-size:17px;color:red;" class="fa fa-trash"></i>
+                                    
+                                </a>
 
-                            <% if(order.Order_status=="Booked"){ %>
-                                <a href="/admin/confirm_order/<%= order.Order_id %>">
-                                    <button title="Confirm Order" style="background-color:orange;padding:5px;margin:3px;font-size:15px;border:2px solid rgb(243, 131, 4);">
-                                        Confirm Order
-                                    </button>        
-                            </a
-                            <% } else if(order.Order_status=="Confirm") {%>
-                                <a href="/admin/dispatched_order/<%= order.Order_id %>">
-                            <button title="Dispatched Order" style="background-color:rgba(25, 197, 53, 0.822);padding:5px;margin:3px;font-size:15px;border:2px solid green;">
-                                Order Dispatched
-                            </button>        
-                            </a>
-                            <% }else {%>
+                                <% if(order.Order_status=="Booked"){ %>
+                                    <a href="/admin/confirm_order/<%= order.Order_id %>" onclick="saveScrollPosition()" >
+                                        <button title="Confirm Order" style="background-color:orange;padding:5px;margin:3px;font-size:15px;border:2px solid rgb(243, 131, 4);">
+                                            Confirm Order
+                                        </button>        
+                                    </a>
+                                <% } else if(order.Order_status=="Confirm") {%>
+                                    <a href="/admin/dispatched_order/<%= order.Order_id %>">
+                                <button title="Dispatched Order" onclick="saveScrollPosition()" style="background-color:rgba(25, 197, 53, 0.822);padding:5px;margin:3px;font-size:15px;border:2px solid green;">
+                                    Order Dispatched
+                                </button>        
+                                </a>
+                                <% }else {%>
 
-                            <% } %>
-                     
-                            
-                        </td>
+                                <% } %>
+                        
+                                
+                            </td>
 
                             </tr>
 
@@ -248,4 +271,19 @@
     </div>
 
 </div>
+
+<script>
+    function saveScrollPosition() {
+        sessionStorage.setItem('orderScrollPosition', window.scrollY);
+    }
+
+    window.addEventListener('load', function () {
+        var scrollPosition = sessionStorage.getItem('orderScrollPosition');
+
+        if (scrollPosition !== null) {
+            window.scrollTo(0, parseInt(scrollPosition));
+            sessionStorage.removeItem('orderScrollPosition');
+        }
+    });
+</script>
 <%-include('footer.ejs')%>

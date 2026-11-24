@@ -5121,3 +5121,154 @@ tbody td {
     text-decoration: none;
     font-weight: 600;
 }
+
+.cart-order-container {
+    padding: 25px;
+}
+
+.cart-order-container h2 {
+    margin-bottom: 25px;
+}
+
+.cart-order-card {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 25px;
+}
+
+.cart-order-header {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 15px;
+}
+
+.cart-product {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.cart-product img {
+    width: 75px;
+    height: 75px;
+    object-fit: contain;
+    border-radius: 8px;
+    background: #f5f5f5;
+}
+
+.cart-product-info {
+    flex: 1;
+}
+
+.cart-product-info p {
+    margin: 5px 0;
+}
+
+.order-status {
+    color: #15803d;
+    font-weight: bold;
+}
+
+.payment-status {
+    color: #d97706;
+    font-weight: bold;
+}
+
+.cart-order-total {
+    text-align: right;
+    margin-top: 15px;
+}
+
+@media (max-width: 600px) {
+    .cart-order-container {
+        padding: 12px;
+    }
+
+    .cart-order-card {
+        padding: 14px;
+    }
+
+    .cart-product img {
+        width: 65px;
+        height: 65px;
+    }
+}
+.order-action-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.order-action-buttons {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    gap: 4px;
+    align-items: center;
+}
+
+.action-btn {
+    display: inline-block !important;
+    width: auto !important;
+    min-width: unset !important;
+    padding: 6px 8px !important;
+    margin: 0 !important;
+    font-size: 17px !important;
+    line-height: 1.2 !important;
+    white-space: nowrap;
+    border: none;
+    border-radius: 3px;
+    color: white;
+    cursor: pointer;
+}
+
+.confirm-btn {
+    background: #2563eb;
+}
+
+.despatched-btn {
+    background: #7c3aed;
+}
+
+.paid-btn {
+    background: #16a34a;
+}
+
+.unpaid-btn {
+    background: #d97706;
+}
+
+.delete-btn {
+    background: #dc2626;
+}
+
+.cart-order-total {
+    text-align: right;
+    margin: 0;
+    white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+    .order-action-footer {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .cart-order-total {
+        width: 50%;
+        text-align: left;
+    }
+}

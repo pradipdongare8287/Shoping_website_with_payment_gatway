@@ -9,6 +9,7 @@ var query = require('../database')
 require('dotenv').config();
 const cloudinary = require('../config/cloudinary');
 const jwt = require('jsonwebtoken');
+const console = require('console')
 
 // =====================MIDELWARES=====================
 
@@ -1331,11 +1332,9 @@ admin.get('/today_orders',Login_check,async(req,res)=>{
     ON orders.Uid = users.Uid
 
     WHERE
-    STR_TO_DATE(orders.Order_date, '%Y-%m-%d %H:%i:%s') >= CURDATE()
-    AND
-    STR_TO_DATE(orders.Order_date, '%Y-%m-%d %H:%i:%s') < CURDATE() + INTERVAL 1 DAY
-
-    ORDER BY orders.Order_date DESC
+STR_TO_DATE(orders.Order_date, '%Y-%m-%d %H:%i:%s') >= CURDATE()
+AND
+STR_TO_DATE(orders.Order_date, '%Y-%m-%d %H:%i:%s') < CURDATE() + INTERVAL 1 DAY
 `;
 
     var orders = await query(today_order)
@@ -1375,15 +1374,10 @@ admin.get('/confirm_order',Login_check,async(req,res)=>{
     INNER JOIN users
     ON orders.Uid = users.Uid
 
-    WHERE
-    STR_TO_DATE(orders.Order_date, '%Y-%m-%d %H:%i:%s') >= CURDATE()
-    AND
-    STR_TO_DATE(orders.Order_date, '%Y-%m-%d %H:%i:%s') < CURDATE() + INTERVAL 1 DAY
-
-    and Order_status = 'Confirm'
-
-
-    ORDER BY orders.Order_date DESC
+   WHERE
+        DATE(orders.Order_date) = DATE(CONVERT_TZ(UTC_TIMESTAMP(), '+00:00', '+05:30'))
+        AND orders.Order_status = 'Confirm'
+            ORDER BY orders.Order_date DESC
 `;
 
     var orders = await query(confirm_order)
@@ -1452,11 +1446,155 @@ admin.get('/dispatched_order',Login_check,async(req,res)=>{
 })
 
 
+admin.get('/all_carts_order', async (req, res) => {
+    try {
+        var get_cart_orders = `
+            SELECT
+                pco.*,
+                users.user_name,
+                users.user_address,
+                users.user_mobile
+            FROM purchase_cart_orders AS pco
+            JOIN users
+            ON pco.Uid = users.Uid
+            WHERE pco.Order_status = 'Booked'
+            ORDER BY pco.Order_date DESC
+        `;
+        var cart_orders = await query(get_cart_orders);
+        // console.log(cart_orders)
+        res.render('admin/all_cart_orders.ejs', {
+            cart_orders: cart_orders
+        });
+    } catch (error) {
+        console.log('Admin Cart Orders Error:', error);
+        res.send(error);
+    }
+});
+
+admin.get('/confirm_cart_order',async(req,res)=>{
+    try {
+        var get_cart_orders = `
+            SELECT
+                pco.*,
+                users.user_name,
+                users.user_address,
+                users.user_mobile
+            FROM purchase_cart_orders AS pco
+            JOIN users
+            ON pco.Uid = users.Uid
+            WHERE pco.Order_status = 'Confirm'
+            ORDER BY pco.Order_date DESC
+        `;
+        var cart_orders = await query(get_cart_orders);
+        // console.log(cart_orders)
+        res.render('admin/confirm_cart_orders.ejs', {
+            cart_orders: cart_orders
+        });
+    } catch (error) {
+        console.log('Admin Cart Orders Error:', error);
+        res.send(error);
+    }
+})
+
+admin.get('/confirm_card_orderstatus/:id', async (req, res) => {
+    try {
+        var id = req.params.id;
+        var confirm_card_order_query = `
+            UPDATE purchase_cart_orders
+            SET Order_status = ?
+            WHERE Order_Group_ID = ?
+        `;
+        await query(confirm_card_order_query, ['Confirm', id]);
+        res.redirect(req.get('Referrer') || '/admin');
+    } catch (error) {
+        console.log('Confirm Cart Order Error:', error);
+        res.redirect('/admin/all_carts_order');
+    }
+});
+
+admin.get('/despatched_card_orderstatus/:id',async(req,res)=>{
+
+    try {
+        var id = req.params.id;
+        var confirm_card_order_query = `
+            UPDATE purchase_cart_orders
+            SET Order_status = ?
+            WHERE Order_Group_ID = ?
+        `;
+        await query(confirm_card_order_query, ['Dispatched', id]);
+        res.redirect(req.get('Referrer') || '/admin');
+    } catch (error) {
+        console.log('Confirm Cart Order Error:', error);
+        res.redirect('/admin/all_carts_order');
+    }
+
+})
+
+admin.get('/dispatched_cart_order',async(req,res)=>{
+    try {
+        var get_cart_orders = `
+            SELECT
+                pco.*,
+                users.user_name,
+                users.user_address,
+                users.user_mobile
+            FROM purchase_cart_orders AS pco
+            JOIN users
+            ON pco.Uid = users.Uid
+            WHERE pco.Order_status = 'Dispatched'
+            ORDER BY pco.Order_date DESC
+        `;
+        var cart_orders = await query(get_cart_orders);
+        // console.log(cart_orders)
+        res.render('admin/dispatched_cart_orders.ejs', {
+            cart_orders: cart_orders
+        });
+    } catch (error) {
+        console.log('Admin Cart Orders Error:', error);
+        res.send(error);
+    }
+
+})
+
+admin.get('/delete_user/:id',async(req,res)=>{
+    var id = req.params.id
+    // var select_delete_user = 'select * from users where uid=?'
+    var delete_user = 'delete from users where uid=?'
+    var user = await query(delete_user,[id])
+    res.redirect(req.get('Referrer') || '/admin');
+})
 
 
 
+admin.get('/update_payment_status/:id',async(req,res)=>{
+    var id = req.params.id
+    // res.send(id)
+    try{
+        var update_payement_status = 'update orders set Payment_status="PAID" where Order_id=?'
+    var update_payment = await query(update_payement_status,[id])
+    res.redirect(req.get('Referrer') || '/admin');
+    // res.send(update_payment)
+    }
+    catch(erro){
+        console.log(erro)
+    }
+
+})
 
 
+admin.get('/unpaid_payment_status/:id',async(req,res)=>{
+     var id = req.params.id
+    // res.send(id)
+    try{
+        var update_payement_status = 'update orders set Payment_status="UNPAID" where Order_id=?'
+    var update_payment = await query(update_payement_status,[id])
+    res.redirect(req.get('Referrer') || '/admin');
+    // res.send(update_payment)
+    }
+    catch(erro){
+        console.log(erro)
+    }
+})
 
 
 

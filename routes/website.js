@@ -424,6 +424,14 @@ website.get('/beauty', async (req, res) => {
 
 });
 
+// ============check out=============================
+website.get('/checkout', Check_User_Login, (req, res) => {
+    res.render('website/checkout.ejs');
+});
+
+website.get('/order_success', Check_User_Login, (req, res) => {
+    res.render('website/order_success.ejs');
+});
  
 // ================= BEAUTY PAYMENT =================
 
@@ -743,6 +751,262 @@ website.post('/save_order', async (req, res) => {
 });
 
 
+
+
+website.post('/save_cart_order', Check_User_Login, async (req, res) => {
+
+    var connection;
+
+    try {
+
+        var uid = req.user.uid;
+
+        connection = await query.getConnection();
+
+        var dbQuery = async (sql, values = []) => {
+            var [result] = await connection.query(sql, values);
+            return result;
+        };
+
+        await connection.beginTransaction();
+
+        // User che Cart Products
+       var cart_items = await dbQuery(
+            `SELECT
+                MIN(Cart_id) AS Cart_id,
+                Uid,
+                Product_id,
+                Product_type,
+                Product_size,
+                SUM(Product_qty) AS Product_qty,
+                MAX(Product_price) AS Product_price
+            FROM cart_order
+            WHERE Uid = ?
+            GROUP BY
+                Uid,
+                Product_id,
+                Product_type,
+                Product_size`,
+            [uid]
+        );
+
+
+        var grand_total = 0;
+
+        cart_items.forEach(function(item) {
+            grand_total += Number(item.Product_price) * Number(item.Product_qty);
+        });
+
+        console.log("Cart Grand Total:", grand_total);
+
+
+        if (cart_items.length === 0) {
+            await connection.rollback();
+
+            return res.json({
+                success: false,
+                message: 'Your cart is empty'
+            });
+        }
+
+        // Product tables mapping
+        var product_tables = {
+            all_product: {
+                table: 'add_product',
+                id: 'Pid',
+                name: 'Product_name',
+                price: 'Product_New_price',
+                image: 'Product_img',
+                folder: 'products'
+            },
+            trending: {
+                table: 'trending_products',
+                id: 'tpid',
+                name: 'TProduct_name',
+                price: 'TProduct_new_price',
+                image: 'TProduct_image',
+                folder: 'trending_products'
+            },
+            fashion: {
+                table: 'fashion_product',
+                id: 'fid',
+                name: 'fashion_product_name',
+                price: 'fashion_product_new_price',
+                image: 'fashion_product_img',
+                folder: 'fashion_products'
+            },
+            electronics: {
+                table: 'electronics_products',
+                id: 'Eid',
+                name: 'Eproduct_name',
+                price: 'Eproduct_new_price',
+                image: 'Eprodcut_img',
+                folder: 'electronics_products'
+            },
+            beauty: {
+                table: 'beauty_product',
+                id: 'pid',
+                name: 'product_name',
+                price: 'product_new_price',
+                image: 'Prdouct_image',
+                folder: 'beauty_products'
+            }
+        };
+
+        var order_group_id = require('crypto').randomUUID();
+
+        var now = new Date();
+
+        var Order_date = now.getFullYear() + "-" +
+            String(now.getMonth() + 1).padStart(2, '0') + "-" +
+            String(now.getDate()).padStart(2, '0') + " " +
+            String(now.getHours()).padStart(2, '0') + ":" +
+            String(now.getMinutes()).padStart(2, '0') + ":" +
+            String(now.getSeconds()).padStart(2, '0');
+
+        // Each Cart Product Process
+        for (var i = 0; i < cart_items.length; i++) {
+
+            var item = cart_items[i];
+
+            var selected_product = product_tables[item.Product_type];
+
+            if (!selected_product) {
+                throw new Error('Invalid product type');
+            }
+
+            var product_data = await dbQuery(`
+                SELECT
+                    ${selected_product.name} AS Product_name,
+                    ${selected_product.price} AS Product_price,
+                    Product_stock,
+                    ${selected_product.image} AS Product_image
+                FROM ${selected_product.table}
+                WHERE ${selected_product.id} = ?
+                FOR UPDATE
+            `, [item.Product_id]);
+
+            if (product_data.length === 0) {
+                throw new Error('Product not found');
+            }
+
+            var product = product_data[0];
+
+            var qty = Number(item.Product_qty);
+
+            console.log("STOCK CHECK:", {
+    Product_id: item.Product_id,
+    Product_type: item.Product_type,
+    Product_name: product.Product_name,
+    Available_stock: product.Product_stock,
+    Cart_quantity: qty
+});
+
+          
+            
+
+            if (!Number.isInteger(qty) || qty < 1) {
+                throw new Error('Invalid product quantity');
+            }
+
+            var order_qty = Math.min(
+                qty,
+                Number(product.Product_stock)
+            );
+
+            if (order_qty < qty) {
+                console.log('Partial Stock Order:', product.Product_name);
+            }
+
+            if (order_qty <= 0) {
+                continue;
+            }
+
+            // Stock Update
+            var stock_result = await dbQuery(`
+                UPDATE ${selected_product.table}
+                SET Product_stock = Product_stock - ?
+                WHERE ${selected_product.id} = ?
+                AND Product_stock >= ?
+            `,[order_qty, item.Product_id, order_qty]);
+
+            if (stock_result.affectedRows === 0) {
+                throw new Error('Insufficient stock: ' + product.Product_name);
+            }
+
+            // Save Cart Order
+            await dbQuery(`
+                INSERT INTO purchase_cart_orders
+                (
+                    Order_Group_ID,
+                    Uid,
+                    Product_id,
+                    Product_type,
+                    Product_name,
+                    Product_price,
+                    Product_qty,
+                    Product_size,
+                    Product_image,
+                    Order_date,
+                    Order_status,
+                    Payment_status,
+                    Payment_id
+                )
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Booked', 'Pending', 'UNPAID')
+            `, [
+                order_group_id,
+                uid,
+                item.Product_id,
+                item.Product_type,
+                product.Product_name,
+                product.Product_price,
+                order_qty,
+                item.Product_size,
+                product.Product_image,
+                Order_date
+            ]);
+
+        }
+
+        // Cart Clear
+        await dbQuery(
+            `DELETE FROM cart_order WHERE Uid = ?`,
+            [uid]
+        );
+
+                    await connection.commit();
+
+            return res.redirect('/order_success');
+
+    } catch (error) {
+
+        console.log('Cart Order Error:', error);
+
+        if (connection) {
+            try {
+                await connection.rollback();
+            } catch (rollbackError) {
+                console.log(rollbackError);
+            }
+        }
+
+        return res.json({
+            success: false,
+            message: error.message || 'Cart Order Failed'
+        });
+
+    } finally {
+
+        if (connection) {
+            connection.release();
+        }
+
+    }
+
+});
+
+
+
 // ================= HOME AND LIVING =================
 
 website.get('/home_and_leaving', async (req, res) => {
@@ -794,22 +1058,302 @@ website.get('/account', async (req, res) => {
     var getorders = 'SELECT * FROM orders WHERE Uid = ? ORDER BY Order_date DESC';
     var orders = await query(getorders, [user_id]);
 
+    // Cart मधून केलेले Orders
+var get_cart_orders = `
+    SELECT * FROM purchase_cart_orders
+    WHERE Uid = ?
+    ORDER BY Order_date DESC
+`;
+
+var cart_orders = await query(get_cart_orders, [user_id]);
+
     // console.log(orders)
     // console.log('Account User:', user[0]);
     res.render('website/account.ejs', {
         user: user[0],
         orders: orders,
-        all_orders:all_orders[0]
+        all_orders:all_orders[0],
+        cart_orders: cart_orders
+    });
 
+});
+website.get('/cart', Check_User_Login, async (req, res) => {
+
+    var uid = req.user.uid;
+
+    var cart_data = `
+        SELECT 
+            c.Cart_id,
+            c.Uid,
+            c.Product_id,
+            c.Product_type,
+            c.Product_qty,
+            c.Product_size,
+            c.Product_price,
+            p.Product_name,
+            p.Product_img
+        FROM cart_order c
+        LEFT JOIN (
+            SELECT 
+                Pid AS Product_id,
+                'all_product' AS Product_type,
+                Product_name,
+                Product_img
+            FROM add_product
+
+            UNION ALL
+
+            SELECT 
+                tpid AS Product_id,
+                'trending' AS Product_type,
+                TProduct_name AS Product_name,
+                TProduct_image AS Product_img
+            FROM trending_products
+
+            UNION ALL
+
+            SELECT 
+                fid AS Product_id,
+                'fashion' AS Product_type,
+                fashion_product_name AS Product_name,
+                fashion_product_img AS Product_img
+            FROM fashion_product
+
+            UNION ALL
+
+            SELECT 
+                Eid AS Product_id,
+                'electronics' AS Product_type,
+                Eproduct_name AS Product_name,
+                Eprodcut_img AS Product_img
+            FROM electronics_products
+
+            UNION ALL
+
+            SELECT 
+                pid AS Product_id,
+                'beauty' AS Product_type,
+                product_name AS Product_name,
+                Prdouct_image AS Product_img
+            FROM beauty_product
+
+        ) p
+        ON c.Product_id = p.Product_id
+        AND c.Product_type = p.Product_type
+
+        WHERE c.Uid = ?
+    `;
+
+    var cart = await query(cart_data, [uid]);
+
+    res.render('website/cart.ejs', {
+        uid: uid,
+        cart: cart
     });
 
 });
 
-// ================= CART =================
-website.get('/cart', (req, res) => {
-    res.render('website/cart.ejs');
+ 
+website.post('/add_to_cart', Check_User_Login, async (req, res) => {
+
+    try {
+
+        var product_tables = {
+    all_product: {
+        table: 'add_product',
+        id: 'Pid',
+        price: 'Product_New_price',
+        stock: 'Product_stock',
+        size: 'Product_size'
+    },
+
+    trending: {
+        table: 'trending_products',
+        id: 'tpid',
+        price: 'TProduct_new_price',
+        stock: 'Product_stock',
+        size: 'Product_size'
+    },
+
+    fashion: {
+        table: 'fashion_product',
+        id: 'fid',
+        price: 'fashion_product_new_price',
+        stock: 'Product_stock',
+        size: 'Product_size'
+    },
+
+    electronics: {
+        table: 'electronics_products',
+        id: 'Eid',
+        price: 'Eproduct_new_price',
+        stock: 'Product_stock',
+        size: 'Product_size'
+    },
+
+    beauty: {
+        table: 'beauty_product',
+        id: 'pid',
+        price: 'product_new_price',
+        stock: 'Product_stock',
+        size: 'Product_size'
+    }
+};
+
+        var uid = req.user.uid;
+        var product_id = req.body.product_id;
+        var product_type = req.body.product_type;
+        var qty = parseInt(req.body.qty);
+        var size = req.body.size;
+
+        if (!product_id || !size || !qty || qty < 1) {
+            return res.json({
+                success: false,
+                message: 'Please select size and quantity'
+            });
+        }
+
+        // All Products मधून product माहिती
+// Product Type Check
+var selected_table = product_tables[product_type];
+
+if (!selected_table) {
+    return res.json({
+        success: false,
+        message: 'Invalid product type'
+    });
+}
+
+// Selected Section मधून Product माहिती
+var product_data = `
+    SELECT 
+        ${selected_table.id} AS Product_id,
+        ${selected_table.price} AS Product_New_price,
+        ${selected_table.stock} AS Product_stock,
+        ${selected_table.size} AS Product_size
+    FROM ${selected_table.table}
+    WHERE ${selected_table.id} = ?
+`;
+
+var product = await query(product_data, [product_id]);
+
+        if (product.length === 0) {
+            return res.json({
+                success: false,
+                message: 'Product not found'
+            });
+        }
+
+        var selected_product = product[0];
+
+        if (qty > selected_product.Product_stock) {
+            return res.json({
+                success: false,
+                message: 'Insufficient stock'
+            });
+        }
+
+        var sizes = [];
+
+        try {
+            sizes = JSON.parse(selected_product.Product_size || '[]');
+        } catch (e) {
+            sizes = [];
+        }
+
+        if (!sizes.includes(size)) {
+            return res.json({
+                success: false,
+                message: 'Invalid product size'
+            });
+        }
+
+        // आधीपासून Cart मध्ये आहे का?
+        var check_cart = `
+            SELECT * FROM cart_order
+            WHERE Uid = ?
+            AND Product_id = ?
+            AND Product_type = ?
+            AND Product_size = ?
+        `;
+
+        var existing = await query(check_cart, [
+            uid, product_id, product_type, size
+        ]);
+
+        if (existing.length > 0) {
+
+            var new_qty = existing[0].Product_qty + qty;
+
+            if (new_qty > selected_product.Product_stock) {
+                return res.json({
+                    success: false,
+                    message: 'Insufficient stock'
+                });
+            }
+
+            await query(
+                `UPDATE cart_order SET Product_qty = ? WHERE Cart_id = ?`,
+                [new_qty, existing[0].Cart_id]
+            );
+
+        } else {
+
+            await query(`
+                INSERT INTO cart_order
+                (Uid, Product_id, Product_type, Product_qty, Product_size, Product_price)
+                VALUES (?, ?, ?, ?, ?, ?)
+            `, [
+                uid,
+                product_id,
+                product_type,
+                qty,
+                size,
+                selected_product.Product_New_price
+            ]);
+
+        }
+
+        res.json({
+            success: true,
+            // message: 'Product added to cart successfully!'
+        });
+
+    } catch (error) {
+
+        console.log(error);
+
+        res.json({
+            success: false,
+            message: 'Something went wrong'
+        });
+
+    }
+
 });
 
+website.get('/delete_cart_item/:cart_id', Check_User_Login, async (req, res) => {
+
+    try {
+
+        var uid = req.user.uid;
+        var cart_id = req.params.cart_id;
+
+        await query(
+            'DELETE FROM cart_order WHERE Cart_id = ? AND Uid = ?',
+            [cart_id, uid]
+        );
+
+        res.redirect('/cart');
+
+    } catch (error) {
+
+        console.log('Delete Cart Item Error:', error);
+        res.redirect('/cart');
+
+    }
+
+});
 
 // ================= LOGOUT =================
 

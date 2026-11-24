@@ -62,6 +62,9 @@
     </div>
 
 
+    
+
+
     <!-- CATEGORIES DROPDOWN -->
     <!-- <div class="menu-dropdown">
 
@@ -84,8 +87,7 @@
     <!-- ORDERS DROPDOWN -->
     <div class="menu-dropdown">
 
-        
-        <% if(Owner=='Owner'){ %>
+    
             <button class="dropdown-btn" onclick="toggleDropdown('orderMenu')">
             <span>
                 <i class="fa-solid fa-cart-shopping"></i>
@@ -101,9 +103,32 @@
             <a href="/admin/confirm_order">आज कॅन्फर्म झालेल्या ऑर्डर</a>
             <a href="/admin/dispatched_order">आजच्या डिस्पॅच ऑर्डर्स</a>
         </div>
-            <% } else { %>
+           
+            
 
-            <% } %>
+    </div>
+
+
+    <!-- ORDERS DROPDOWN -->
+    <div class="menu-dropdown">
+
+    
+            <button class="dropdown-btn" onclick="toggleDropdown('cart_order')">
+            <span>
+                <i class="fa-solid fa-cart-shopping"></i>
+                Cart Orders
+            </span>
+             <span class="live-status-dot"></span>
+            <i class="fa-solid fa-chevron-down arrow"></i>
+        </button>
+
+        <div class="dropdown-content" id="cart_order">
+            <a href="/admin/all_carts_order">सगळ्या कार्ड ऑर्डर</a>
+            <a href="/admin/confirm_cart_order">कन्फर्म कार्ट ऑर्डर सगळ्या</a>
+            <a href="/admin/dispatched_cart_order">डिस्पॅच कार्ट ऑर्डर सगळ्या </a>
+           
+        </div>
+           
             
 
     </div>

@@ -1,0 +1,181 @@
+<%-include('header.ejs')%>
+
+<div class="cart-order-container">
+
+    <h2>All Cart Orders</h2>
+
+    <% if (cart_orders.length > 0) { %>
+
+        <% 
+        var grouped_orders = {};
+
+        cart_orders.forEach(function(order) {
+            if (!grouped_orders[order.Order_Group_ID]) {
+                grouped_orders[order.Order_Group_ID] = [];
+            }
+
+            grouped_orders[order.Order_Group_ID].push(order);
+        });
+        %>
+
+        <% Object.values(grouped_orders).forEach(function(items) { 
+
+            var first_order = items[0];
+            var grand_total = 0;
+
+            items.forEach(function(item) {
+                grand_total += Number(item.Product_price) * Number(item.Product_qty);
+            });
+
+        %>
+
+            <div class="cart-order-card">
+
+                <div class="cart-order-header">
+
+                    <div>
+                        <h3><%= first_order.user_name %><br/><br/>
+                            <%= first_order.user_mobile %>
+
+                        </h3>
+                        <a href="tel:+91<%= first_order.user_mobile %>" class="call-btn">
+                                    <i class="fa-solid fa-phone"></i> Call Now 
+                        </a>
+                        
+
+                        <p>
+                            Order ID:
+                            <%= first_order.Order_Group_ID %>
+                        </p>
+
+                        <p>
+                            Order Date:
+                            <%= first_order.Order_date %>
+                        </p>
+
+                        <h4>
+                            Delivery Address :- <%= first_order.user_address %>
+                        </h4>
+                    </div>
+
+                    <div>
+                        <p>
+                            Order Status:
+                            <span class="order-status">
+                                <%= first_order.Order_status %>
+                            </span>
+                        </p>
+
+                        <p>
+                            Payment Status:
+                            <span class="payment-status">
+                                <%= first_order.Payment_status %>
+                            </span>
+                        </p>
+                    </div>
+
+                </div>
+
+                <% items.forEach(function(item) {
+
+                    var imageFolder = '';
+
+                    if (item.Product_type === 'all_product') {
+                        imageFolder = 'products';
+                    }
+                    else if (item.Product_type === 'trending') {
+                        imageFolder = 'trending_products';
+                    }
+                    else if (item.Product_type === 'fashion') {
+                        imageFolder = 'fashion_products';
+                    }
+                    else if (item.Product_type === 'electronics') {
+                        imageFolder = 'electronics_products';
+                    }
+                    else if (item.Product_type === 'beauty') {
+                        imageFolder = 'beauty_products';
+                    }
+
+                %>
+
+                    <div class="cart-product">
+
+                        <a href="https://res.cloudinary.com/sdz5u7v8/image/upload/ecommerce/<%= imageFolder %>/<%= item.Product_image %>">
+                            
+                            <img
+                            src="https://res.cloudinary.com/sdz5u7v8/image/upload/ecommerce/<%= imageFolder %>/<%= item.Product_image %>"
+                            alt="<%= item.Product_name %>"
+                        >
+                        </a>
+                        
+
+                        <div class="cart-product-info">
+
+                            <h4><%= item.Product_name %></h4>
+
+                            <p>Category: <%= item.Product_type %></p>
+
+                            <p>Size: <%= item.Product_size %></p>
+
+                            <p>Price: ₹<%= item.Product_price %></p>
+
+                            <p>Quantity: <%= item.Product_qty %></p>
+
+                            <p>
+                                Total:
+                                ₹<%= (Number(item.Product_price) * Number(item.Product_qty)).toFixed(2) %>
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                <% }); %>
+                    
+                <div class="order-action-footer">
+
+                <div class="order-action-buttons">
+
+                    <a href="/admin/confirm_card_orderstatus/<%= first_order.Order_Group_ID %>">
+                        <button class="action-btn confirm-btn">
+                            Confirm Order
+                        </button>
+                    </a>
+
+                    <button class="action-btn despatched-btn">
+                        Despatched Order
+                    </button>
+
+                    <button class="action-btn paid-btn">
+                        Paid
+                    </button>
+
+                    <button class="action-btn unpaid-btn">
+                        Unpaid
+                    </button>
+
+                    <button class="action-btn delete-btn">
+                        Delete
+                    </button>
+
+                </div>
+
+                <h3 class="cart-order-total">
+                    Grand Total: ₹<%= grand_total.toFixed(2) %>
+                </h3>
+
+            </div>
+                
+            </div>
+            
+        <% }); %>
+
+    <% } else { %>
+
+        <h3>No Cart Orders Found!</h3>
+
+    <% } %>
+
+</div>
+
+<%-include('footer.ejs')%>

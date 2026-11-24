@@ -143,6 +143,20 @@
                   <!-- Buy Now -->
 <% if (all_products[i].Product_stock > 0) { %>
 
+     <!-- Cart button -->
+     <button type="button"
+            style="margin-bottom:7px;"
+            class="product-cart-btn add-to-cart"
+            data-id="<%= all_products[i].Eid %>"
+            data-price="<%= all_products[i].Eproduct_new_price %>"
+            data-stock="<%= all_products[i].Product_stock %>"
+            data-type="electronics">
+
+        <i class="fa-solid fa-cart-plus"></i>
+        Add to Cart
+
+    </button>
+
     <button type="button"
             class="product-cart-btn buy-now"
             data-price="<%=all_products[i].Eproduct_new_price%>"

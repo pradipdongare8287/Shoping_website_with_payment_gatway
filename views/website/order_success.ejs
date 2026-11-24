@@ -1,0 +1,144 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Order Booked Successfully</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f5f7fa;
+            font-family: Arial, sans-serif;
+        }
+
+        .success-container {
+            text-align: center;
+            padding: 40px 25px;
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 420px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            animation: fadeIn 0.6s ease;
+        }
+
+        .success-circle {
+            width: 110px;
+            height: 110px;
+            background: #22c55e;
+            border-radius: 50%;
+            margin: 0 auto 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: circlePop 0.5s ease;
+        }
+
+        .checkmark {
+            width: 35px;
+            height: 60px;
+            border-right: 7px solid white;
+            border-bottom: 7px solid white;
+            transform: rotate(45deg) scale(0);
+            animation: drawCheck 0.4s ease 0.5s forwards;
+        }
+
+        h1 {
+            color: #16a34a;
+            font-size: 27px;
+            margin-bottom: 12px;
+        }
+
+        p {
+            color: #666;
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .success-line {
+            width: 60px;
+            height: 4px;
+            background: #22c55e;
+            margin: 0 auto 20px;
+            border-radius: 10px;
+            animation: lineGrow 0.7s ease;
+        }
+
+        .home-btn {
+            display: inline-block;
+            padding: 13px 28px;
+            background: #16a34a;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .home-btn:hover {
+            background: #15803d;
+            transform: translateY(-2px);
+        }
+
+        @keyframes circlePop {
+            0% { transform: scale(0); }
+            70% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes drawCheck {
+            to {
+                transform: rotate(45deg) scale(1);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes lineGrow {
+            from { width: 0; }
+            to { width: 60px; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="success-container">
+
+        <div class="success-circle">
+            <div class="checkmark"></div>
+        </div>
+
+        <div class="success-line"></div>
+
+        <h1>Order Booked!</h1>
+
+        <p>
+            Your order has been successfully placed.
+            Thank you for shopping with us!
+        </p>
+
+        <a href="/" class="home-btn">
+            Continue Shopping
+        </a>
+
+    </div>
+
+</body>
+</html>

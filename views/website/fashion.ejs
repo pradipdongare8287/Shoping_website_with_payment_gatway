@@ -174,6 +174,20 @@
         <!-- Buy Now -->
 <% if (fashion[i].Product_stock > 0) { %>
 
+       <!-- Cart button -->
+     <button type="button"
+            style="margin-bottom:7px;"
+            class="product-cart-btn add-to-cart"
+            data-id="<%= fashion[i].fid %>"
+            data-price="<%= fashion[i].fashion_product_new_price %>"
+            data-stock="<%= fashion[i].Product_stock %>"
+            data-type="fashion">
+
+        <i class="fa-solid fa-cart-plus"></i>
+        Add to Cart
+
+    </button>
+
     <button type="button"
             class="product-cart-btn buy-now"
             data-price="<%= fashion[i].fashion_product_new_price %>"

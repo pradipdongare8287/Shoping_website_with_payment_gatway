@@ -43,7 +43,7 @@
                         <th>SR.NO</th>
                         <th>PRODUCT</th>
                         <th>PRODUCT SIZE</th>
-                        <th>PRODUCT Color</th>
+                        
                         <th>PRODUCT NAME</th>
                         <th>CUSTOMER</th>
                         <th>QTY</th>
@@ -52,7 +52,7 @@
                         <th>ADDRESS</th>
                         <th>ORDER STATUS</th>
                         <th>PAYMENT</th>
-                        <th>PAYMENT ID</th>
+                        
                         <!-- <th>Action</th> -->
 
                     </tr>
@@ -87,11 +87,7 @@
                                     </span>
                                 </td>
 
-                                <td>
-                                    <span class="product-name">
-                                        <%= order.Product_color %>
-                                    </span>
-                                </td>
+                               
 
                                  <!-- Product Name -->
                                 <td>
@@ -104,6 +100,9 @@
                                 <td>
                                     <div class="customer-info">
                                         <strong><%= order.customer_name %></strong>
+                                        <a href="tel:+91<%= order.customer_mobile %>" class="call-btn">
+                                            <i class="fa-solid fa-phone"></i> Call Now
+                                        </a>
                                         <small><%= order.customer_mobile %></small>
                                     </div>
                                 </td>
@@ -194,11 +193,7 @@
 
 
                                 <!-- Payment ID -->
-                                <td>
-                                    <span class="payment-id">
-                                        <%= order.Payment_id %>
-                                    </span>
-                                </td>
+                                
                                 <!-- <td>
                             
                             <a href="/admin/dispatched_order/<%= order.Order_id %>">

@@ -165,6 +165,7 @@
                 </div>
 
                 <h2>My Orders</h2>
+                <h3>Single Orders</h3>
 
 <% if (orders.length > 0) { %>
 
@@ -258,6 +259,8 @@
 
             
         </div>
+        <!-- Cart Orders Section -->
+
 
     <% }); %>
 
@@ -266,6 +269,60 @@
     <p>No orders found.</p>
 
 <% } %>
+<div class="account-card">
+
+    <div class="card-heading">
+        <div>
+            <h3>Cart Orders</h3>
+            <p>Your orders placed through shopping cart</p>
+        </div>
+    </div>
+
+    <% if (cart_orders.length > 0) { %>
+
+        <% cart_orders.forEach(function(order) { %>
+
+            <div style="border:1px solid #ddd; padding:15px; margin:15px 0;">
+
+                <h3><%= order.Product_name %></h3>
+
+                <p>Price: ₹<%= order.Product_price %></p>
+                <p>Quantity: <%= order.Product_qty %></p>
+                <p>Size: <%= order.Product_size %></p>
+                <p>Order Date: <%= order.Order_date %></p>
+                <p>Order Status: <%= order.Order_status %></p>
+                <p>Payment Status: <%= order.Payment_status %></p>
+
+                <%
+    var folder = {
+        all_product: 'products',
+        trending: 'trending_products',
+        fashion: 'fashion_products',
+        electronics: 'electronics_products',
+        beauty: 'beauty_products'
+    };
+
+    var image_folder = folder[order.Product_type];
+%>
+
+<img
+    src="https://res.cloudinary.com/sdz5u7v8/image/upload/ecommerce/<%= image_folder %>/<%= order.Product_image %>"
+    style="height:120px;width:130px;object-fit:contain;"
+    alt="<%= order.Product_name %>"
+>
+<h5>Order Status = <%=order.Order_status%></h5>
+
+            </div>
+
+        <% }); %>
+
+    <% } else { %>
+
+        <p>No Cart Orders found.</p>
+
+    <% } %>
+
+</div>
 
             </div>
 

@@ -135,6 +135,21 @@
 
         <% if (beauty[i].Product_stock > 0) { %>
 
+
+          <!-- Cart button -->
+     <button type="button"
+            style="margin-bottom:7px;"
+            class="product-cart-btn add-to-cart"
+            data-id="<%= beauty[i].pid %>"
+            data-price="<%= beauty[i].product_new_price %>"
+            data-stock="<%= beauty[i].Product_stock %>"
+            data-type="beauty">
+
+        <i class="fa-solid fa-cart-plus"></i>
+        Add to Cart
+
+    </button>  
+
     <button type="button"
             class="product-cart-btn buy-now"
             data-price="<%=beauty[i].product_new_price%>"
