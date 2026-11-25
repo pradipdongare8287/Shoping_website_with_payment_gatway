@@ -95,7 +95,7 @@ document.querySelectorAll('.add-to-cart').forEach(function(button) {
         } catch (error) {
 
             console.log(error);
-            alert('Something went wrong');
+            alert('Please Login First Before Shoping');
 
         }
 
