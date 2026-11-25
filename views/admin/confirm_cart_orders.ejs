@@ -56,6 +56,10 @@
                         <h4>
                             Delivery Address :- <%= first_order.user_address %>
                         </h4>
+
+                        <h4>
+                           Pincode :- <%= first_order.user_pincode %>
+                        </h4>
                     </div>
 
                     <div>
@@ -153,22 +157,32 @@
                     </a> -->
 
                     <a href="/admin/despatched_card_orderstatus/<%= first_order.Order_Group_ID %>">
-                    <button class="action-btn despatched-btn">
+                    <button onclick="saveScrollPosition()" class="action-btn despatched-btn">
                         Despatched Order
                     </button>
                     </a>
 
-                    <button class="action-btn paid-btn">
+                    <a href="/admin/paid_payment_status_cart/<%= first_order.Order_Group_ID %>">
+                    <button onclick="saveScrollPosition()" class="action-btn paid-btn">
                         Paid
                     </button>
+                    </a>
 
-                    <button class="action-btn unpaid-btn">
+
+                    <a href="/admin/unpaid_payment_status_cart/<%= first_order.Order_Group_ID %>">
+                        <button onclick="saveScrollPosition()" class="action-btn unpaid-btn">
                         Unpaid
                     </button>
+                    </a>
 
-                    <button class="action-btn delete-btn">
-                        Delete
+                    <a href="/admin/delete_card_order/<%= first_order.Order_Group_ID %>">
+                    <button onclick="saveScrollPosition()" class="action-btn delete-btn">
+                        Delete Confirm Order
                     </button>
+                    </a>
+
+                    <!-- unpaid_payment_status_cart -->
+
 
                 </div>
 
@@ -189,5 +203,20 @@
     <% } %>
 
 </div>
+
+<script>
+    function saveScrollPosition() {
+        sessionStorage.setItem('orderScrollPosition', window.scrollY);
+    }
+
+    window.addEventListener('load', function () {
+        var scrollPosition = sessionStorage.getItem('orderScrollPosition');
+
+        if (scrollPosition !== null) {
+            window.scrollTo(0, parseInt(scrollPosition));
+            sessionStorage.removeItem('orderScrollPosition');
+        }
+    });
+</script>
 
 <%-include('footer.ejs')%>

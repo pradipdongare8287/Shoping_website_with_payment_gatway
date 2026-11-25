@@ -4113,35 +4113,7 @@ img {
     background: #762449;
 }
 
-/* Beauty Promise */
-.beauty-promise {
-    margin: 0 8% 80px;
-    padding: 35px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 25px;
-    border-radius: 20px;
-    background: #fff0f5;
-}
 
-.beauty-promise-item {
-    text-align: center;
-}
-
-.beauty-promise-item span {
-    font-size: 30px;
-    color: #c04e7a;
-}
-
-.beauty-promise-item h3 {
-    font-size: 16px;
-    margin: 12px 0;
-}
-
-.beauty-promise-item p {
-    font-size: 13px;
-    color: #927b88;
-}
 
 /* Animations */
 @keyframes beautyText {

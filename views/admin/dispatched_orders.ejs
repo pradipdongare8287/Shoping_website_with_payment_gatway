@@ -50,6 +50,7 @@
                         <th>PRICE</th>
                         <th>ORDER DATE</th>
                         <th>ADDRESS</th>
+                        <th>PINCODE</th>
                         <th>ORDER STATUS</th>
                         <th>PAYMENT</th>
                         
@@ -163,6 +164,14 @@
                                         <%= order.customer_address %>
                                     </div>
                                 </td>
+
+                                <!-- Address -->
+                                <td>
+                                    <div class="address-text">
+                                        <%= order.user_pincode %>
+                                    </div>
+                                </td>
+                                
 
 
                                 <!-- Order Status -->

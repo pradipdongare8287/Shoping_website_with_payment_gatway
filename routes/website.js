@@ -1388,20 +1388,25 @@ website.get('/registration',(req,res)=>{
 })
 
 website.post('/save_user',async(req,res)=>{
-    var {user_name,user_email,user_password,user_mobile,user_address,user_account_status} = req.body
+    var {user_name,user_email,user_password,user_mobile,user_address,user_account_status,user_pincode} = req.body
 
     var find_copy_user = 'select * from users where user_email=?'
     var exist_user = await query(find_copy_user,[user_email])
 
-    if(exist_user.length>0){
+    try{
+          if(exist_user.length>0){
         res.render('website/register_user.ejs',{warning:'Please Enter Other Email This Email Is Used'})
     }
     else{
-        var save_new_user = 'insert into users (user_email,user_password,user_mobile,user_account_status,user_address,user_name) values(?,?,?,?,?,?)'
-        var save = await query(save_new_user,[user_email,user_password,user_mobile,user_account_status,user_address,user_name])
+        var save_new_user = 'insert into users (user_email,user_password,user_mobile,user_account_status,user_address,user_name,user_pincode) values(?,?,?,?,?,?,?)'
+        var save = await query(save_new_user,[user_email,user_password,user_mobile,user_account_status,user_address,user_name,user_pincode])
         res.redirect('/login')
     }
     
+    }
+    catch(error){
+        res.send('error',error)
+    }
 })
 
 website.post('/contact_save',async(req,res)=>{

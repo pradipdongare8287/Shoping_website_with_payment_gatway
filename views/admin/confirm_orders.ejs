@@ -50,6 +50,7 @@
                         <th>PRICE</th>
                         <th>ORDER DATE</th>
                         <th>ADDRESS</th>
+                        <th>PINCODE</th>
                         <th>ORDER STATUS</th>
                         <th>PAYMENT</th>
                         <!-- <th>PAYMENT ID</th> -->
@@ -160,6 +161,13 @@
                                 <td>
                                     <div class="address-text">
                                         <%= order.customer_address %>
+                                    </div>
+                                </td>
+
+                                <!-- pincode -->
+                                <td>
+                                    <div class="address-text">
+                                        <%= order.user_pincode %>
                                     </div>
                                 </td>
 

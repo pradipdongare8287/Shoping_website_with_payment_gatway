@@ -1011,7 +1011,7 @@ admin.get('/all_orders',Login_check,async(req,res)=>{
 
     var all_orders = `SELECT orders.*,users.user_name AS customer_name,
                     users.user_address AS customer_address,
-                    users.user_mobile AS customer_mobile FROM orders
+                    users.user_mobile AS customer_mobile , users.user_pincode as Customer_pincode FROM orders
                      INNER JOIN users ON orders.Uid = users.Uid;`
 
     var orders = await query(all_orders)
@@ -1309,6 +1309,7 @@ admin.get('/today_orders',Login_check,async(req,res)=>{
         orders.Product_image AS Product_image,
         users.user_name AS customer_name,
         users.user_mobile AS customer_mobile,
+        users.user_pincode,
         orders.Product_name,
         orders.Product_qty,
         orders.Product_price,
@@ -1322,6 +1323,7 @@ admin.get('/today_orders',Login_check,async(req,res)=>{
         orders.Product_folder,
         orders.Product_image,
         orders.Product_color
+        
 
 
 
@@ -1351,6 +1353,7 @@ admin.get('/confirm_order',Login_check,async(req,res)=>{
         orders.Product_image AS Product_image,
         users.user_name AS customer_name,
         users.user_mobile AS customer_mobile,
+        users.user_pincode,
         orders.Product_name,
         orders.Product_qty,
         orders.Product_price,
@@ -1407,6 +1410,7 @@ admin.get('/dispatched_order',Login_check,async(req,res)=>{
         orders.Product_image AS Product_image,
         users.user_name AS customer_name,
         users.user_mobile AS customer_mobile,
+        users.user_pincode,
         orders.Product_name,
         orders.Product_qty,
         orders.Product_price,
@@ -1453,7 +1457,8 @@ admin.get('/all_carts_order', async (req, res) => {
                 pco.*,
                 users.user_name,
                 users.user_address,
-                users.user_mobile
+                users.user_mobile,
+                users.user_pincode
             FROM purchase_cart_orders AS pco
             JOIN users
             ON pco.Uid = users.Uid
@@ -1470,6 +1475,14 @@ admin.get('/all_carts_order', async (req, res) => {
         res.send(error);
     }
 });
+
+admin.get('/delete_card_order/:id',async(req,res)=>{
+    var id = req.params.id
+    var delete_cart_order = 'delete from purchase_cart_orders where Order_Group_ID=?'
+    var delete_cart = await query(delete_cart_order,[id])
+    res.redirect(req.get('Referrer') || '/admin');
+
+})
 
 admin.get('/confirm_cart_order',async(req,res)=>{
     try {
@@ -1511,6 +1524,22 @@ admin.get('/confirm_card_orderstatus/:id', async (req, res) => {
         res.redirect('/admin/all_carts_order');
     }
 });
+
+admin.get('/paid_payment_status_cart/:id',async(req,res)=>{
+    var id = req.params.id
+    var set_paid_status = 'update purchase_cart_orders set Payment_status="Paid" where Order_Group_ID = ?  '
+    var paid = await query(set_paid_status,[id])
+        res.redirect(req.get('Referrer') || '/admin');
+
+})
+
+admin.get('/unpaid_payment_status_cart/:id',async(req,res)=>{
+    var id = req.params.id
+    var set_paid_status = 'update purchase_cart_orders set Payment_status="Unpaid" where Order_Group_ID = ?  '
+    var paid = await query(set_paid_status,[id])
+        res.redirect(req.get('Referrer') || '/admin');
+
+})
 
 admin.get('/despatched_card_orderstatus/:id',async(req,res)=>{
 

@@ -42,7 +42,7 @@
                    name="user_password"
                    placeholder="Enter your password"
                    required
-                   minlength="8">
+                   >
 
             <!-- User Mobile -->
             <label>User Mobile</label>
@@ -51,7 +51,21 @@
                    placeholder="Enter mobile number"
                    pattern="[0-9]{10}"
                    maxlength="10"
+                   oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                    required>
+
+
+                   <!-- User पिन code -->
+            <label>User Pincode / Postal</label>
+            <input type="tel"
+                   name="user_pincode"
+                   placeholder="Enter Your PIN CODE / POSTAL CODE"
+                   pattern="[0-9]{6}"
+                   maxlength="6"
+                   oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                   required>
+
+                   
 
             <!-- User Address -->
             <label>User Address</label>
@@ -80,7 +94,7 @@
             <button type="reset" class="reset-btn">
                 Reset
             </button>
-            <p style="text-align:center;margin:10px;">You Have Allready Account?
+            <p style="text-align:center;margin:10px;">तुमचे अकाउंट रजिस्टर झाल्यास किवा / आधीच असल्यास इथे क्लिक करून लॉगीन करा 👉🏻
             <a href="/login">
                 Login
             </a>
