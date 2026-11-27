@@ -33,199 +33,199 @@
         <!-- Product 1 -->
      
             
-<% for (var i = 0; i < product.length; i++) { %>
+        <% for (var i = 0; i < product.length; i++) { %>
 
-<div class="all-product-card product-card">
+                    <div class="all-product-card product-card">
 
-    <div class="all-product-image">
+                        <div class="all-product-image">
 
-        <span class="product-label">
-            <%= product[i].Product_status %>
-        </span>
+                            <span class="product-label">
+                                <%= product[i].Product_status %>
+                            </span>
 
-        <button class="product-wishlist">
-            <i class="fa-regular fa-heart"></i>
-        </button>
+                            <button class="product-wishlist">
+                                <i class="fa-regular fa-heart"></i>
+                            </button>
 
-        <img src="https://res.cloudinary.com/sdz5u7v8/image/upload/ecommerce/products/<%= product[i].Product_img %>"
-             alt="Sport Shoes">
+                            <img src="https://res.cloudinary.com/sdz5u7v8/image/upload/ecommerce/products/<%= product[i].Product_img %>"
+                                alt="Sport Shoes">
 
-        <div class="product-overlay">
-            <a href="https://res.cloudinary.com/sdz5u7v8/image/upload/ecommerce/products/<%= product[i].Product_img %>" target="_self">
-                <button>
-                    <i class="fa-solid fa-eye"></i>
-                    Quick View
-                </button>
-            </a>
-        </div>
+                            <div class="product-overlay">
+                                <a href="https://res.cloudinary.com/sdz5u7v8/image/upload/ecommerce/products/<%= product[i].Product_img %>" target="_self">
+                                    <button>
+                                        <i class="fa-solid fa-eye"></i>
+                                        Quick View
+                                    </button>
+                                </a>
+                            </div>
 
-    </div>
+                        </div>
 
-    <div class="all-product-details">
+                        <div class="all-product-details">
 
-        <span class="product-category">
-            <%= product[i].Product_category %>
-        </span>
+                            <span class="product-category">
+                                <%= product[i].Product_category %>
+                            </span>
 
-        <h3><%= product[i].Product_name %></h3>
+                            <h3><%= product[i].Product_name %></h3>
 
-        <!-- Product Colour Selector -->
-            <!-- <div class="product-color-box">
+                            <!-- Product Colour Selector -->
+                                <!-- <div class="product-color-box">
 
-                <label>Select Colour:</label>
+                                    <label>Select Colour:</label>
 
-                <div class="product-colors">
+                                    <div class="product-colors">
 
-                    <% 
-                        var colors = [];
-                        try {
-                            colors = JSON.parse(product[i].Product_color || '[]');
-                        } catch (e) {
-                            colors = [];
-                        }
-                    %>
+                                        <% 
+                                            var colors = [];
+                                            try {
+                                                colors = JSON.parse(product[i].Product_color || '[]');
+                                            } catch (e) {
+                                                colors = [];
+                                            }
+                                        %>
 
-                    <% colors.forEach(function(color) { %>
+                                        <% colors.forEach(function(color) { %>
 
+                                            <button type="button"
+                                                    class="color-option"
+                                                    data-color="<%= color %>"
+                                                    style="padding:5px 12px; margin:4px; border:1px solid #ccc; border-radius:5px; cursor:pointer;">
+                                                <%= color %>
+                                            </button>
+
+                                        <% }) %>
+
+                                    </div>
+
+                                    <p class="selected-color">
+                                        Selected Colour: <span class="color-name">None</span>
+                                    </p>
+
+                                </div> -->
+
+                            <div class="product-rating">
+                                <% for (var a = 0; a < product[i].Product_rating; a++) { %>
+                                    <span>★</span>
+                                <% } %>
+                                <small><%= product[i].Product_rating %></small>
+                            </div>
+
+                            <!-- Product Price -->
+                            <div class="product-price">
+                                <strong>
+                                    ₹<span class="total-price">
+                                        <%= product[i].Product_New_price %>
+                                    </span>
+                                </strong>
+
+                                <del>₹<%= product[i].Product_Old_price %></del>
+                            </div>
+
+                            <!-- Available Stock -->
+                                <div class="available-stock">
+
+                                    <% if (product[i].Product_stock > 0) { %>
+
+                                        <span style="color: green; font-weight: bold;">
+                                            Available Stock: <%= product[i].Product_stock %>
+                                        </span>
+
+                                    <% } else { %>
+
+                                        <span style="color: red; font-weight: bold;">
+                                            Product Not Available
+                                        </span>
+
+                                    <% } %>
+
+                                </div>
+
+                        <!-- Size Selector -->
+                            <div class="size-box">
+                                <label>Select Size:</label>
+
+                                <select class="product-size">
+                                    <option value="">Choose Size</option>
+
+                                    <% 
+                                        var sizes = [];
+                                        try {
+                                            sizes = JSON.parse(product[i].Product_size || '[]');
+                                        } catch (e) {
+                                            sizes = [];
+                                        }
+                                    %>
+
+                                    <% sizes.forEach(function(size) { %>
+                                        <option value="<%= size %>"><%= size %></option>
+                                    <% }) %>
+
+                                </select>
+                            </div>
+
+                            <!-- Quantity -->
+                            <div class="quantity-box">
+
+                                <button type="button" class="qty-minus">−</button>
+
+                                <input type="number"
+                                        class="qty-input"
+                                        value="1"
+                                        data-stock="<%= product[i].Product_stock %>"
+                                        readonly>
+
+                                <button type="button" class="qty-plus">+</button>
+
+                            </div>
+                            
+                    <% if (product[i].Product_stock > 0) { %>
+                        <!-- Cart button -->
                         <button type="button"
-                                class="color-option"
-                                data-color="<%= color %>"
-                                style="padding:5px 12px; margin:4px; border:1px solid #ccc; border-radius:5px; cursor:pointer;">
-                            <%= color %>
+                                style="margin-bottom:7px;"
+                                class="product-cart-btn add-to-cart"
+                                data-id="<%= product[i].Pid %>"
+                                data-price="<%= product[i].Product_New_price %>"
+                                data-stock="<%= product[i].Product_stock %>"
+                                data-type="all_product">
+
+                            <i class="fa-solid fa-cart-plus"></i>
+                            Add to Cart
+
                         </button>
 
-                    <% }) %>
+                        <!-- Buy Now -->
+                        <button type="button"
+                                class="product-cart-btn buy-now"
+                                data-price="<%= product[i].Product_New_price %>"
+                                data-stock="<%= product[i].Product_stock %>"
+                                data-url="/all_product_payment/<%= product[i].Pid %>">
 
-                </div>
+                            <i class="fa-solid fa-cart-shopping"></i>
+                            Buy Now
 
-                <p class="selected-color">
-                    Selected Colour: <span class="color-name">None</span>
-                </p>
+                        </button>
 
-            </div> -->
+                    <% } else { %>
 
-        <div class="product-rating">
-            <% for (var a = 0; a < product[i].Product_rating; a++) { %>
-                <span>★</span>
-            <% } %>
-            <small><%= product[i].Product_rating %></small>
-        </div>
+                        <button type="button" class="product-cart-btn" disabled
+                                style="background: #999; cursor: not-allowed;">
 
-        <!-- Product Price -->
-        <div class="product-price">
-            <strong>
-                ₹<span class="total-price">
-                    <%= product[i].Product_New_price %>
-                </span>
-            </strong>
+                            Product Not Available
 
-            <del>₹<%= product[i].Product_Old_price %></del>
-        </div>
+                        </button>
 
-        <!-- Available Stock -->
-            <div class="available-stock">
+                    <% } %>
 
-                <% if (product[i].Product_stock > 0) { %>
+                    
 
-                    <span style="color: green; font-weight: bold;">
-                        Available Stock: <%= product[i].Product_stock %>
-                    </span>
+                            
+                        </div>
+                        <!-- class="product-cart-btn buy-now" -->
 
-                <% } else { %>
+                    </div>
 
-                    <span style="color: red; font-weight: bold;">
-                        Product Not Available
-                    </span>
-
-                <% } %>
-
-            </div>
-
-       <!-- Size Selector -->
-        <div class="size-box">
-            <label>Select Size:</label>
-
-            <select class="product-size">
-                <option value="">Choose Size</option>
-
-                <% 
-                    var sizes = [];
-                    try {
-                        sizes = JSON.parse(product[i].Product_size || '[]');
-                    } catch (e) {
-                        sizes = [];
-                    }
-                %>
-
-                <% sizes.forEach(function(size) { %>
-                    <option value="<%= size %>"><%= size %></option>
-                <% }) %>
-
-            </select>
-        </div>
-
-        <!-- Quantity -->
-        <div class="quantity-box">
-
-            <button type="button" class="qty-minus">−</button>
-
-            <input type="number"
-                    class="qty-input"
-                    value="1"
-                    data-stock="<%= product[i].Product_stock %>"
-                    readonly>
-
-            <button type="button" class="qty-plus">+</button>
-
-        </div>
-        
-<% if (product[i].Product_stock > 0) { %>
-    <!-- Cart button -->
-     <button type="button"
-            style="margin-bottom:7px;"
-            class="product-cart-btn add-to-cart"
-            data-id="<%= product[i].Pid %>"
-            data-price="<%= product[i].Product_New_price %>"
-            data-stock="<%= product[i].Product_stock %>"
-            data-type="all_product">
-
-        <i class="fa-solid fa-cart-plus"></i>
-        Add to Cart
-
-    </button>
-
-    <!-- Buy Now -->
-    <button type="button"
-            class="product-cart-btn buy-now"
-            data-price="<%= product[i].Product_New_price %>"
-            data-stock="<%= product[i].Product_stock %>"
-            data-url="/all_product_payment/<%= product[i].Pid %>">
-
-        <i class="fa-solid fa-cart-shopping"></i>
-        Buy Now
-
-    </button>
-
-<% } else { %>
-
-    <button type="button" class="product-cart-btn" disabled
-            style="background: #999; cursor: not-allowed;">
-
-        Product Not Available
-
-    </button>
-
-<% } %>
-
- 
-
-        
-    </div>
-    <!-- class="product-cart-btn buy-now" -->
-
-</div>
-
-<% } %>
+        <% } %>
 
 
             

@@ -5892,3 +5892,78 @@ img {
     border-color: #ff6b35;
     box-shadow: 0 0 4px rgba(255, 107, 53, 0.25);
 }
+
+
+/* Trending Products - Mobile Responsive */
+@media (max-width: 767px) {
+
+    .product-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        width: 100%;
+    }
+
+    .product-grid .product-card {
+        width: 100%;
+        min-width: 0;
+        margin: 0;
+    }
+
+    .product-grid .product-image img {
+        width: 100%;
+        height: 150px;
+        object-fit: contain;
+    }
+
+    .product-grid .product-info {
+        padding: 8px;
+    }
+
+    .product-grid .product-info h3 {
+        font-size: 13px;
+    }
+
+    .product-grid .price {
+        font-size: 14px;
+    }
+
+    .product-grid .product-cart-btn {
+        width: 100%;
+        font-size: 11px;
+        padding: 9px 3px;
+    }
+
+    
+
+    .product-grid .quantity-box {
+        justify-content: center;
+    }
+
+}
+
+@media (max-width: 767px) {
+
+    .product-grid .size-box {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+        gap: 6px;
+    }
+
+    .product-grid .size-box label {
+        display: block;
+        width: 100%;
+        margin: 0;
+    }
+
+    .product-grid .size-box select {
+        display: block;
+        width: 100%;
+        height: 42px;
+        font-size: 14px;
+        box-sizing: border-box;
+    }
+
+}
